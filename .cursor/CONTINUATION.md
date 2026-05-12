@@ -17,7 +17,7 @@ Do **not** duplicate schema or RPC specs here; implement against `terchris/new/0
 ## What this repo (`helpers/railway`) is
 
 - Next.js **16** App Router, TS, Tailwind **4**, ESLint.
-- **`output: "standalone"`** + **`Dockerfile`** for UIS/Kubernetes.
+- **`output: "standalone"`** + **`Dockerfile`** for UIS/Kubernetes builds; skip Docker while iterating locally — use **`npm run dev`** instead.
 - First deployment target: **local UIS**; ingress hostname intent **`http://railway.localhost`** (configured in UIS manifests, not committed here yet).
 - **PostgREST** is how this app reaches data (`POSTGREST_URL` + JWT; see `.env.example`). **Do not wire SQL drivers or connection strings into app runtime code.**
 - **`README.md`** — UIS notes + pointer to **Atlas** PostgREST patterns: `~/learn/helpers/atlas/atlas-frontend/src/lib/api.ts`.

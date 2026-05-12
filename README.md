@@ -4,20 +4,29 @@ Volunteer registration front-end and admin (rewrite target), packaged for **[UIS
 
 **Switching workspaces:** full investigation paths and next coding steps are in **[`.cursor/CONTINUATION.md`](.cursor/CONTINUATION.md)**.
 
-UIS runs **PostgREST** against the Railway schema; this repo is **only the Next.js app** in a container. **Read/write paths are HTTP against PostgREST** (`POSTGREST_URL`, Bearer JWT only).
+UIS runs **PostgREST** against the Railway schema; this repo is the **Next.js app** (`npm run dev` on your machine during development; the **Dockerfile** is for UIS / release builds). **All data access is HTTP to PostgREST** (`POSTGREST_URL`, Bearer JWT).
 
 **UIS / PostgREST handoff** (schema bundle + what developers need): **[`db/README.md`](db/README.md)** and root **`.env.example`**.
 
 ## Local development
 
+Use **`npm run dev`** on this machine — it is faster than rebuilding Docker images on every change.
+
 ```bash
 npm install
-npm run dev
+npm run dev   # http://localhost:3001
 ```
 
-Open [http://localhost:3001](http://localhost:3001) (`npm run dev` binds port **3001** so nothing collides with the default `3000` slot).
+Sanity-check without Docker (still quick):
 
-Copy `.env.example` to `.env.local` when you wire PostgREST from a local UIS stack.
+```bash
+npm run lint
+npm run build
+```
+
+Open **[http://localhost:3001](http://localhost:3001)** (port **3001** avoids clashes with apps on `:3000`).
+
+Copy **`.env.example`** → **`.env`** and set **`POSTGREST_URL`** / **`POSTGREST_ANON_JWT`** once PostgREST is available (UIS handoff above).
 
 ## Local UIS cluster URL
 
@@ -27,9 +36,9 @@ When deployed to a **local UIS** cluster, ingress typically follows UIS naming (
 
 Exact hostname is configured in your UIS/Kubernetes manifests, not in this repo.
 
-## Container image
+## Docker image (UIS / CI)
 
-Uses Next.js **`output: "standalone"`** for a minimal runtime image.
+For **deployment** — not required while you develop locally. Uses Next.js **`output: "standalone"`** for a minimal runtime image.
 
 ```bash
 docker build -t railway-app .
