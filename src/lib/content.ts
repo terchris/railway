@@ -65,3 +65,46 @@ export function summarizePublicPayload(p: PublicFormPayload): Record<string, num
     has_activity_settings: p.activity_settings ? "ja" : "nei",
   }
 }
+
+/** Thank-you snippets from the editorial singleton (`text_content`). */
+export type ThankYouCopy = {
+  title: string
+  body: string
+  memberTitle?: string
+  memberBody?: string
+  memberFootnote?: string
+}
+
+export async function getThankYouCopy(): Promise<ThankYouCopy | null> {
+  try {
+    const { data, error } = await pg()
+      .from("text_content")
+      .select(
+        [
+          "content_submitted_title",
+          "content_submitted_text",
+          "content_become_member_title",
+          "content_become_member_text",
+          "content_become_member_footnote",
+        ].join(","),
+      )
+      .limit(1)
+
+    if (error) return null
+
+    const row = Array.isArray(data) ? data[0] : undefined
+    if (!row || typeof row !== "object") return null
+    const r = row as Record<string, unknown>
+    const pick = (k: string): string =>
+      typeof r[k] === "string" ? (r[k] as string) : ""
+    return {
+      title: pick("content_submitted_title"),
+      body: pick("content_submitted_text"),
+      memberTitle: pick("content_become_member_title"),
+      memberBody: pick("content_become_member_text"),
+      memberFootnote: pick("content_become_member_footnote"),
+    }
+  } catch {
+    return null
+  }
+}
