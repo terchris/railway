@@ -28,11 +28,14 @@ Open **[http://localhost:3001](http://localhost:3001)** (port **3001** avoids cl
 
 Copy **`.env.example`** → **`.env`** and set **`POSTGREST_URL`** / **`POSTGREST_ANON_JWT`** once PostgREST is available (UIS handoff above).
 
+For production-facing registration API hardening, set **`PRIMARY_SITE_URL`** (comma-separated origins); see **`REGISTRATION_RELAX_FETCH_METADATA`** in `.env.example` if an ingress strips fetch metadata headers.
+
 ### Admin (utkast)
 
 - URL: **`/admin`** (innlogging **`/admin/login`**).
-- **Enkel lokallogin:** `ADMIN_PASSWORD` + signeringsstreng `ADMIN_COOKIE_SECRET` (ingen ekte auth-server ennå).
-- **Lister:** `POSTGREST_ADMIN_JWT` må være en PostgREST-Bearer-token med bl.a. `registrations:read` (JWT/capabilities som beskrevet i `db`-spesifikasjonen — erstatt denne seinere med skikkelig staff-innlogging).
+- **JWT-økt:** Lim inn gyldig HS256 staff‑JWT (samme format som PostgREST); lagres som HttpOnly‑cookie og verifiseres med **`JWT_SECRET`**. Valgfritt **`ADMIN_PASSWORD`** mint bred staff‑JWT for enkel utvikling (krever også **`JWT_SECRET`**).
+- **Lokalt (`next dev`):** Gyldig **`POSTGREST_ADMIN_JWT`** / **`POSTGREST_STAFF_JWT_UIS`** som matcher **`JWT_SECRET`** gir **automatisk innlogging** ved besøk på **`/admin/login`** (sett **`ADMIN_BOOTSTRAP_SESSION_FROM_ENV=1`** for samme oppførsel i produksjon — kun bak sikker tilgang).
+- **Server‑fallback:** `POSTGREST_ADMIN_JWT` / `POSTGREST_STAFF_JWT_UIS` brukes av SSR når ingen gyldig økt‑JWT finnes (drift/CI).
 
 ## Local UIS cluster URL
 

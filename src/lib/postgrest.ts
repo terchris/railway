@@ -11,9 +11,9 @@ function requireEnv(name: string): string {
 /**
  * Server-side PostgREST client (`terchris/new/05-nextjs-frontend.md`).
  *
- * Pass a session JWT from admin flows; omit the argument for anon RSC/public reads.
- * Set **`POSTGREST_URL`** per environment (host dev: UIS Traefik, e.g. `http://api-railway.localhost`;
- * in-cluster: PostgREST Service URL). If your gateway adds a path prefix, append it here.
+ * Uses **schema `railway`** (`Accept-Profile`).
+ * Pass a session JWT from admin flows; omit for anon RSC/public reads.
+ * Set **`POSTGREST_URL`** per environment (host dev: UIS Traefik, e.g. `http://api-railway.localhost`).
  * Relation and RPC names follow `helpers/railway/db/*.sql`; OpenAPI is at `GET {base}/` when enabled.
  */
 export function pg(accessToken?: string): PostgrestClient {
@@ -24,6 +24,7 @@ export function pg(accessToken?: string): PostgrestClient {
       : requireEnv("POSTGREST_ANON_JWT")
 
   return new PostgrestClient(url, {
+    schema: "railway",
     headers: { Authorization: `Bearer ${bearer}` },
-  })
+  }) as unknown as PostgrestClient
 }
