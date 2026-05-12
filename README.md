@@ -2,6 +2,8 @@
 
 Volunteer registration front-end and admin (rewrite target), packaged for **[UIS](https://uis.sovereignsky.no/)**.
 
+**Switching workspaces:** full investigation paths and next coding steps are in **[`.cursor/CONTINUATION.md`](.cursor/CONTINUATION.md)**.
+
 PostgreSQL and PostgREST run as separate UIS platform services; this repo is **only the Next.js app** in a container.
 
 ## Local development
