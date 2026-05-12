@@ -1,0 +1,20 @@
+# dependencies
+node_modules
+
+# build output (rebuilt in image)
+.next
+out
+
+# git / IDE
+.git
+.gitignore
+*.md
+!README.md
+
+# env (inject at runtime)
+.env
+.env.*
+
+# misc
+.DS_Store
+npm-debug.log
