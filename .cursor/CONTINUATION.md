@@ -19,10 +19,8 @@ Do **not** duplicate schema or RPC specs here; implement against `terchris/new/0
 - Next.js **16** App Router, TS, Tailwind **4**, ESLint.
 - **`output: "standalone"`** + **`Dockerfile`** for UIS/Kubernetes.
 - First deployment target: **local UIS**; ingress hostname intent **`http://railway.localhost`** (configured in UIS manifests, not committed here yet).
-- **PostgreSQL + PostgREST** run as UIS services; this container is **only Next.js**. Server-side env: see `.env.example` (`POSTGREST_URL`, later JWT secrets per `terchris/new/08-auth.md`).
-- **`README.md`** — UIS notes + pointer to **Atlas** patterns:
-  - PostgREST consumer: `~/learn/helpers/atlas/atlas-frontend/src/lib/api.ts`
-  - Direct Postgres (not planned for Railway v1): `~/learn/helpers/atlas/atlas-contributor-frontend/src/lib/db.ts`
+- **PostgREST** is how this app reaches data (`POSTGREST_URL` + JWT; see `.env.example`). **Do not wire SQL drivers or connection strings into app runtime code.**
+- **`README.md`** — UIS notes + pointer to **Atlas** PostgREST patterns: `~/learn/helpers/atlas/atlas-frontend/src/lib/api.ts`.
 
 Railway should follow **terchris** architecture: PostgREST **behind** Next (Bearer JWT, CSP), **not** browser-exposed `NEXT_PUBLIC_*` to PostgREST unless deliberately chosen.
 
@@ -48,8 +46,7 @@ Past Cursor chats may appear under the **parent** project path’s agent transcr
 1. Add `lib/postgrest.ts` (or `@supabase/postgrest-js`) aligned with `terchris/new/05-nextjs-frontend.md`.
 2. Wire env from UIS (`POSTGREST_URL`, anon JWT for RSC, session JWT for admin).
 3. Port form + admin per `terchris/new/06`, `07`; CSP/middleware per `05`.
-4. Keep golden parity tests against seeded DB (`terchris/sample-data/` load path).
-
+4. Exercise parity behaviour against **`terchris/sample-data/`** through **HTTP** (`pg()` / `fetch`), once PostgREST is running on UIS with those seeds loaded.
 ---
 
 *Written so a new Cursor session opened on `helpers/railway` can locate full specs and history without searching.*
