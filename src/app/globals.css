@@ -24,3 +24,29 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Admin print views: hide chrome and screen-only controls */
+@media print {
+  .admin-screen-nav,
+  .admin-screen-toolbar {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  @page {
+    margin: 12mm;
+  }
+
+  .print-document {
+    max-width: 100%;
+  }
+
+  body:has(.print-document) main {
+    padding: 8mm !important;
+    max-width: 100% !important;
+  }
+}

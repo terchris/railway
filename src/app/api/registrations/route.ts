@@ -4,6 +4,7 @@ import { honeypotField } from "@/components/form/persist"
 import type { SubmitPayloadRpc } from "@/components/form/schema"
 import { submissionErrorFromPostgrestMessage } from "@/lib/public-form/errors"
 import { pg } from "@/lib/postgrest"
+import { validateRegistrationPostOrigin } from "@/lib/registration-origin-guard"
 
 /** Public submit handler — proxies to PostgREST `submit_registration`. */
 export async function POST(req: Request) {
@@ -12,12 +13,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Content-Type må være application/json." }, { status: 415 })
   }
 
-  const primary = process.env.PRIMARY_SITE_URL?.trim()
-  if (primary) {
-    const originHeader = req.headers.get("origin") ?? req.headers.get("referer") ?? ""
-    if (!originHeader.startsWith(primary)) {
-      return NextResponse.json({ error: "Tillatt kun fra primær verts-URL." }, { status: 403 })
-    }
+  const originCheck = validateRegistrationPostOrigin(req)
+  if (!originCheck.ok) {
+    return NextResponse.json({ error: originCheck.error }, { status: originCheck.status })
   }
 
   let rawJson: Record<string, unknown>

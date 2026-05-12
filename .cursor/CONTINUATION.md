@@ -41,6 +41,10 @@ Railway should follow **terchris** architecture: PostgREST **behind** Next (Bear
 
 Past Cursor chats may appear under the **parent** project path’s agent transcripts dir (same machine); cite only parent UUID filenames if needed — folder layout is not important for implementation.
 
+## Delivery backlog
+
+See **[`BACKLOG.md`](BACKLOG.md)** for a P0/P1/P2 backlog vs `terchris/new/07-admin-app.md` (updated as features land).
+
 ## Next implementation steps (when you start coding)
 
 1. Add `lib/postgrest.ts` (or `@supabase/postgrest-js`) aligned with `terchris/new/05-nextjs-frontend.md`.
