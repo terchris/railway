@@ -15,7 +15,7 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3001](http://localhost:3001) (`npm run dev` binds port **3001** so nothing collides with the default `3000` slot).
 
 Copy `.env.example` to `.env.local` when you wire PostgREST from a local UIS stack.
 
@@ -33,10 +33,10 @@ Uses Next.js **`output: "standalone"`** for a minimal runtime image.
 
 ```bash
 docker build -t railway-app .
-docker run --rm -p 3000:3000 railway-app
+docker run --rm -p 3001:3001 railway-app
 ```
 
-The process listens on `0.0.0.0:3000` inside the container (required for ingress).
+The process listens on `0.0.0.0:3001` inside the container (`PORT=3001`, required for UIS ingress targetPort wiring).
 
 ## Reference: Atlas UIS patterns (`learn/helpers/atlas`)
 

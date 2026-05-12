@@ -2,7 +2,7 @@
 # https://nextjs.org/docs/app/building-your-application/deploying#docker-image
 #
 # Build: docker build -t railway-app .
-# Run:   docker run --rm -p 3000:3000 railway-app
+# Run:   docker run --rm -p 3001:3001 railway-app
 
 FROM node:22-alpine AS base
 
@@ -32,8 +32,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
-EXPOSE 3000
-ENV PORT=3000
+EXPOSE 3001
+ENV PORT=3001
 ENV HOSTNAME=0.0.0.0
 
 CMD ["node", "server.js"]
