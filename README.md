@@ -28,6 +28,12 @@ Open **[http://localhost:3001](http://localhost:3001)** (port **3001** avoids cl
 
 Copy **`.env.example`** → **`.env`** and set **`POSTGREST_URL`** / **`POSTGREST_ANON_JWT`** once PostgREST is available (UIS handoff above).
 
+### Admin (utkast)
+
+- URL: **`/admin`** (innlogging **`/admin/login`**).
+- **Enkel lokallogin:** `ADMIN_PASSWORD` + signeringsstreng `ADMIN_COOKIE_SECRET` (ingen ekte auth-server ennå).
+- **Lister:** `POSTGREST_ADMIN_JWT` må være en PostgREST-Bearer-token med bl.a. `registrations:read` (JWT/capabilities som beskrevet i `db`-spesifikasjonen — erstatt denne seinere med skikkelig staff-innlogging).
+
 ## Local UIS cluster URL
 
 When deployed to a **local UIS** cluster, ingress typically follows UIS naming (e.g. Traefik + `*.localhost`). This app is expected to be reachable as:
