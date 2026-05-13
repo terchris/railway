@@ -14,6 +14,23 @@ npm run docs:screens
 
 Detail pages (registration, activity, language, etc.) pick the **first row link** on each list — your PNGs depend on seed data.
 
+## Social promo video (English burned-in captions)
+
+Two **mute** H.264 exports (add music / voiceover in Instagram, TikTok, or CapCut if you like — use royalty-free audio only):
+
+| File | Use case |
+| --- | --- |
+| [railway-promo-1080x1920-vertical.mp4](./railway-promo-1080x1920-vertical.mp4) | **9:16** — Reels, Shorts, TikTok, Stories |
+| [railway-promo-1920-wide.mp4](./railway-promo-1920-wide.mp4) | **16:9** — LinkedIn, X, YouTube |
+
+Regenerate after updating PNGs:
+
+```bash
+npm run video:promo
+```
+
+Script: `scripts/build-promo-video.mjs` (uses **ffmpeg-static**). Temp files go to `doc/screenshots/.video-build/` (gitignored). Narration is **English** so international followers can follow; the UI in the footage stays **Norwegian**.
+
 ## Catalogue
 
 | ID | Route / context | Beskrivelse | Screenshot |
