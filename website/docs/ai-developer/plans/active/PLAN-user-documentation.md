@@ -125,22 +125,22 @@ Lay out all the empty role hubs and all 21 surface pages as stubs (frontmatter +
 
 ---
 
-## Phase 4: Surface fill — write the 21 surface pages
+## Phase 4: Surface fill — write the 21 surface pages — DONE
 
 Each surface page gets the full "What this screen does / What you'll see / Common tasks / Gotchas / Related" structure from the template.
 
 ### Tasks
 
-- [ ] 4.1 Fill `users/surfaces/overview.md` first — it's the most-linked-from page (every role hub points at it).
-- [ ] 4.2 Fill `users/surfaces/login.md` and `users/surfaces/staff.md` — the auth surfaces, also linked from every role hub.
-- [ ] 4.3 Fill the Registreringer surfaces: `registrations.md`, `registrations-export.md`.
-- [ ] 4.4 Fill the content/aktivitet surfaces: `activities.md`, `activity-categories.md`, `activity-settings.md`, `additional-activities.md`, `activities-text.md`, `text-content.md`, `skemadata.md`.
-- [ ] 4.5 Fill the evaluation surfaces: `eval-questions.md`, `eval-options.md`.
-- [ ] 4.6 Fill the membership surfaces: `membership-options.md`, `membership-statuses.md`.
-- [ ] 4.7 Fill `no-selected-options.md`.
-- [ ] 4.8 Fill `languages.md`.
-- [ ] 4.9 Fill the print surfaces: `print-manuscript.md`, `print-form.md`.
-- [ ] 4.10 Fill `app-log.md` — note the open `INVESTIGATE-app-log-alert-count-permission` (the page should describe expected behaviour after that's resolved; flag the current bug).
+- [x] 4.1 Filled `users/surfaces/overview.md` — most-linked-from page; 4-card layout described, kjent feil med `app_log_alert_count`-kortet flagget.
+- [x] 4.2 Filled `users/surfaces/login.md` and `users/surfaces/staff.md` — auth surfaces. Login dekker dummy-velger + manuell paste + auto-bootstrap. Staff dekker JWT-kortet, rå/effektive caps, og note om at `auth.users` ikke er eksponert.
+- [x] 4.3 Filled Registreringer-flatene: `registrations.md` (liste + detalj + bulk + paginering), `registrations-export.md` (med flagg om manglende screenshot).
+- [x] 4.4 Filled content/aktivitet-flatene: `activities.md`, `activity-categories.md`, `activity-settings.md`, `additional-activities.md`, `activities-text.md`, `text-content.md`, `skemadata.md`.
+- [x] 4.5 Filled evalueringsflatene: `eval-questions.md` (select vs text), `eval-options.md` (felles svarliste-advarsel).
+- [x] 4.6 Filled medlemskapsflatene: `membership-options.md`, `membership-statuses.md`.
+- [x] 4.7 Filled `no-selected-options.md` — vises kun når minimum aktiviteter er 0.
+- [x] 4.8 Filled `languages.md` — `user_languages`-tabellen, av/på i stedet for sletting.
+- [x] 4.9 Filled print-flatene: `print-manuscript.md` (lese-versjon), `print-form.md` (papirskjema med fyll-felt).
+- [x] 4.10 Filled `app-log.md` — INFO/WARNING/ERROR/REGISTRATION-filter, Kvitt varsel-knapp (krever `app_log:write`), eksplisitt henvisning til den åpne RPC-investigasjonen for varselkortet på Oversikt.
 
 ### Validation
 
