@@ -42,6 +42,8 @@ npm run build
 - [Getting Started](getting-started.md) — local development setup, environment variables, ports
 - [Project Conventions](project-conventions.md) — hard rules (PostgREST-only data access) and Next.js gotchas
 - [PostgreSQL roles](postgres-roles.md) — the four DB roles (`railway_owner`, `anon`, `authenticated`, `authenticator`) and how PostgREST uses them
+- [API surface](api-surface.md) — every Next.js `/api/*` route + the PostgREST tables and RPCs the app calls
+- [Data model](data-model.md) — ERD + table reference for the `railway` and `auth` schemas
 - [Testing the dummy login picker](testing-dummy-login.md) — per-role test checklist for `/admin/login`
 - [Documentation](documentation.md) — how to add or edit docs on this site
 - [Writing user docs](writing-user-docs.md) — style guide for the Norwegian user-doc tree under `users/`
