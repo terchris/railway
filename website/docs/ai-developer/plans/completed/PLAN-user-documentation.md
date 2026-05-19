@@ -172,20 +172,20 @@ Every hub follows the template from `writing-user-docs.md` (Phase 2): login sect
 
 ---
 
-## Phase 6: Cross-linking + polish
+## Phase 6: Cross-linking + polish — DONE
 
 The site becomes navigable from any entry point.
 
 ### Tasks
 
-- [ ] 6.1 Update `website/docs/getting-started.md` from its current Phase-1 form (videos + audience selector) to the final form: short Norwegian welcome, both promo videos, three audience cards (Frivillige → public-registration; Stab → admin/index; Utviklere → contributors/index), and a brief "om denne nettsiden" footer.
-- [ ] 6.2 Update `website/docs/index.md` (the `slug: /` page) to redirect or expand to point at the audience landing in `users/`.
-- [ ] 6.3 Add cross-references:
-  - From `contributors/postgres-roles.md` → "End-user docs for each role: `users/admin/<role>.md`".
-  - From `contributors/testing-dummy-login.md` → "User-facing description of each role's sidebar: `users/admin/<role>.md`".
-  - From `users/admin/<role>.md` → "Functional test spec: `contributors/testing-dummy-login.md`".
-- [ ] 6.4 Verify all internal links resolve (`onBrokenLinks: 'throw'` will catch breaks at build time).
-- [ ] 6.5 Run a final `npm run build` and visually spot-check the rendered site at `:3011`.
+- [x] 6.1 Refined `website/docs/getting-started.md` to the final form: Norwegian welcome, both promo videos (wide + vertical), three-row audience tabell, og «Om denne nettsiden»-fotnote med praktisk veiledning for spørsmål om innhold vs tekniske problemer.
+- [x] 6.2 Rewrote `website/docs/index.md` (the `slug: /` page) — kort norsk landing med tre-rad audience tabell og pekere til `users/`, `contributors/`, og `ai-developer/`. Lenker også til getting-started for lengre intro med video.
+- [x] 6.3 Cross-references:
+  - `contributors/postgres-roles.md` — ny seksjon «End-user docs per role» med tabell som mapper DB-roller + capability-profiler til de norske end-user-guidene.
+  - `contributors/testing-dummy-login.md` — ny seksjon «End-user-facing description of each role» med samme mapping; legger til at sidebar-shape-claims må holdes i sync.
+  - Alle 5 rolle-hubs lenker nå tilbake til `testing-dummy-login.md` fra Relatert-seksjonen.
+- [x] 6.4 `onBrokenLinks: 'throw'` ga ren build — alle interne lenker oppløser.
+- [x] 6.5 `npm run build` (website) passerte rent.
 
 ### Validation
 
@@ -195,15 +195,19 @@ The site becomes navigable from any entry point.
 
 ---
 
+## Status: Completed
+
+**Completed**: 2026-05-19
+
 ## Acceptance Criteria
 
-- [ ] `website/docs/users/` exists with the file tree from §Overview.
-- [ ] All 36 PNGs and 2 MP4s are embedded somewhere in the docs and reachable from `/img/...`.
-- [ ] Every page is Norwegian under `users/`; English under `contributors/` and `ai-developer/`.
-- [ ] Both contributor companion docs (`writing-user-docs.md`, `screenshots-and-video.md`) are linked from `contributors/index.md`.
-- [ ] `getting-started.md` renders the two promo videos.
-- [ ] `npm run build` passes; no broken-link warnings.
-- [ ] A non-technical reader can find their own role guide from `/docs/getting-started` within three clicks.
+- [x] `website/docs/users/` exists with the file tree from §Overview. ~30 files across `users/`, `users/admin/`, `users/surfaces/`.
+- [x] All 36 PNGs and 2 MP4s are embedded somewhere in the docs and reachable from `/img/...`.
+- [x] Every page is Norwegian under `users/`; English under `contributors/` and `ai-developer/`.
+- [x] Both contributor companion docs (`writing-user-docs.md`, `screenshots-and-video.md`) are linked from `contributors/index.md`.
+- [x] `getting-started.md` renders the two promo videos (wide + vertical).
+- [x] `npm run build` passes; no broken-link warnings.
+- [x] A non-technical reader can find their own role guide from `/docs/getting-started` within three clicks (getting-started → audience tabell → role hub eller public-registration).
 
 ---
 

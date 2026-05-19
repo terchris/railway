@@ -83,3 +83,18 @@ Run the numbered SQL bundle in order: **`01-roles.sql`** → **`02`** → **`03`
 The picker mints **real** HS256 staff JWTs signed with `JWT_SECRET`. PostgREST verifies them; RLS enforces capabilities exactly as for UIS-issued tokens. "Dummy" refers to user identity (no IdP backs it yet), not to bypassing security.
 
 This is **temporary scaffolding for the eventual Okta/Authentik integration.** When an IdP lands, the picker is replaced by an IdP-redirect button and the picker route becomes a development-only escape hatch (or is deleted). See [`PLAN-dummy-login.md`](../ai-developer/plans/completed/PLAN-dummy-login.md) for the implementation and [`testing-dummy-login.md`](testing-dummy-login.md) for the per-role test checklist.
+
+## End-user docs per role
+
+End users (volunteers + staff) read Norwegian guides organised by login role, not by database concept. The DB roles + capability profiles documented above map 1:1 to those guides:
+
+| DB / cap profile | End-user guide |
+|---|---|
+| `anon` | [Slik melder du deg på](../users/public-registration.md) |
+| `authenticated` + `admin` | [Full administrator](../users/admin/full-admin.md) |
+| `authenticated` + `registrations:read/write` | [Registreringsadministrator](../users/admin/registrations-admin.md) |
+| `authenticated` + `content:read/write` | [Innholdsredaktør](../users/admin/content-editor.md) |
+| `authenticated` + `app_log:read` | [App-logg-leser](../users/admin/app-log-viewer.md) |
+| `authenticated` + `users:read/write` | [Brukeradministrator](../users/admin/users-admin.md) |
+
+The end-user guides describe what each role *sees* and *does* in the admin UI; this page describes how the underlying capability check works.

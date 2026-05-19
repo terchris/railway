@@ -53,3 +53,4 @@ For en bredere rolle, bytt til [Full administrator](full-admin.md). For en spesi
 - [Slik logger du inn](../surfaces/login.md)
 - [Mine tilganger](../surfaces/staff.md) — bekrefte JWT-status
 - [App-logg](../surfaces/app-log.md) — selve flaten du jobber på
+- [Test av dummy-innlogging](../../contributors/testing-dummy-login.md) — utviklerens funksjonelle sjekkliste for denne rollen

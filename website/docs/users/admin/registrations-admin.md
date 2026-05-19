@@ -52,3 +52,4 @@ Hvis du prøver å åpne en flate du ikke har kapabilitet for, vil PostgREST avv
 - [Slik logger du inn](../surfaces/login.md)
 - [Mine tilganger](../surfaces/staff.md) — bekrefte JWT-status
 - [Slik melder du deg på](../public-registration.md) — sluttbrukerens side av samme datastrøm
+- [Test av dummy-innlogging](../../contributors/testing-dummy-login.md) — utviklerens funksjonelle sjekkliste for denne rollen

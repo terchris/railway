@@ -174,3 +174,18 @@ curl -s -o /dev/null -w "empty body: HTTP %{http_code}\n" -X POST http://localho
 - [PostgreSQL roles](postgres-roles.md) — what `anon` / `authenticated` mean at the DB level
 - [Project conventions](project-conventions.md) — the PostgREST-only data-access rule
 - [Plan: Dummy login picker](../ai-developer/plans/completed/PLAN-dummy-login.md) — the implementation plan this spec validates
+
+## End-user-facing description of each role
+
+This spec covers the **functional** test of each role. The **end-user-facing** description of what each role sees and does lives under [Administrasjon](../users/admin/index.md):
+
+| Tested role | End-user guide |
+|---|---|
+| `anon` | [Slik melder du deg på](../users/public-registration.md) |
+| Full admin | [Full administrator](../users/admin/full-admin.md) |
+| Registrations admin | [Registreringsadministrator](../users/admin/registrations-admin.md) |
+| Content editor | [Innholdsredaktør](../users/admin/content-editor.md) |
+| App-log viewer | [App-logg-leser](../users/admin/app-log-viewer.md) |
+| Users admin | [Brukeradministrator](../users/admin/users-admin.md) |
+
+When the functional test for a role passes, sanity-check that the sidebar shape in the end-user guide still matches what your tester saw — the guide makes claims about which sidebar groups are visible per role, and those need to stay in sync.

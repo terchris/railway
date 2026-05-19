@@ -6,7 +6,7 @@ sidebar_position: 7
 
 How to extend the end-user documentation tree under [`website/docs/users/`](https://github.com/terchris/railway/tree/main/website/docs/users). This is the style guide for the docs that contributors write — different from [Documentation](documentation.md), which covers the Docusaurus site mechanics.
 
-The user-doc tree was planned in [PLAN: User documentation](../ai-developer/plans/active/PLAN-user-documentation.md). Read that for the information architecture and the worked example at [`users/public-registration.md`](https://github.com/terchris/railway/blob/main/website/docs/users/public-registration.md).
+The user-doc tree was planned in [PLAN: User documentation](../ai-developer/plans/completed/PLAN-user-documentation.md). Read that for the information architecture and the worked example at [`users/public-registration.md`](https://github.com/terchris/railway/blob/main/website/docs/users/public-registration.md).
 
 ## Audience
 
@@ -185,5 +185,5 @@ If you find yourself writing about JWTs or PostgreSQL roles in a user doc, stop 
 
 - [Documentation](documentation.md) — Docusaurus site mechanics (frontmatter, MDX, navigation)
 - [Screenshots and video](screenshots-and-video.md) — how to capture and refresh assets
-- [PLAN: User documentation](../ai-developer/plans/active/PLAN-user-documentation.md) — the phased rollout this guide supports
+- [PLAN: User documentation](../ai-developer/plans/completed/PLAN-user-documentation.md) — the phased rollout this guide supports
 - [Test of dummy login picker](testing-dummy-login.md) — per-role functional spec, close cousin of the user docs

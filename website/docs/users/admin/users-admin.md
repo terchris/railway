@@ -49,3 +49,4 @@ Når brukerhåndtering legges til som egen flate i administrasjonsgrensesnittet,
 - [Slik logger du inn](../surfaces/login.md)
 - [Mine tilganger](../surfaces/staff.md)
 - [PostgreSQL-roller](../../contributors/postgres-roles.md) — utviklerforklaring av brukerhåndteringen i UIS
+- [Test av dummy-innlogging](../../contributors/testing-dummy-login.md) — utviklerens funksjonelle sjekkliste for denne rollen

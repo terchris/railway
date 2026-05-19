@@ -83,3 +83,4 @@ Sidemenyen mangler to grupper:
 - [Slik logger du inn](../surfaces/login.md)
 - [Mine tilganger](../surfaces/staff.md) — bekrefte JWT-status
 - [Slik melder du deg på](../public-registration.md) — sluttbrukerens side, der innholdet ditt vises
+- [Test av dummy-innlogging](../../contributors/testing-dummy-login.md) — utviklerens funksjonelle sjekkliste for denne rollen
