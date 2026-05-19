@@ -142,8 +142,7 @@ validering som kan virke uforklarlig, kjente feil.
 
 ## Screenshot conventions
 
-- **Source files** live in `doc/screenshots/` (the repo root, the Playwright capture output). Documented in [Screenshots and video](screenshots-and-video.md).
-- **Served files** live in `website/static/img/screenshots/`. Add a new screenshot in two places: copy the source into both, commit both.
+- **Screenshots live at** `website/static/img/screenshots/` — that's both the capture output and what the docs site serves. Documented in [Screenshots and video](screenshots-and-video.md). Add a new screenshot in one place; no mirror step.
 - **Filenames** follow `rwg-{adm,pub}-<surface>.png`. The slug (`rwg-adm-overview`) is also the natural alt-text fallback.
 - **Embed syntax**: standard markdown image — `![caption](/img/screenshots/rwg-...-....png)`. Docusaurus serves `/static/` at site root, so the path starts with `/img/...`.
 - **Captions describe what the screenshot proves**, not just what it shows. Bad: *"Innloggingssiden"*. Good: *"Innloggingssiden med rollevelgeren synlig — du klikker raden for rollen du vil logge inn som"*.

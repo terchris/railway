@@ -1,13 +1,17 @@
 #!/usr/bin/env node
 /**
- * Builds shareable promo videos from doc/screenshots PNGs + burned-in explanatory captions (English).
- * Uses ffmpeg-static (no system ffmpeg required).
+ * Builds one short (≈30–45s) promo video per role, embedded on the matching
+ * role-hub page under /docs/users/. Wide format (1920×1080) only — these are
+ * for in-docs embeds, not social-media verticals. Captions are Norwegian to
+ * match the user-doc tree. Uses ffmpeg-static (no system ffmpeg required).
  *
  *   npm run video:promo
  *
- * Outputs (next to screenshots):
- *   railway-promo-1920-wide.mp4
- *   railway-promo-1080x1920-vertical.mp4
+ * Outputs (one per role, served alongside the rest of the docs assets):
+ *   website/static/img/promo/railway-promo-public-wizard.mp4
+ *   website/static/img/promo/railway-promo-full-admin.mp4
+ *   website/static/img/promo/railway-promo-registrations-admin.mp4
+ *   website/static/img/promo/railway-promo-content-editor.mp4
  */
 import { execFileSync } from "node:child_process"
 import fs from "node:fs"
@@ -18,8 +22,9 @@ import ffmpegStatic from "ffmpeg-static"
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, "..")
-const shotDir = path.join(root, "doc", "screenshots")
-const tmpDir = path.join(shotDir, ".video-build")
+const shotDir = path.join(root, "website", "static", "img", "screenshots")
+const outDir = path.join(root, "website", "static", "img", "promo")
+const tmpDir = path.join(root, "website", ".video-build")
 
 const ffmpeg = ffmpegStatic
 if (!ffmpeg || !fs.existsSync(ffmpeg)) {
@@ -27,201 +32,152 @@ if (!ffmpeg || !fs.existsSync(ffmpeg)) {
   process.exit(1)
 }
 
-/** Story order: omit duplicate wiz-intro (same as home). Seconds per PNG after intro. */
-const SLIDE_SEC = 3.6
-const INTRO_SEC = 6
+/** Per-slide duration after the intro, in seconds. */
+const SLIDE_SEC = 5
+const INTRO_SEC = 4
 
-const SLIDES = [
-  {
-    image: null,
-    sec: INTRO_SEC,
-    lines: [
-      "Oslo Red Cross — volunteer registration (demo)",
-      "A new Next.js app: public signup wizard plus a staff admin behind PostgREST, JWT capabilities, and RLS.",
+/**
+ * One entry per role. Each `slides` array gets prepended with the role's
+ * intro slide automatically (built from `intro_lines`). Norwegian captions —
+ * match the voice of the user-doc tree under /docs/users/.
+ */
+const ROLES = {
+  "public-wizard": {
+    intro_lines: [
+      "Slik melder du deg på",
+      "Påmelding for nye frivillige og medlemmer.",
+    ],
+    slides: [
+      {
+        image: "rwg-pub-home.png",
+        lines: ["Forsiden. Kort introduksjon — klikk Neste for å starte."],
+      },
+      {
+        image: "rwg-pub-wizard-activities.png",
+        lines: ["Velg aktiviteter du er interessert i."],
+      },
+      {
+        image: "rwg-pub-wizard-about.png",
+        lines: ["Fyll ut navn, e-post, telefon, språk og medlemsstatus."],
+      },
+      {
+        image: "rwg-pub-wizard-confirmation.png",
+        lines: ["Sjekk oppsummeringen, godta samtykket, og send inn."],
+      },
+      {
+        image: "rwg-pub-thank-you.png",
+        lines: ["Bekreftelse — administrator tar kontakt innen kort tid."],
+      },
+      {
+        image: "rwg-pub-thank-you-membership.png",
+        lines: ["Som medlem får du i tillegg informasjon om betaling."],
+      },
     ],
   },
-  {
-    image: "rwg-pub-home.png",
-    sec: SLIDE_SEC,
-    lines: [
-      "Volunteers land on this guided signup — the funnel is split into clear steps so people do not abandon halfway.",
+  "full-admin": {
+    intro_lines: [
+      "Full administrator",
+      "Alle administrasjonsflater, alle kapabiliteter.",
+    ],
+    slides: [
+      {
+        image: "rwg-adm-login.png",
+        lines: ["Velg «Full administrator» i rollevelgeren."],
+      },
+      {
+        image: "rwg-adm-overview.png",
+        lines: ["Oversiktssiden — KPI-er, varsler og snarveier."],
+      },
+      {
+        image: "rwg-adm-registrations.png",
+        lines: ["Påmeldingslisten — alle frivillige og medlemmer."],
+      },
+      {
+        image: "rwg-adm-registration-detail.png",
+        lines: ["Detaljvisning — bekreft, slett, eksporter."],
+      },
+      {
+        image: "rwg-adm-activities.png",
+        lines: ["Aktiviteter — administrer det offentlige skjemaet."],
+      },
+      {
+        image: "rwg-adm-text-content.png",
+        lines: ["Tekstinnhold — all tekst skjemaet viser brukerne."],
+      },
+      {
+        image: "rwg-adm-app-log.png",
+        lines: ["App-logg — operasjonelle hendelser og varsler."],
+      },
     ],
   },
-  {
-    image: "rwg-pub-wizard-activities.png",
-    sec: SLIDE_SEC,
-    lines: [
-      "Step 2: primary and additional volunteer activities pulled from Postgres — admins control what appears here.",
+  "registrations-admin": {
+    intro_lines: [
+      "Påmeldingsadministrator",
+      "Du tar imot påmeldingene og behandler dem.",
+    ],
+    slides: [
+      {
+        image: "rwg-adm-login.png",
+        lines: ["Velg «Påmeldingsadministrator» i rollevelgeren."],
+      },
+      {
+        image: "rwg-adm-overview.png",
+        lines: ["Oversiktssiden — sammendrag og snarveier."],
+      },
+      {
+        image: "rwg-adm-registrations.png",
+        lines: ["Påmeldingslisten — bla, søk, eksporter."],
+      },
+      {
+        image: "rwg-adm-registration-detail.png",
+        lines: ["Detaljvisning — bekreft eller slett påmeldinger."],
+      },
     ],
   },
-  {
-    image: "rwg-pub-wizard-about.png",
-    sec: SLIDE_SEC,
-    lines: ["Step 3: contact details, membership prompts, honeypot spam traps — validated before hitting the database."],
-  },
-  {
-    image: "rwg-pub-wizard-confirmation.png",
-    sec: SLIDE_SEC,
-    lines: ["Step 4: review and submit. The wizard posts JSON to `/api/registrations`, which forwards to PostgREST `submit_registration`."],
-  },
-  {
-    image: "rwg-pub-thank-you.png",
-    sec: SLIDE_SEC - 0.4,
-    lines: ["Confirmation screen — simple thank-you unless the backend asks for membership follow-up."],
-  },
-  {
-    image: "rwg-pub-thank-you-membership.png",
-    sec: SLIDE_SEC - 0.4,
-    lines: [
-      "Variant thank-you when the flow needs membership options — UX stays in Norwegian for local volunteers.",
+  "content-editor": {
+    intro_lines: [
+      "Innholdsredaktør",
+      "Du redigerer det publikum ser på skjemaet.",
+    ],
+    slides: [
+      {
+        image: "rwg-adm-login.png",
+        lines: ["Velg «Innholdsredaktør» i rollevelgeren."],
+      },
+      {
+        image: "rwg-adm-overview.png",
+        lines: ["Oversiktssiden — du ser kun innholdsrelaterte kort."],
+      },
+      {
+        image: "rwg-adm-activities.png",
+        lines: ["Aktiviteter — det publikum kan velge."],
+      },
+      {
+        image: "rwg-adm-text-content.png",
+        lines: ["Tekstinnhold — all tekst skjemaet bruker."],
+      },
+      {
+        image: "rwg-adm-eval-questions.png",
+        lines: ["Evalueringsspørsmål — hva vi spør de frivillige om."],
+      },
+      {
+        image: "rwg-adm-languages.png",
+        lines: ["Språk frivillige kan velge."],
+      },
     ],
   },
-  {
-    image: "rwg-adm-login.png",
-    sec: SLIDE_SEC,
-    lines: ["Staff workspace: JWT-based login (UIS-style tokens). No shared password cookies — the session JWT matches PostgREST."],
-  },
-  {
-    image: "rwg-adm-overview.png",
-    sec: SLIDE_SEC,
-    lines: ["Admin dashboard: KPI cards, registrations link, alerts from `app_log`, and shortcuts into content tooling."],
-  },
-  {
-    image: "rwg-adm-registrations.png",
-    sec: SLIDE_SEC,
-    lines: ["Registrations grid: paging, confirmation filters, bulk delete safeguards, CSV export for reporting."],
-  },
-  {
-    image: "rwg-adm-registration-detail.png",
-    sec: SLIDE_SEC,
-    lines: ["Per-registration inspector: confirms participation, deletes safely, mirrors what RLS allows for that JWT."],
-  },
-  {
-    image: "rwg-adm-activities.png",
-    sec: SLIDE_SEC,
-    lines: ["Activity catalogue for the signup UI — enable/disable surfaces, reorder via categories, tighten copy."],
-  },
-  {
-    image: "rwg-adm-activities-new.png",
-    sec: SLIDE_SEC - 0.3,
-    lines: ["Create flow for new volunteering opportunities — admins keep parity with Craft-era field coverage."],
-  },
-  {
-    image: "rwg-adm-activity-detail.png",
-    sec: SLIDE_SEC - 0.3,
-    lines: ["Edit mode for an activity — quotas, bilingual text snippets, linkage to taxonomy."],
-  },
-  {
-    image: "rwg-adm-additional-activities.png",
-    sec: SLIDE_SEC - 0.4,
-    lines: ["Dedicated view for add-on shifts so coordinators can prune optional programmes quickly."],
-  },
-  {
-    image: "rwg-adm-activity-categories.png",
-    sec: SLIDE_SEC - 0.3,
-    lines: ["Category ordering translates directly to Postgres `sort_order` — no brittle manual SQL edits."],
-  },
-  {
-    image: "rwg-adm-activity-settings.png",
-    sec: SLIDE_SEC - 0.4,
-    lines: ["Singleton settings: how many picks a volunteer can flag — aligns with UIS activity limits debate."],
-  },
-  {
-    image: "rwg-adm-activities-text.png",
-    sec: SLIDE_SEC - 0.4,
-    lines: ["Microcopy editors for onboarding steps — still structured data, suitable for translators."],
-  },
-  {
-    image: "rwg-adm-text-content.png",
-    sec: SLIDE_SEC,
-    lines: ["Global `text_content` editing — headings, disclaimers, every string the wizard echoes from PostgREST."],
-  },
-  {
-    image: "rwg-adm-print-manuscript.png",
-    sec: SLIDE_SEC,
-    lines: ["Print preview for field teams — stylesheet tuned for monochrome volunteers without laptops."],
-  },
-  {
-    image: "rwg-adm-print-form.png",
-    sec: SLIDE_SEC,
-    lines: ["Paper form export — contingency if digital channels fail during an event ramp-up."],
-  },
-  {
-    image: "rwg-adm-skemadata.png",
-    sec: SLIDE_SEC,
-    lines: ["Schema-data hub linking membership, evaluations, locales — parity with numbered terchris admin specs."],
-  },
-  {
-    image: "rwg-adm-app-log.png",
-    sec: SLIDE_SEC - 0.3,
-    lines: ["Operational log — alert flags bubble to dashboards and `/api/health` for UIS monitors."],
-  },
-  {
-    image: "rwg-adm-staff.png",
-    sec: SLIDE_SEC,
-    lines: ["“My access”: explains JWT scopes in plain language until UIS exposes full `auth.users` CRUD inside Next."],
-  },
-  {
-    image: "rwg-adm-eval-questions.png",
-    sec: SLIDE_SEC - 0.4,
-    lines: ["Evaluation questionnaires — admins manage question bank without redeploying the front-end bundle."],
-  },
-  {
-    image: "rwg-adm-eval-question-detail.png",
-    sec: SLIDE_SEC - 0.4,
-    lines: ["Question authoring — branching metadata stays in Postgres, not scattered JSON blobs."],
-  },
-  {
-    image: "rwg-adm-eval-options.png",
-    sec: SLIDE_SEC - 0.4,
-    lines: ["Answer options share the same tooling — aligns with relational evaluation schema."],
-  },
-  {
-    image: "rwg-adm-eval-option-detail.png",
-    sec: SLIDE_SEC - 0.5,
-    lines: ["Option editor — bilingual labels enforced through admin forms."],
-  },
-  {
-    image: "rwg-adm-languages.png",
-    sec: SLIDE_SEC - 0.5,
-    lines: ["Language rows drive locale pickers throughout the signup journey."],
-  },
-  {
-    image: "rwg-adm-language-detail.png",
-    sec: SLIDE_SEC - 0.6,
-    lines: ["Per-language knobs — parity with UIS translation workflow expectations."],
-  },
-  {
-    image: "rwg-adm-membership-statuses.png",
-    sec: SLIDE_SEC - 0.6,
-    lines: ["Membership statuses — underpin conditional questions downstream."],
-  },
-  {
-    image: "rwg-adm-membership-status-detail.png",
-    sec: SLIDE_SEC - 0.6,
-    lines: ["Status detail tabs — admins keep labels synchronized with Oslo chapter policy."],
-  },
-  {
-    image: "rwg-adm-membership-options.png",
-    sec: SLIDE_SEC - 0.5,
-    lines: ["Optional membership bundles exposed when the signup RPC decides they are relevant."],
-  },
-  {
-    image: "rwg-adm-membership-option-detail.png",
-    sec: SLIDE_SEC - 0.6,
-    lines: ["Editing an option preserves referential hooks for registrations analytics."],
-  },
-  {
-    image: "rwg-adm-no-selected-options.png",
-    sec: SLIDE_SEC - 0.6,
-    lines: ["“No activity picked” presets — admins configure fallback counselling paths."],
-  },
-  {
-    image: "rwg-adm-no-selected-option-detail.png",
-    sec: SLIDE_SEC - 0.6,
-    lines: ["Detail view for fallback answers — mirrored between Craft legacy and Postgres seeds."],
-  },
-]
+}
+
+/** Materialise the full slide list for a role (intro + body slides). */
+function slidesForRole(roleId) {
+  const r = ROLES[roleId]
+  if (!r) throw new Error(`Unknown role: ${roleId}`)
+  return [
+    { image: null, sec: INTRO_SEC, lines: r.intro_lines },
+    ...r.slides.map((s) => ({ ...s, sec: SLIDE_SEC })),
+  ]
+}
+
 
 function ensureDir(dir) {
   fs.mkdirSync(dir, { recursive: true })
@@ -274,8 +230,27 @@ function buildFfconcat(imageSlides) {
   return concatPath
 }
 
+/** Reserved bottom-strip height (px) for captions, per orientation.
+ *  Captions sit inside the strip on a clean brand-coloured background —
+ *  they never overlay the screenshot itself. */
+function captionStripHeight(frameW) {
+  return frameW <= 1080 ? 480 : 240
+}
+
+/** Brand colour for the strip + the screenshot's letterbox padding.
+ *  Matches the intro slide colour (0x0f172a, dark navy). */
+const STRIP_COLOR = "0x0f172a"
+
 function encodeBodySlideVideo(concatPath, outPath, w, h) {
-  const vf = `scale=w=${w}:h=${h}:force_original_aspect_ratio=decrease,pad=${w}:${h}:(ow-iw)/2:(oh-ih)/2:color=black,setsar=1,fps=30,format=yuv420p`
+  const stripH = captionStripHeight(w)
+  const imgH = h - stripH
+  // 1. Scale screenshot to fit in (w × imgH), preserving aspect ratio.
+  // 2. Pad to full frame (w × h): top-left at (0,0), bottom strip becomes
+  //    solid STRIP_COLOR (where captions will burn).
+  const vf =
+    `scale=w=${w}:h=${imgH}:force_original_aspect_ratio=decrease,` +
+    `pad=${w}:${h}:(${w}-iw)/2:(${imgH}-ih)/2:color=${STRIP_COLOR},` +
+    `setsar=1,fps=30,format=yuv420p`
 
   execFileSync(
     ffmpeg,
@@ -345,12 +320,12 @@ function fmtTs(sec) {
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(whole).padStart(2, "0")},${String(ms).padStart(3, "0")}`
 }
 
-/** Simple SRT; English captions readable on mobile. */
-function buildSrt() {
+/** Simple SRT built from a per-role slide list (intro + body slides). */
+function buildSrt(slides) {
   let t = 0
   let idx = 1
   let s = ""
-  for (const slide of SLIDES) {
+  for (const slide of slides) {
     const start = t
     t += slide.sec
     const body = slide.lines.join("\n")
@@ -359,16 +334,26 @@ function buildSrt() {
   return { srt: s, totalSec: t }
 }
 
-function burnSubtitles(inVideo, outVideo, styleW) {
-  const srtPath = path.join(tmpDir, "captions.srt")
-  const { srt } = buildSrt()
-  fs.writeFileSync(srtPath, srt, "utf8")
-  /** Vertical (narrow width) gets larger captions for thumbs; wide uses slightly smaller blocks */
-  const fontSize = styleW <= 1080 ? 42 : 36
-  const marginV = styleW <= 1080 ? 200 : 110
+function burnSubtitles(inVideo, outVideo, styleW, srtPath) {
+  // Captions sit inside the reserved bottom strip (no overlap with screenshot
+  // pixels), vertically centred. Font size auto-tunes to width so that a
+  // future vertical variant (≤1080) gets thumb-readable captions.
+  const fontSize = styleW <= 1080 ? 42 : 32
+  const stripH = captionStripHeight(styleW)
+  // MarginV in ASS = distance from the bottom edge of the frame to the
+  // bottom of the text block. Centring the text vertically inside stripH
+  // means MarginV ≈ (stripH - textH) / 2; assume ~2 lines so textH ≈ 2.4×fontSize.
+  const marginV = Math.round((stripH - 2.4 * fontSize) / 2)
   const subPath = subtitlePathArg(srtPath)
-  /** force_style tweaks ASS/SRT subtitles filter (bundled FFmpeg default font stacks) */
-  const vf = `subtitles=${subPath}:force_style='FontName=Arial,FontSize=${fontSize},Bold=1,Outline=4,OutlineColour=&H99000000,PrimaryColour=&H00FFFFFF,Alignment=2,MarginV=${marginV}'`
+  // BorderStyle=1 (outline only, no box), Outline=0 (clean text on the
+  // solid strip — no shadow needed since there's no busy content behind).
+  const vf =
+    `subtitles=${subPath}:force_style='` +
+    `FontName=Arial,FontSize=${fontSize},Bold=1,` +
+    `BorderStyle=1,Outline=0,` +
+    `PrimaryColour=&H00FFFFFF,` +
+    `Alignment=2,MarginV=${marginV},` +
+    `MarginL=80,MarginR=80'`
 
   execFileSync(
     ffmpeg,
@@ -382,39 +367,39 @@ function subtitlePathArg(absPath) {
   return path.resolve(absPath).replace(/\\/g, "/")
 }
 
-function buildVariant(label, introW, introH, bodyW, bodyH) {
-  console.log(`\n━━ Building ${label} (${bodyW}x${bodyH}) ━━`)
-  const introPath = path.join(tmpDir, `intro-${label}.mp4`)
-  const bodyPath = path.join(tmpDir, `body-${label}.mp4`)
-  const mergedPath = path.join(tmpDir, `merged-${label}.mp4`)
-  const outputPath = path.join(
-    shotDir,
-    label.includes("vertical")
-      ? "railway-promo-1080x1920-vertical.mp4"
-      : "railway-promo-1920-wide.mp4",
-  )
+/** Build one wide MP4 for a role. */
+function buildRoleVideo(roleId) {
+  const w = 1920
+  const h = 1080
+  console.log(`\n━━ Building ${roleId} (${w}x${h}) ━━`)
+  const introPath = path.join(tmpDir, `intro-${roleId}.mp4`)
+  const bodyPath = path.join(tmpDir, `body-${roleId}.mp4`)
+  const mergedPath = path.join(tmpDir, `merged-${roleId}.mp4`)
+  const srtPath = path.join(tmpDir, `captions-${roleId}.srt`)
+  const outputPath = path.join(outDir, `railway-promo-${roleId}.mp4`)
 
-  const imageSlides = SLIDES.filter((s) => s.image)
+  const allSlides = slidesForRole(roleId)
+  const { srt, totalSec } = buildSrt(allSlides)
+  fs.writeFileSync(srtPath, srt, "utf8")
+  console.log(`  captions: ${Math.round(totalSec)}s`)
+
+  const imageSlides = allSlides.filter((s) => s.image)
   const concatPath = buildFfconcat(imageSlides)
 
-  encodeIntro(introPath, introW, introH)
-  encodeBodySlideVideo(concatPath, bodyPath, bodyW, bodyH)
+  encodeIntro(introPath, w, h)
+  encodeBodySlideVideo(concatPath, bodyPath, w, h)
   concatTwoVideos(introPath, bodyPath, mergedPath)
-  burnSubtitles(mergedPath, outputPath, bodyW)
+  burnSubtitles(mergedPath, outputPath, w, srtPath)
   const st = fs.statSync(outputPath)
   console.log(`Wrote ${outputPath} (${(st.size / 1e6).toFixed(1)} MB)`)
 }
 
 function main() {
   ensureDir(tmpDir)
-  /** Total runtime hint */
-  const { totalSec } = buildSrt()
-  console.log(`About ${Math.round(totalSec / 60)} min ${Math.round(totalSec % 60)} s total captions — encoding two variants`)
-
-  /** Wide canvas + intro canvas */
-  buildVariant("wide", 1920, 1080, 1920, 1080)
-  /** Vertical: body 1080x1920, intro match */
-  buildVariant("vertical", 1080, 1920, 1080, 1920)
+  ensureDir(outDir)
+  for (const roleId of Object.keys(ROLES)) {
+    buildRoleVideo(roleId)
+  }
   console.log("\nDone.")
 }
 

@@ -6,6 +6,11 @@ sidebar_position: 2
 
 Full administrator har **alle 9 kapabiliteter** i én rolle. Brukes typisk når en eneste person står for både påmeldingsoppfølging, innholdsredigering og drift — eller når du driver demo og vil se hele systemet.
 
+<video controls width="100%" preload="metadata" poster="/img/screenshots/rwg-adm-overview.png">
+  <source src="/img/promo/railway-promo-full-admin.mp4" type="video/mp4" />
+  Nettleseren din støtter ikke avspilling av video. Du kan laste den ned: <a href="/img/promo/railway-promo-full-admin.mp4">railway-promo-full-admin.mp4</a>.
+</video>
+
 ## Slik logger du inn
 
 Åpne `http://<host>/admin/login`. I rollevelgeren klikker du **Full admin**.

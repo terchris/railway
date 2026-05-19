@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Capture full-page screenshots into doc/screenshots for documentation.
+ * Capture full-page screenshots into website/static/img/screenshots/ for documentation.
  * Requires: Next running (default http://localhost:3010). For admin pages the server must allow
  * GET /api/admin/bootstrap-session (development or ADMIN_BOOTSTRAP_SESSION_FROM_ENV=1 on the server),
  * with POSTGREST_ADMIN_JWT / POSTGREST_STAFF_JWT_UIS verifying against JWT_SECRET.
@@ -15,7 +15,7 @@ import { chromium } from "playwright"
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, "..")
-const outDir = path.join(root, "doc", "screenshots")
+const outDir = path.join(root, "website", "static", "img", "screenshots")
 
 const BASE = (process.env.APP_URL ?? "http://localhost:3010").replace(/\/$/, "")
 
@@ -80,14 +80,46 @@ async function main() {
   await goto(page, "/thank-you?complete-membership=true")
   await shot(page, "rwg-pub-thank-you-membership")
 
-  // Wizard steps (Norwegian UI)
+  // Wizard steps (Norwegian UI). The intro step is the landing page itself
+  // (`/`), already captured as rwg-pub-home above — no separate "intro" shot.
+  // Step order matches src/components/form/persist.ts: intro → activities →
+  // about → confirmation. Each step except intro has form validation that
+  // blocks "Neste" until requirements are met, so we fill enough fields to
+  // advance after each capture.
   await goto(page, "/")
-  await shot(page, "rwg-pub-wizard-intro")
   await page.getByRole("button", { name: "Neste" }).click()
+
+  // Activities step: capture, then pick the first activity checkbox so the
+  // form lets us advance (canLeaveActivities requires at least one activity
+  // OR a positive no_selected_activity_option_id; the "ikke aktuelt" default
+  // radio sets the value to null, so it doesn't satisfy the check).
   await shot(page, "rwg-pub-wizard-activities")
+  await page.getByRole("checkbox").first().click()
   await page.getByRole("button", { name: "Neste" }).click()
+  // Wait for the about step to render before continuing.
+  await page.waitForSelector("#name", { timeout: 10000 })
+
+  // About step: capture, then fill all required fields before next.
   await shot(page, "rwg-pub-wizard-about")
+  await page.fill("#name", "Test Bruker")
+  await page.fill("#email", "test@example.com")
+  await page.fill("#phone", "12345678")
+  await page.getByRole("checkbox").first().click() // first language
+  await page.getByRole("radio").first().click() // first membership status
+  // Answer every evaluation question with a <select> (pick option index 1 —
+  // option 0 is usually the empty/placeholder).
+  const evalSelects = await page.locator("select").all()
+  for (const sel of evalSelects) {
+    const opts = await sel.locator("option").all()
+    if (opts.length > 1) {
+      const val = await opts[1].getAttribute("value")
+      if (val) await sel.selectOption(val)
+    }
+  }
   await page.getByRole("button", { name: "Neste" }).click()
+  // Wait for the confirmation step's submit button before capturing — proves
+  // we actually advanced past the about step's validation.
+  await page.getByRole("button", { name: "Send inn registrering" }).waitFor({ timeout: 10000 })
   await shot(page, "rwg-pub-wizard-confirmation")
 
   // Admin login form
