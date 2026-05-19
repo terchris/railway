@@ -49,13 +49,13 @@ The simplest audience (no login, one wizard) becomes the worked example that eve
 
 ---
 
-## Phase 2: Contributor docs — writing + automation
+## Phase 2: Contributor docs — writing + automation — DONE
 
 The style guide and the screenshot-automation walkthrough that future contributors (and the designer) read before extending Phases 3-6.
 
 ### Tasks
 
-- [ ] 2.1 Create `website/docs/contributors/writing-user-docs.md` (sidebar position 7, after `documentation.md`). Sections:
+- [x] 2.1 Create `website/docs/contributors/writing-user-docs.md` (sidebar position 7, after `documentation.md`). Sections:
   - Hvem skriver vi for — audience-by-role framing.
   - Norwegian voice (formal-friendly "du", short sentences, present tense for instructions, imperative for steps).
   - Per-role hub template (verbatim from the investigation, refined against the Phase-1 worked example).
@@ -67,7 +67,7 @@ The style guide and the screenshot-automation walkthrough that future contributo
     - Always include a one-line caption describing what the screenshot proves.
   - How to add a new role page (use the public-registration page as the worked example to copy from).
   - How to handle UI-text references — quote Norwegian strings verbatim in `code` styling so the reader can search them.
-- [ ] 2.2 Create `website/docs/contributors/screenshots-and-video.md` (sidebar position 8). Sections:
+- [x] 2.2 Create `website/docs/contributors/screenshots-and-video.md` (sidebar position 8). Sections:
   - Quick reference — `npm run docs:screens` and `npm run video:promo` one-liner descriptions.
   - Prerequisites — Next dev server on :3010, env vars (`POSTGREST_ADMIN_JWT` / `POSTGREST_STAFF_JWT_UIS` matching `JWT_SECRET`), `ADMIN_BOOTSTRAP_SESSION_FROM_ENV=1` for non-dev environments, Playwright installed (already in `package.json`).
   - How the capture script works — points at `scripts/capture-screen-docs.mjs`, names the entry list, describes naming conventions (`rwg-{adm,pub}-<surface>.png`).
@@ -75,7 +75,7 @@ The style guide and the screenshot-automation walkthrough that future contributo
   - How the video script works — points at `scripts/build-promo-video.mjs`. Documents the intermediate `.video-build/` directory (gitignored) and the two output MP4s (wide + vertical).
   - How to regenerate when the UI changes — full sweep, diff PNGs visually, commit.
   - Troubleshooting — common failure modes (admin bootstrap fails, ffmpeg missing, wrong port).
-- [ ] 2.3 Update `website/docs/contributors/index.md` to link both new guides from the "Guides" list.
+- [x] 2.3 Update `website/docs/contributors/index.md` to link both new guides from the "Guides" list.
 
 ### Validation
 

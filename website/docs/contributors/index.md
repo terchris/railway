@@ -44,6 +44,8 @@ npm run build
 - [PostgreSQL roles](postgres-roles.md) — the four DB roles (`railway_owner`, `anon`, `authenticated`, `authenticator`) and how PostgREST uses them
 - [Testing the dummy login picker](testing-dummy-login.md) — per-role test checklist for `/admin/login`
 - [Documentation](documentation.md) — how to add or edit docs on this site
+- [Writing user docs](writing-user-docs.md) — style guide for the Norwegian user-doc tree under `users/`
+- [Screenshots and video](screenshots-and-video.md) — how to capture and refresh the PNGs + promo MP4s
 
 ## Before You Submit a Pull Request
 
