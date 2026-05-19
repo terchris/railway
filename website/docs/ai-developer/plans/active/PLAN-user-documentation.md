@@ -14,7 +14,7 @@
 
 ## Overview
 
-Builds on [`INVESTIGATE-user-documentation.md`](INVESTIGATE-user-documentation.md) (decisions captured there). The PLAN locks in:
+Builds on [`INVESTIGATE-user-documentation.md`](../backlog/INVESTIGATE-user-documentation.md) (decisions captured there). The PLAN locks in:
 
 - **Audiences**: 1 public + 5 staff role hubs from the dummy-login picker.
 - **IA**: `users/index.md` → 6 role hubs (`users/public-registration.md`, `users/admin/{full-admin,registrations-admin,content-editor,app-log-viewer,users-admin}.md`) → 21 surface pages (`users/surfaces/<surface>.md`).
@@ -27,22 +27,19 @@ Total file count: ~30 new docs files + 2 new contributor guides + 1 rewritten la
 
 ---
 
-## Phase 1: Template proof — public registration
+## Phase 1: Template proof — public registration — DONE
 
 The simplest audience (no login, one wizard) becomes the worked example that every later page is patterned on.
 
 ### Tasks
 
-- [ ] 1.1 Create `website/docs/users/_category_.json` with sidebar label "Brukerguider" and position immediately after `getting-started.md`.
-- [ ] 1.2 Create `website/docs/users/index.md` — audience landing page in Norwegian. Lists the two top-level audiences ("Frivillige / Publikum" → public-registration; "Administrasjon" → admin/index) with one-sentence descriptions and embedded thumbnail of the first wizard screen.
-- [ ] 1.3 Create `website/docs/users/public-registration.md` — full walkthrough of the wizard. Sections (in Norwegian):
-  - Hva er Railway? (one paragraph)
-  - Slik melder du deg på (numbered steps, one screenshot per wizard step from `rwg-pub-*`)
-  - Hva skjer etter du har sendt skjemaet (thank-you flow, both variants)
-  - Spørsmål du kan få (FAQ — TBD with maintainer, leave 2-3 stub questions)
-- [ ] 1.4 Copy the 7 public-form PNGs to `website/static/img/screenshots/` and reference them via `/img/screenshots/rwg-pub-*.png` in the markdown. (Docusaurus serves `static/` from site root.)
-- [ ] 1.5 Embed both promo MP4s in `getting-started.md` (wide for desktop, vertical for mobile) using native `<video>` tags. Copy MP4s to `static/img/promo/`.
-- [ ] 1.6 Update `website/docs/getting-started.md` from the current planning-anchor stub to a real introduction: "Velkommen til Railway" + the two video embeds + audience selector links.
+- [x] 1.1 Create `website/docs/users/_category_.json` with sidebar label "Brukerguider" and position 3.
+- [x] 1.2 Create `website/docs/users/index.md` — audience landing page in Norwegian. Two top-level audiences.
+- [x] 1.3 Create `website/docs/users/public-registration.md` — full walkthrough of the wizard, all 7 wizard screenshots inline, both thank-you variants, FAQ with three starter questions.
+- [x] 1.4 Copied 7 public-form PNGs to `website/static/img/screenshots/`. Plus `rwg-adm-login.png` (referenced from the users-landing audience-selector).
+- [x] 1.5 Embedded both promo MP4s in `getting-started.md` (wide + vertical) using native `<video>` tags. MP4s copied to `static/img/promo/`.
+- [x] 1.6 Replaced the planning-anchor stub at `website/docs/getting-started.md` with real intro: "Velkommen til Railway" + both videos + three-audience selector table.
+- [x] 1.7 *Phase-1 scope add:* placeholder `website/docs/users/admin/_category_.json` + `website/docs/users/admin/index.md` so the `admin/index.md` link from the users-landing resolves. Will be expanded in Phase 3.
 
 ### Validation
 
