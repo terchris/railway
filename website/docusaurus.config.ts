@@ -2,18 +2,24 @@ import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
+const GITHUB_ORG = process.env.GITHUB_ORG || 'terchris';
+const GITHUB_REPO = process.env.GITHUB_REPO || 'railway';
+
 const config: Config = {
   title: 'Railway',
-  tagline: 'Documentation',
+  tagline: 'Frivilligregistrering for Oslo Røde Kors',
 
   future: {
     v4: true,
   },
 
-  url: 'https://railway.example.com',
+  url: 'https://railway.sovereignsky.no',
   baseUrl: '/',
+  organizationName: GITHUB_ORG,
+  projectName: GITHUB_REPO,
+  trailingSlash: false,
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
 
   i18n: {
     defaultLocale: 'en',
