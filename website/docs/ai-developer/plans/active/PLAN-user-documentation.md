@@ -150,17 +150,17 @@ Each surface page gets the full "What this screen does / What you'll see / Commo
 
 ---
 
-## Phase 5: Role-hub fill — write the 5 admin role hubs
+## Phase 5: Role-hub fill — write the 5 admin role hubs — DONE
 
 Now that all linked-to surface pages exist, the hubs can be written confidently (no dead links to "TBD" pages).
 
 ### Tasks
 
-- [ ] 5.1 Write `users/admin/full-admin.md` — the broadest hub, links to every surface.
-- [ ] 5.2 Write `users/admin/registrations-admin.md` — only Oversikt + Registreringer + Konto.
-- [ ] 5.3 Write `users/admin/content-editor.md` — Oversikt + Utskrift + Aktivitet og skjema + Konto.
-- [ ] 5.4 Write `users/admin/app-log-viewer.md` — Oversikt + Drift + Konto.
-- [ ] 5.5 Write `users/admin/users-admin.md` — Oversikt + Konto only; note the absence of users:*-gated sidebar items today.
+- [x] 5.1 Wrote `users/admin/full-admin.md` — bredeste hub, lenker til alle 6 sidebar-grupper + alle 21 detaljsider.
+- [x] 5.2 Wrote `users/admin/registrations-admin.md` — kun Oversikt + Registreringer + Konto. Med eksplisitt "Hva du ikke kan" som peker til andre roller for de manglende kapabilitetene.
+- [x] 5.3 Wrote `users/admin/content-editor.md` — Oversikt + Utskrift + Aktivitet og skjema + Konto. Organisert under-Aktivitet og skjema-gruppen i fire under-temaer (aktivitetstrinnet, tekster, evaluering, medlemskap, andre oppslag).
+- [x] 5.4 Wrote `users/admin/app-log-viewer.md` — Oversikt + Drift + Konto. Flagger den åpne `app_log_alert_count`-feilen i Oversikt-kortet og at "Kvitt varsel"-knappen krever `app_log:write` (som denne rollen mangler).
+- [x] 5.5 Wrote `users/admin/users-admin.md` — Oversikt + Konto kun. Forklarer eksplisitt at det ikke finnes UI-flater kapabilitetsgated på `users:*` i dag; rollen er klargjort for fremtidige skjermer + direkte API-bruk.
 
 Every hub follows the template from `writing-user-docs.md` (Phase 2): login section, "Hva du kan se" section with per-group thumbnail + link, "Hva du ikke kan" section listing missing capabilities, "Relatert" links to login and staff surface pages.
 

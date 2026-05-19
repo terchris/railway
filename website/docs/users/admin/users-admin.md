@@ -2,18 +2,50 @@
 sidebar_position: 6
 ---
 
-# Brukeradministrator
+# Brukeradministrator — klargjort for fremtiden
 
-**Kapabiliteter:** `users:read`, `users:write`
-**Sidemenygrupper du ser:** Oversikt, Konto
+Brukeradministrator har `users:read` og `users:write` — kapabiliteter som er **klargjort for fremtidige brukerhåndteringsskjermbilder, men ikke koblet til noen UI-flater i dag.** Rollen finnes i picker-en for å gjøre kapabilitetsmodellen komplett og for å støtte direkte API-kall mot PostgREST.
 
-![Innloggingssiden — klikk «Users admin»-raden](/img/screenshots/rwg-adm-login.png)
+## Slik logger du inn
 
-> **TBD** — fullstendig hub-side fylles ut i Fase 5 av [PLAN-user-documentation](../../ai-developer/plans/active/PLAN-user-documentation.md).
+Åpne `http://<host>/admin/login`. I rollevelgeren klikker du **Users admin**.
 
-Detaljsider du har tilgang til:
+![Innloggingssiden med rollevelger — klikk «Users admin»-raden](/img/screenshots/rwg-adm-login.png)
 
-- [Oversikt](../surfaces/overview.md)
+Du lander på `/admin`. Sidemenyen viser bare **to grupper**: Oversikt, Konto. Det er ingen UI-flater som er kapabilitetsgated på `users:*` i dag.
+
+## Hva du kan gjøre
+
+### Oversikt
+
+Forsiden. De fleste kortene viser «Krever staff-JWT» fordi du mangler `registrations:read`, `content:read`, og `app_log:read`.
+
+→ [Detaljer](../surfaces/overview.md)
+
+### Konto
+
+Sjekke at JWT-en din er gyldig og at `users:read`/`users:write` faktisk ligger i `capabilities`-arrayet.
+
+→ [Mine tilganger](../surfaces/staff.md)
+
+### Direkte API-tilgang
+
+Kapabilitetene `users:read` og `users:write` er håndhevet av PostgREST og RLS på databasenivå. Selv om Next-appen ikke har UI for det, kan en brukeradministrator kalle relevante PostgREST-endepunkt direkte med JWT-en sin — for eksempel via `curl`. Tabellen `auth.users` er **ikke eksponert gjennom PostgREST** i dagens oppsett (kun `railway`-skjemaet er); brukerhåndteringen foregår derfor via UIS og direkte tilkobling til databasen. Se [Mine tilganger](../surfaces/staff.md) for kontekst.
+
+## Hva du **ikke** kan gjøre
+
+- **Se påmeldinger** — `registrations:read` mangler.
+- **Endre innhold** — `content:read`/`content:write` mangler.
+- **Se app-loggen** — `app_log:read` mangler.
+
+Hvis du trenger noen av disse, bytt til [Full administrator](full-admin.md) eller den spesifikke rollen.
+
+## Når denne rollen får UI-flater
+
+Når brukerhåndtering legges til som egen flate i administrasjonsgrensesnittet, vil sidemenyen utvides med en «Brukere»-gruppe synlig kun for denne rollen + Full administrator. Inntil videre er rollen mer et **kapabilitets-løfte** enn en arbeidsflate.
+
+## Relatert
+
+- [Slik logger du inn](../surfaces/login.md)
 - [Mine tilganger](../surfaces/staff.md)
-
-**Merknad**: det finnes ingen sidemeny-elementer som krever `users:read` eller `users:write` i dag. Rollen er klargjort for fremtidige brukerhåndteringsskjermbilder. Kapabilitetene håndheves likevel av PostgREST og RLS på databasenivå — selv om UI-flater mangler, kan en brukeradministrator kalle relevante endepunkt direkte.
+- [PostgreSQL-roller](../../contributors/postgres-roles.md) — utviklerforklaring av brukerhåndteringen i UIS
