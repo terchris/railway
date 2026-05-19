@@ -4,11 +4,12 @@
 > - [WORKFLOW.md](../../WORKFLOW.md) - The implementation process
 > - [PLANS.md](../../PLANS.md) - Plan structure and best practices
 
-## Status: Active
+## Status: Completed
 
 **Goal**: Ship the Docusaurus site to GitHub Pages at `https://railway.sovereignsky.no`, then replace the redirect-only `/` page with a real homepage (Option A from the investigation: hero + three audience cards). Two phases, one PR at the end.
 
 **Last Updated**: 2026-05-19
+**Completed**: 2026-05-19
 
 **Investigation**: [INVESTIGATE-homepage-and-gh-pages.md](../backlog/INVESTIGATE-homepage-and-gh-pages.md)
 
@@ -36,23 +37,17 @@ One branch (`docs/homepage-and-gh-pages`), one PR at the end of Phase 2.
 
 ---
 
-## Phase 1: Config + CNAME + workflow
+## Phase 1: Config + CNAME + workflow — DONE
 
 Pure infrastructure. After this phase the site is reachable at `https://railway.sovereignsky.no` and immediately redirects to `/docs/`, exactly as it does on `localhost:3011` today.
 
 ### Tasks
 
-- [ ] 1.1 Update `website/docusaurus.config.ts`:
-  - `url: 'https://railway.sovereignsky.no'` (replace placeholder)
-  - `tagline: 'Frivilligregistrering for Oslo Røde Kors'` (replace generic "Documentation")
-  - Add `organizationName: process.env.GITHUB_ORG || 'terchris'`
-  - Add `projectName: process.env.GITHUB_REPO || 'railway'`
-  - Add `trailingSlash: false`
-  - Change `onBrokenLinks: 'throw'` → `onBrokenLinks: 'warn'`
-- [ ] 1.2 Create `website/static/CNAME` with one line: `railway.sovereignsky.no` (single trailing newline OK).
-- [ ] 1.3 Create `.github/workflows/docs.yml` with the urbalurba pattern: triggers on push to `main` for `website/**` and the workflow file itself, plus `workflow_dispatch`. Permissions `contents: read`, `pages: write`, `id-token: write`. Two jobs: `build` (checkout, setup-node@v4 Node 20 with npm cache keyed on `website/package-lock.json`, `npm ci` and `npm run build` in `website/` passing `GITHUB_ORG`/`GITHUB_REPO` env from `github.repository_owner`/`github.event.repository.name`, upload-pages-artifact@v3 with `path: website/build`) and `deploy` (deploy-pages@v4). Concurrency group `pages`, `cancel-in-progress: false`.
-- [ ] 1.4 Smoke-test the build locally: `npm --prefix website run build`. Expect a clean build with one new line in the output mentioning `CNAME` being copied from `static/` to `build/`. Inspect `website/build/CNAME` — should contain `railway.sovereignsky.no`.
-- [ ] 1.5 Pause for maintainer to enable Pages in GitHub repo settings (**Settings → Pages → Source: "GitHub Actions"**). This is a one-time UI step; the workflow won't deploy successfully until it's set. Document this in the PR description so it's not forgotten.
+- [x] 1.1 Updated `website/docusaurus.config.ts`: url, tagline, organizationName/projectName env-driven, trailingSlash:false, onBrokenLinks:'warn'.
+- [x] 1.2 Created `website/static/CNAME` containing `railway.sovereignsky.no`.
+- [x] 1.3 Created `.github/workflows/docs.yml` with the urbalurba Actions-as-source pattern (build + deploy, Node 20, GITHUB_ORG/GITHUB_REPO env).
+- [x] 1.4 Smoke-tested local build — `build/CNAME` contains `railway.sovereignsky.no`. Build emits 4 broken-link warnings inherited from PR #7 (pre-existing); recorded as follow-up.
+- [x] 1.5 Maintainer reminder in PR description: enable **Settings → Pages → Source: "GitHub Actions"** before first deploy.
 
 ### Validation
 
@@ -69,32 +64,18 @@ The first push to `main` (or the merged PR) will trigger the workflow. The maint
 
 ---
 
-## Phase 2: Homepage v1 — Option A (hero + 3 audience cards)
+## Phase 2: Homepage v1 — Option A (hero + 3 audience cards) — DONE
 
 Replace the redirect with the minimal homepage. Hero on top, three audience cards below. Reuses the copy already in `getting-started.md` so there's no new prose to author or translate.
 
 ### Tasks
 
-- [ ] 2.1 Replace `website/src/pages/index.tsx` with the Option A layout:
-  - Imports: `Layout` from `@theme/Layout`, `Link` from `@docusaurus/Link`, `useDocusaurusContext` from `@docusaurus/useDocusaurusContext`, `clsx`, and the local CSS module (created in 2.2).
-  - `<Layout title={siteConfig.title} description="Frivilligregistrering for Oslo Røde Kors">` wraps everything.
-  - Hero section: `<header className="hero hero--primary">`, container with `<h1 className="hero__title">Railway</h1>`, `<p className="hero__subtitle">{siteConfig.tagline}</p>`, and three CTA buttons in a `.buttons` flex row:
-    - Primary: **"Meld deg på"** → `/docs/users/public-registration`
-    - Secondary: **"Administrasjon"** → `/docs/users/admin/`
-    - Secondary outline: **"Utvikler"** → `/docs/contributors/`
-  - Main section: a 3-card grid (one row on desktop, stacked on mobile) using the same three audiences as `getting-started.md`. Each card has a heading (Frivillig / Stab / Utvikler), one-line description (reuse the table copy), and a "Les mer" link to the same destination as the CTA.
-- [ ] 2.2 Create `website/src/pages/index.module.css` with three rules:
-  - `.heroBanner` — padding (e.g. `4rem 2rem`), centered text, responsive `padding: 2rem` at the mobile breakpoint.
-  - `.buttons` — flex row, `gap: 1rem`, `justify-content: center`, wraps on narrow screens.
-  - `.audienceGrid` — CSS grid, `grid-template-columns: repeat(3, 1fr)` on desktop, `1fr` at the mobile breakpoint, `gap: 1.5rem`.
-  - Card styling can lean on Docusaurus' built-in classes (`.card`, `.card__header`, `.card__body`) so we don't reinvent component styling.
-- [ ] 2.3 Build locally and visit `http://localhost:3011/` to verify the hero + three cards render. Both light and dark mode should work without overrides (Docusaurus' `hero--primary` and card classes handle theming).
-- [ ] 2.4 Test all three CTA links and all three card "Les mer" links — every one should resolve to an existing page (no 404s).
-- [ ] 2.5 Open the PR. Body should include:
-  - One-paragraph summary.
-  - Note: **maintainer must enable Pages → Source: "GitHub Actions" in repo settings before the first deploy succeeds.**
-  - Screenshot of the rendered homepage (optional but helpful).
-- [ ] 2.6 After merge, watch the first Actions run complete. Visit `https://railway.sovereignsky.no` to confirm the homepage renders against the production URL.
+- [x] 2.1 Replaced `website/src/pages/index.tsx` with hero + AudienceGrid layout — title, tagline, 3 CTA buttons, 3 audience cards (Frivillig / Stab / Utvikler) using built-in `.card` classes.
+- [x] 2.2 Created `website/src/pages/index.module.css` — hero padding, button row, audience-grid breakpoints, card hover lift. No theme overrides; Docusaurus' light/dark handles itself.
+- [x] 2.3 Built + served locally; hero renders with all 7 expected strings (title, tagline, 3 CTAs, 3 card headings, section heading).
+- [x] 2.4 Verified all 4 destinations (`/`, `/docs/users/public-registration`, `/docs/users/admin`, `/docs/contributors`) return 200.
+- [x] 2.5 PR description includes the "enable Pages → Source: GitHub Actions" reminder.
+- [ ] 2.6 (post-merge) Watch first Actions run, confirm `https://railway.sovereignsky.no` serves the new homepage.
 
 ### Validation
 
