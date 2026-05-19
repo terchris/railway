@@ -4,7 +4,7 @@ Full-page captures of the main UI states. **IDs** use the `rwg-` prefix (Railway
 
 ## Regenerate
 
-With the app running on **`http://localhost:3001`** (or set **`APP_URL`**):
+With the app running on **`http://localhost:3010`** (or set **`APP_URL`**):
 
 ```bash
 npm run docs:screens

@@ -1,6 +1,12 @@
-# Talk — async UIS ↔ Railway-developer conversation
+# Talk — async UIS ↔ Railway-developer conversation (ARCHIVE)
 
-This folder holds an ongoing async conversation between the **UIS / DB-provisioner side** (where Claude is currently driving the database + PostgREST setup) and the **Railway developer side** (who owns the canonical specs in `terchris/new/`).
+> **This folder is the archive of the original onboarding thread.**
+> The active UIS ↔ Railway channel moved on 2026-05-18 to
+> [`../website/docs/ai-developer/talk/talk.md`](../website/docs/ai-developer/talk/talk.md).
+> All new messages from either side go to the new path. The conventions
+> below still apply at the new location — only the file path changed.
+
+This folder originally held the ongoing async conversation between the **UIS / DB-provisioner side** (where Claude is currently driving the database + PostgREST setup) and the **Railway developer side** (who owns the canonical specs in `terchris/new/`).
 
 It is not code. It is not docs. It is the **decision log + question queue** that keeps the two sides in sync without anyone having to be online at the same time.
 

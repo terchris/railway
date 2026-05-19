@@ -14,7 +14,7 @@ Use **`npm run dev`** on this machine — it is faster than rebuilding Docker im
 
 ```bash
 npm install
-npm run dev   # http://localhost:3001
+npm run dev   # http://localhost:3010
 ```
 
 Sanity-check without Docker (still quick):
@@ -24,9 +24,9 @@ npm run lint
 npm run build
 ```
 
-Open **[http://localhost:3001](http://localhost:3001)** (port **3001** avoids clashes with apps on `:3000`).
+Open **[http://localhost:3010](http://localhost:3010)** (port **3010** is dev-only; the Docker image still listens on **3001** for UIS ingress).
 
-Copy **`.env.example`** → **`.env`** and set **`POSTGREST_URL`** / **`POSTGREST_ANON_JWT`** once PostgREST is available (UIS handoff above).
+Copy **`.env.example`** → **`.env`** and set **`POSTGREST_URL`** / **`POSTGREST_ANON_JWT`** once PostgREST is available (UIS handoff above). UIS may run **`railway-postgrest`** and **`atlas-postgrest`** side by side; this app needs the **Railway** instance only — inspect **`./uis status`** / ingress for the current HTTP host (examples in `.env.example` drift when hostnames change).
 
 For production-facing registration API hardening, set **`PRIMARY_SITE_URL`** (comma-separated origins); see **`REGISTRATION_RELAX_FETCH_METADATA`** in `.env.example` if an ingress strips fetch metadata headers.
 

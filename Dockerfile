@@ -1,4 +1,4 @@
-# Next.js standalone image for UIS / CI. For local iteration use: npm run dev (port 3001).
+# Next.js standalone image for UIS / CI. For local iteration use: npm run dev (port 3010).
 # https://nextjs.org/docs/app/building-your-application/deploying#docker-image
 #
 # Build: docker build -t railway-app .

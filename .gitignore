@@ -44,3 +44,9 @@ next-env.d.ts
 
 # promo video temp concat + srt
 /doc/screenshots/.video-build/
+
+# docusaurus
+/website/node_modules
+/website/build
+/website/.docusaurus
+
