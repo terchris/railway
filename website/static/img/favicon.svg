@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <title>Railway favicon</title>
+  <desc>Simplified railway-track mark for favicon use — two rails and two sleepers, optimized for tiny rendering.</desc>
+  <!-- Sleepers -->
+  <rect x="8"  y="6" width="3" height="20" rx="1" fill="#3a8f5e" fill-opacity="0.55"/>
+  <rect x="21" y="6" width="3" height="20" rx="1" fill="#3a8f5e" fill-opacity="0.55"/>
+  <!-- Rails -->
+  <rect x="2" y="10" width="28" height="3" rx="1.5" fill="#3a8f5e"/>
+  <rect x="2" y="19" width="28" height="3" rx="1.5" fill="#3a8f5e"/>
+</svg>

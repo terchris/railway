@@ -36,28 +36,36 @@ function HomepageHeader(): JSX.Element {
   const {siteConfig} = useDocusaurusContext();
   return (
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
-      <div className="container">
-        <h1 className="hero__title">{siteConfig.title}</h1>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
-        <div className={styles.buttons}>
-          <Link
-            className="button button--lg button--secondary"
-            to="/docs/users/public-registration"
-          >
-            Meld deg på
-          </Link>
-          <Link
-            className="button button--lg button--secondary button--outline"
-            to="/docs/users/admin/"
-          >
-            Administrasjon
-          </Link>
-          <Link
-            className="button button--lg button--secondary button--outline"
-            to="/docs/contributors/"
-          >
-            Utvikler
-          </Link>
+      <div className={clsx('container', styles.heroContainer)}>
+        <div className={styles.heroLogo}>
+          <img
+            src="/img/brand/railway-logo.svg"
+            alt=""
+          />
+        </div>
+        <div className={styles.heroContent}>
+          <h1 className="hero__title">{siteConfig.title}</h1>
+          <p className="hero__subtitle">{siteConfig.tagline}</p>
+          <div className={styles.buttons}>
+            <Link
+              className="button button--lg button--secondary"
+              to="/docs/users/public-registration"
+            >
+              Meld deg på
+            </Link>
+            <Link
+              className="button button--lg button--secondary button--outline"
+              to="/docs/users/admin/"
+            >
+              Administrasjon
+            </Link>
+            <Link
+              className="button button--lg button--secondary button--outline"
+              to="/docs/contributors/"
+            >
+              Utvikler
+            </Link>
+          </div>
         </div>
       </div>
     </header>
