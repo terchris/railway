@@ -20,6 +20,8 @@ This folder holds **executable SQL** (`01–05*.sql`) that defines the relationa
 
 After DDL + PostgREST: hand developers **`POSTGREST_URL`**, **`POSTGREST_ANON_JWT`**, and **`JWT_SECRET`** (or UIS secret wiring) — not raw database login strings for the app.
 
+When UIS runs **`railway-postgrest`** and **`atlas-postgrest`** together, the Railway app uses only the **`railway-postgrest`** base URL (**`./uis status`** lists the Healthy endpoint; hostnames change when ingress is updated).
+
 ## UIS deliverables (inventory)
 
 Verbatim column DDL, policies, and function bodies: **`terchris/new`** fenced blocks (and this repo’s `db/*.sql` where checked in). Summary checklist:
@@ -27,7 +29,7 @@ Verbatim column DDL, policies, and function bodies: **`terchris/new`** fenced bl
 1. **Database** named for the rewrite (docs use `railway`), **not** created from the Craft backup.
 2. **Extension** `citext` (required for `auth.users.email`).
 3. **Schemas** `railway` + `auth` with objects from **`03` / `04` / `08`** (tables, triggers, `public_form_payload`, `has_capability`, `submit_registration`, `app_log_alert_count`, `log_event`, RLS, grants).
-4. **PostgREST roles** `railway_owner`, `authenticator`, `anon`, `authenticated` — **`db-uri` / JWT config** exactly as **`04-postgrest-api.md`**. PostgREST reads through `authenticator` and `SET ROLE` to JWT roles.
+4. **PostgREST roles** — four roles in **`01-roles.sql`**: `railway_owner`, `anon`, `authenticated`, `authenticator` (**`db-uri` / JWT config** per **`04-postgrest-api.md`**). PostgREST connects as `authenticator` and `SET ROLE`s to `anon` or `authenticated`. Documented for contributors: **`website/docs/contributors/postgres-roles.md`**.
 5. **Networking** so PostgREST can reach its DB listener on the platform network.
 
 PostgREST `db-uri` and internal listener details are **UIS configuration**, not vars in this app.

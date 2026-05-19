@@ -13,7 +13,8 @@ function requireEnv(name: string): string {
  *
  * Uses **schema `railway`** (`Accept-Profile`).
  * Pass a session JWT from admin flows; omit for anon RSC/public reads.
- * Set **`POSTGREST_URL`** per environment (host dev: UIS Traefik, e.g. `http://api-railway.localhost`).
+ * Set **`POSTGREST_URL`** to the **railway-postgrest** HTTP base UIS exposes (Railway schema), not atlas-postgrest.
+ * UIS/Traefik hostnames drift — verify with `./uis status` / ingress before relying on examples like `http://api-railway.localhost`.
  * Relation and RPC names follow `helpers/railway/db/*.sql`; OpenAPI is at `GET {base}/` when enabled.
  */
 export function pg(accessToken?: string): PostgrestClient {
