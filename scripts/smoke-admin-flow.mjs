@@ -66,7 +66,7 @@ async function main() {
   const jwt = staffJwtFromRaw(raw)
   const pgUrl = envValue(raw, "POSTGREST_URL")
 
-  const app = (process.env.APP_URL ?? "http://localhost:3001").replace(/\/$/, "")
+  const app = (process.env.APP_URL ?? "http://localhost:3010").replace(/\/$/, "")
 
   if (!jwtSecret) {
     console.error("[smoke] Missing JWT_SECRET in .env (required to verify HS256 session JWT on login)")

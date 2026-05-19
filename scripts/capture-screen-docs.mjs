@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Capture full-page screenshots into doc/screenshots for documentation.
- * Requires: Next running (default http://localhost:3001). For admin pages the server must allow
+ * Requires: Next running (default http://localhost:3010). For admin pages the server must allow
  * GET /api/admin/bootstrap-session (development or ADMIN_BOOTSTRAP_SESSION_FROM_ENV=1 on the server),
  * with POSTGREST_ADMIN_JWT / POSTGREST_STAFF_JWT_UIS verifying against JWT_SECRET.
  *
@@ -17,7 +17,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(__dirname, "..")
 const outDir = path.join(root, "doc", "screenshots")
 
-const BASE = (process.env.APP_URL ?? "http://localhost:3001").replace(/\/$/, "")
+const BASE = (process.env.APP_URL ?? "http://localhost:3010").replace(/\/$/, "")
 
 fs.mkdirSync(outDir, { recursive: true })
 
