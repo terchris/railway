@@ -1,0 +1,9 @@
+{
+  "label": "Skjermbilder",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "title": "Skjermbilder — referanse",
+    "description": "Detaljsider for hver skjerm i administrasjonsgrensesnittet. Lenkes fra rollesidene under Administrasjon."
+  }
+}

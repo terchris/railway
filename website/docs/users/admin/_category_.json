@@ -1,0 +1,8 @@
+{
+  "label": "Administrasjon",
+  "position": 2,
+  "link": {
+    "type": "doc",
+    "id": "users/admin/index"
+  }
+}
