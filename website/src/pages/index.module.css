@@ -1,0 +1,61 @@
+.heroBanner {
+  padding: 4rem 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 996px) {
+  .heroBanner {
+    padding: 2rem 1rem;
+  }
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.audienceSection {
+  padding: 3rem 0;
+}
+
+.audienceHeading {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.audienceGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+@media screen and (max-width: 996px) {
+  .audienceGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.audienceCard {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.audienceCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  text-decoration: none;
+}
+
+.audienceCardCta {
+  font-weight: 600;
+  color: var(--ifm-color-primary);
+}
