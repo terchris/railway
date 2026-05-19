@@ -81,7 +81,7 @@ npm run build
 | `npm run start` | Run the production build |
 | `npm run lint` | ESLint |
 | `npm run smoke:admin` | End-to-end smoke test of the admin login + registrations table |
-| `npm run docs:screens` | Capture admin-surface screenshots (Playwright) into `doc/screenshots/` |
+| `npm run docs:screens` | Capture admin-surface screenshots (Playwright) into `website/static/img/screenshots/` |
 | `npm run video:promo` | Build the promotional MP4 from captured screens |
 
 ## Docker (Deployment Only)

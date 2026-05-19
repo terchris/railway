@@ -6,6 +6,11 @@ sidebar_position: 4
 
 Innholdsredaktør har **innholds-kapabilitetene** — du eier alt som vises på det offentlige skjemaet og takkesidene, samt utskriftsversjonene. Du ser **ikke** selve påmeldingene som kommer inn; det er Registreringsadministratorens jobb.
 
+<video controls width="100%" preload="metadata" poster="/img/screenshots/rwg-adm-text-content.png">
+  <source src="/img/promo/railway-promo-content-editor.mp4" type="video/mp4" />
+  Nettleseren din støtter ikke avspilling av video. Du kan laste den ned: <a href="/img/promo/railway-promo-content-editor.mp4">railway-promo-content-editor.mp4</a>.
+</video>
+
 ## Slik logger du inn
 
 Åpne `http://<host>/admin/login`. I rollevelgeren klikker du **Content editor**.

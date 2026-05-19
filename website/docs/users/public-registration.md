@@ -6,25 +6,32 @@ sidebar_position: 2
 
 Registreringsskjemaet er den åpne forsiden på Railway. Du trenger ikke å logge inn — bare fyll ut og send. Hele prosessen tar typisk to til fire minutter.
 
+<video controls width="100%" preload="metadata" poster="/img/screenshots/rwg-pub-home.png">
+  <source src="/img/promo/railway-promo-public-wizard.mp4" type="video/mp4" />
+  Nettleseren din støtter ikke avspilling av video. Du kan laste den ned: <a href="/img/promo/railway-promo-public-wizard.mp4">railway-promo-public-wizard.mp4</a>.
+</video>
+
 ## Hva er Railway?
 
 Railway er Oslo Røde Kors' verktøy for å melde seg som **frivillig** eller **medlem**. Du svarer på et kort skjema om hvem du er, hvilke aktiviteter du er interessert i, og noen evalueringsspørsmål. Deretter får administratoren beskjed og tar kontakt.
 
 ## Slik melder du deg på
 
-### 1. Åpne forsiden
+Skjemaet har fire trinn. Du kan gå frem og tilbake med **Neste** og **Tilbake**.
 
-Gå til den åpne adressen Oslo Røde Kors har gitt deg (typisk noe som `https://railway.<organisasjon>.no`).
+### 1. Introduksjon
 
-![Forsiden med kort introduksjon og «Start»-knapp](/img/screenshots/rwg-pub-home.png)
+Gå til den åpne adressen Oslo Røde Kors har gitt deg (typisk noe som `https://railway.<organisasjon>.no`). Det første du ser er introduksjonstrinnet — en kort forklaring av hva du melder deg til og hvilken informasjon skjemaet spør om. Klikk **Neste** når du er klar.
 
-Du ser en kort velkomst og en knapp for å starte. Klikk **Start**.
+![Introduksjonstrinnet med velkomst og «Neste»-knapp](/img/screenshots/rwg-pub-home.png)
 
-### 2. Introduksjon
+### 2. Aktiviteter
 
-Det første trinnet forklarer hva du melder deg til og hvilken informasjon vi spør om. Les gjennom og klikk **Neste** når du er klar.
+Velg aktiviteter du er interessert i. Du kan velge én eller flere. Hvis du **ikke** ønsker noen aktivitet ennå, kryss av for «Jeg ønsker ikke aktivitet» og forklar kort hvorfor.
 
-![Introduksjonstrinnet i skjemaet](/img/screenshots/rwg-pub-wizard-intro.png)
+![Aktivitetsvalg gruppert etter hovedkategori](/img/screenshots/rwg-pub-wizard-activities.png)
+
+Du kan svare på noen korte evalueringsspørsmål her — disse hjelper administratoren med å vite hvor du passer best. Spørsmål med nedtrekksliste må besvares; spørsmål med fritekstfelt er valgfrie.
 
 ### 3. Om deg
 
@@ -34,15 +41,7 @@ Fyll ut navn, e-post, telefon, og hvilke språk du behersker. Velg om du melder 
 
 Alle felt med rød stjerne må fylles ut. Hvis du hopper over noen og klikker **Neste**, ruller siden opp til feilmeldingen og viser hvilke felter som mangler.
 
-### 4. Aktiviteter
-
-Velg aktiviteter du er interessert i. Du kan velge én eller flere. Hvis du **ikke** ønsker noen aktivitet ennå, kryss av for «Jeg ønsker ikke aktivitet» og forklar kort hvorfor.
-
-![Aktivitetsvalg gruppert etter hovedkategori](/img/screenshots/rwg-pub-wizard-activities.png)
-
-Du kan svare på noen korte evalueringsspørsmål her — disse hjelper administratoren med å vite hvor du passer best. Spørsmål med nedtrekksliste må besvares; spørsmål med fritekstfelt er valgfrie.
-
-### 5. Bekreftelse
+### 4. Bekreftelse
 
 Det siste trinnet viser en oppsummering av det du har fylt ut. Sjekk at alt stemmer.
 

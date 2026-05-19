@@ -43,7 +43,10 @@ yarn-error.log*
 next-env.d.ts
 
 # promo video temp concat + srt
-/doc/screenshots/.video-build/
+/website/.video-build/
+
+# local spec / handoff tree (terchris/new, sample-data, etc.)
+/terchris/
 
 # docusaurus
 /website/node_modules

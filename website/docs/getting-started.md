@@ -8,21 +8,12 @@ Railway er Oslo Røde Kors' verktøy for **frivilligregistrering** — et åpent
 
 ## Se Railway i bruk
 
-To korte videoer som viser systemet ende-til-ende. Velg den som passer skjermen din.
+Hver rolle har sin egen kortfilm (≈30 sekunder). Klikk deg videre til siden som passer deg — videoen ligger øverst på hver rolle-side.
 
-### Bredformat (skjerm / desktop)
-
-<video controls width="100%" preload="metadata" poster="/img/screenshots/rwg-pub-home.png">
-  <source src="/img/promo/railway-promo-1920-wide.mp4" type="video/mp4" />
-  Nettleseren din støtter ikke avspilling av video. Du kan laste den ned: <a href="/img/promo/railway-promo-1920-wide.mp4">railway-promo-1920-wide.mp4</a>.
-</video>
-
-### Vertikal (telefon / mobil)
-
-<video controls width="360" preload="metadata" poster="/img/screenshots/rwg-pub-home.png">
-  <source src="/img/promo/railway-promo-1080x1920-vertical.mp4" type="video/mp4" />
-  Nettleseren din støtter ikke avspilling av video. Du kan laste den ned: <a href="/img/promo/railway-promo-1080x1920-vertical.mp4">railway-promo-1080x1920-vertical.mp4</a>.
-</video>
+- 🎬 [Slik melder du deg på](users/public-registration.md) — for frivillige og medlemmer
+- 🎬 [Full administrator](users/admin/full-admin.md) — alle administrasjonsflater
+- 🎬 [Påmeldingsadministrator](users/admin/registrations-admin.md) — tar imot påmeldinger
+- 🎬 [Innholdsredaktør](users/admin/content-editor.md) — redigerer det offentlige skjemaet
 
 ## Hvem er du?
 

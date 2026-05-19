@@ -6,6 +6,11 @@ sidebar_position: 3
 
 Registreringsadministrator har **kun de to registrerings-kapabilitetene** og holder seg til selve påmeldingsdataene. Innhold (aktiviteter, tekster, evaluering) og drift (app-logg) ligger utenfor.
 
+<video controls width="100%" preload="metadata" poster="/img/screenshots/rwg-adm-registrations.png">
+  <source src="/img/promo/railway-promo-registrations-admin.mp4" type="video/mp4" />
+  Nettleseren din støtter ikke avspilling av video. Du kan laste den ned: <a href="/img/promo/railway-promo-registrations-admin.mp4">railway-promo-registrations-admin.mp4</a>.
+</video>
+
 ## Slik logger du inn
 
 Åpne `http://<host>/admin/login`. I rollevelgeren klikker du **Registrations admin**.
