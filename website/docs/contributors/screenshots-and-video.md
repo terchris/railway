@@ -17,7 +17,7 @@ Both scripts are zero-config relative to the repo — they read from the running
 
 Before running either script:
 
-- **Node 20+**
+- **Node 22+** (current LTS; Node 20 reached EOL 2026-04-30)
 - **`npm install`** in the repo root (Playwright + ffmpeg-static are devDependencies)
 - For `docs:screens` only: the **Next dev server must be running** on `:3010` (`npm run dev`)
 - For admin screenshots specifically:
