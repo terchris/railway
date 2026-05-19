@@ -16,6 +16,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Textarea } from "@/components/ui/textarea"
 import {
   buildRpcPayload,
+  evaluationSelectAnswersComplete,
   registrationEmptyValues,
   validateRegistrationSubmit,
   type RegistrationFormValues,
@@ -151,22 +152,26 @@ export function RegistrationForm({ bundle }: Props) {
     vals.primary_activity_ids.length + vals.additional_activity_ids.length > 0 ||
     !!vals.no_selected_activity_option_id
 
-  const evaluationComplete = (): boolean =>
-    bundle.evaluationQuestions.every((q) => (vals.evaluation[String(q.id)] ?? "").trim().length > 0)
-
   const canLeaveAbout =
     vals.name.trim().length >= 2 &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(vals.email.trim()) &&
     vals.phone.trim().length >= 6 &&
     vals.membership_status_id > 0 &&
     vals.language_ids.length >= 1 &&
-    evaluationComplete()
+    evaluationSelectAnswersComplete(vals, bundle)
+
+  const showStepError = useCallback((message: string) => {
+    setTopError(message)
+    requestAnimationFrame(() => {
+      document.getElementById("form-top-error")?.scrollIntoView({ behavior: "smooth", block: "nearest" })
+    })
+  }, [])
 
   const goNext = useCallback(async () => {
     setTopError(null)
     if (step === "activities") {
       if (!canLeaveActivities) {
-        setTopError("Velg aktiviteter eller et alternativ dersom du ikke ønsker aktivitet.")
+        showStepError("Velg aktiviteter eller et alternativ dersom du ikke ønsker aktivitet.")
         return
       }
       const optIdNs = vals.no_selected_activity_option_id
@@ -179,7 +184,7 @@ export function RegistrationForm({ bundle }: Props) {
         optNs?.has_input_field &&
         !vals.no_selected_activity_input.trim()
       ) {
-        setTopError("Tekstfeltet for «ingen aktivitet» må fylles ut.")
+        showStepError("Tekstfeltet for «ingen aktivitet» må fylles ut.")
         return
       }
       setStep("about")
@@ -188,14 +193,24 @@ export function RegistrationForm({ bundle }: Props) {
 
     if (step === "about") {
       if (!canLeaveAbout) {
-        setTopError(
-          "Fyll ut påkrevde felt (navn, e-post, telefon, språk, medlemskapsstatus og evaluering).",
+        const missing: string[] = []
+        if (vals.name.trim().length < 2) missing.push("navn (minst 2 tegn)")
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(vals.email.trim())) missing.push("gyldig e-post")
+        if (vals.phone.trim().length < 6) missing.push("telefon")
+        if (vals.language_ids.length < 1) missing.push("minst ett språk")
+        if (vals.membership_status_id <= 0) missing.push("medlemskapsstatus")
+        if (!evaluationSelectAnswersComplete(vals, bundle))
+          missing.push("alle evalueringsspørsmål med nedtrekksliste")
+        showStepError(
+          missing.length > 0
+            ? `Fyll ut: ${missing.join(", ")}.`
+            : "Fyll ut påkrevde felt før du går videre.",
         )
         return
       }
       setStep("confirmation")
     }
-  }, [step, vals, bundle, canLeaveActivities, canLeaveAbout])
+  }, [step, vals, bundle, canLeaveActivities, canLeaveAbout, showStepError])
 
   const goBack = () => {
     setTopError(null)
@@ -291,7 +306,13 @@ export function RegistrationForm({ bundle }: Props) {
       </ol>
 
       {topError ? (
-        <Alert variant="destructive" className="mb-6 whitespace-pre-wrap">
+        <Alert
+          id="form-top-error"
+          variant="destructive"
+          className="mb-6 whitespace-pre-wrap"
+          role="alert"
+          tabIndex={-1}
+        >
           {topError}
         </Alert>
       ) : null}
@@ -558,7 +579,10 @@ export function RegistrationForm({ bundle }: Props) {
                 </div>
               ) : (
                 <div key={q.id} className="space-y-2">
-                  <Label htmlFor={`ev-${q.id}`}>{q.label}</Label>
+                  <Label htmlFor={`ev-${q.id}`}>
+                    {q.label}
+                    <span className="ms-1 font-normal text-zinc-500">(valgfritt)</span>
+                  </Label>
                   <Textarea
                     id={`ev-${q.id}`}
                     value={vals.evaluation[String(q.id)] ?? ""}

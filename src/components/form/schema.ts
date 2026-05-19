@@ -35,6 +35,16 @@ export const registrationEmptyValues: RegistrationFormValues = {
   consentAccepted: false,
 }
 
+/** Select-type evaluation answers are required; free-text questions are optional (matches `submit_registration` RPC). */
+export function evaluationSelectAnswersComplete(
+  values: RegistrationFormValues,
+  bundle: RegistrationBundle,
+): boolean {
+  return bundle.evaluationQuestions
+    .filter((q) => q.question_type === "select")
+    .every((q) => (values.evaluation[String(q.id)] ?? "").trim().length > 0)
+}
+
 export type SubmitPayloadRpc = {
   name: string
   email: string
@@ -106,24 +116,23 @@ export function validateRegistrationSubmit(values: RegistrationFormValues, bundl
       }
 
       for (const q of bundle.evaluationQuestions) {
+        if (q.question_type !== "select") continue
         const val = data.evaluation[String(q.id)]?.trim()
         if (!val) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: "Besvar alle evalueringsspørsmålene",
+            message: "Velg svar på alle evalueringsspørsmålene med nedtrekksliste",
             path: ["evaluation", String(q.id)],
           })
           continue
         }
-        if (q.question_type === "select") {
-          const id = Number(val)
-          if (!Number.isFinite(id) || !bundle.evaluationOptionsAll.some((o) => o.id === id)) {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              message: "Velg et svaralternativ",
-              path: ["evaluation", String(q.id)],
-            })
-          }
+        const id = Number(val)
+        if (!Number.isFinite(id) || !bundle.evaluationOptionsAll.some((o) => o.id === id)) {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            message: "Velg et svaralternativ",
+            path: ["evaluation", String(q.id)],
+          })
         }
       }
     })
