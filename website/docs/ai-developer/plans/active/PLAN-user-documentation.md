@@ -84,17 +84,17 @@ The style guide and the screenshot-automation walkthrough that future contributo
 
 ---
 
-## Phase 3: Admin scaffolding — all hubs + surface stubs
+## Phase 3: Admin scaffolding — all hubs + surface stubs — DONE
 
 Lay out all the empty role hubs and all 21 surface pages as stubs (frontmatter + one-line description + screenshot + "TBD" body) so the IA is visible in the sidebar before content lands.
 
 ### Tasks
 
-- [ ] 3.1 Create `website/docs/users/admin/_category_.json` (sidebar label "Administrasjon").
-- [ ] 3.2 Create `website/docs/users/admin/index.md` — admin audience landing. Brief Norwegian intro: "Du er innlogget som …", links to the 5 role hubs with one-paragraph descriptions and capability lists.
-- [ ] 3.3 Create the 5 role-hub stubs (`website/docs/users/admin/{full-admin,registrations-admin,content-editor,app-log-viewer,users-admin}.md`). Each: frontmatter, H1, "Hva denne rollen kan" with a placeholder capability table, "Sidebar-elementer du ser" with placeholder list, all referenced screenshots inline at low priority.
-- [ ] 3.4 Create `website/docs/users/surfaces/_category_.json` (sidebar label "Skjermbilder").
-- [ ] 3.5 Create the 21 surface stub pages with this minimal shape:
+- [x] 3.1 `users/admin/_category_.json` exists (created Phase 1 as placeholder, label "Administrasjon").
+- [x] 3.2 `users/admin/index.md` — admin audience landing rewritten: rolle-tabell linker til alle 5 hubs med kapabiliteter, per-skjerm-referanse-pointer, og utviklerlenker (postgres-roles + testing-dummy-login).
+- [x] 3.3 Five role-hub stubs created: `full-admin.md`, `registrations-admin.md`, `content-editor.md`, `app-log-viewer.md`, `users-admin.md`. Each lists capabilities + sidebar groups + login screenshot + a TBD pointer + the surface-detail links the role has access to (full-admin lists all; narrower roles list their subset + explicit "Du ser ikke …" note for missing groups).
+- [x] 3.4 `users/surfaces/_category_.json` created with `link.type = "generated-index"` so the category landing exists at `/docs/users/surfaces/`.
+- [x] 3.5 Created the 21 surface stub pages with this minimal shape:
   ```markdown
   ---
   sidebar_position: <n>
@@ -116,7 +116,7 @@ Lay out all the empty role hubs and all 21 surface pages as stubs (frontmatter +
   - languages
   - print-manuscript, print-form
   - app-log
-- [ ] 3.6 Copy all 29 `rwg-adm-*.png` files to `website/static/img/screenshots/` (alongside the 7 public ones from Phase 1).
+- [x] 3.6 Copied all 29 `rwg-adm-*.png` files to `website/static/img/screenshots/` (alongside the 7 public ones + login from Phase 1; total 36 admin/public + login).
 
 ### Validation
 
