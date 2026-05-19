@@ -7,17 +7,71 @@
 
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2rem 1rem;
+    padding: 2rem;
+  }
+}
+
+.heroContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.heroLogo {
+  flex: 0 0 auto;
+  width: 320px;
+}
+
+.heroLogo img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.heroContent {
+  flex: 1;
+  text-align: left;
+  max-width: 500px;
+}
+
+@media screen and (max-width: 996px) {
+  .heroContainer {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .heroLogo {
+    width: 240px;
+  }
+
+  .heroContent {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .heroLogo {
+    width: 200px;
   }
 }
 
 .buttons {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   align-items: center;
   gap: 1rem;
   margin-top: 1.5rem;
+}
+
+.heroContent .buttons {
+  justify-content: flex-start;
+}
+
+@media screen and (max-width: 996px) {
+  .heroContent .buttons {
+    justify-content: center;
+  }
 }
 
 .audienceSection {

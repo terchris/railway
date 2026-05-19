@@ -21,6 +21,8 @@ const config: Config = {
 
   onBrokenLinks: 'warn',
 
+  favicon: 'img/favicon.svg',
+
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
@@ -83,6 +85,10 @@ const config: Config = {
     },
     navbar: {
       title: 'Railway',
+      logo: {
+        alt: 'Railway logo — stylized railway track',
+        src: 'img/brand/railway-logo.svg',
+      },
       items: [
         {
           type: 'docSidebar',
