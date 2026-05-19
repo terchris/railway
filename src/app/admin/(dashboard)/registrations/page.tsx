@@ -20,7 +20,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { pgStaff } from "@/lib/admin-postgrest"
-import { cn } from "@/lib/utils"
+
+import adminStyles from "@/app/admin/(dashboard)/admin.module.css"
+import styles from "./registrations.module.css"
 
 export const dynamic = "force-dynamic"
 
@@ -65,12 +67,12 @@ export default async function AdminRegistrationsPage({ searchParams }: PageProps
 
   if (activityFetchError) {
     return (
-      <div className="space-y-4">
-        <h1 className="text-2xl font-semibold tracking-tight">Registreringer</h1>
-        <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">
+      <div className={adminStyles.page}>
+        <h1 className={adminStyles.pageTitle}>Registreringer</h1>
+        <p className={adminStyles.errorBanner}>
           Kunne ikke hente aktivitetsfilter: {activityFetchError}
         </p>
-        <Link href="/admin/registrations" className="text-sm font-medium text-red-700 hover:underline">
+        <Link href="/admin/registrations" className={adminStyles.actionLink}>
           Nullstill filter
         </Link>
       </div>
@@ -105,15 +107,7 @@ export default async function AdminRegistrationsPage({ searchParams }: PageProps
   const showRangeEnd = Math.min(from + PAGE_SIZE, total)
 
   const pill = (href: string, label: string, active: boolean) => (
-    <Link
-      href={href}
-      className={cn(
-        "rounded-full border px-3 py-1 text-xs font-medium transition-colors",
-        active
-          ? "border-red-800 bg-red-50 text-red-900"
-          : "border-zinc-200 bg-white text-zinc-700 hover:border-zinc-400",
-      )}
-    >
+    <Link href={href} className={active ? adminStyles.filterPillActive : adminStyles.filterPill}>
       {label}
     </Link>
   )
@@ -130,61 +124,67 @@ export default async function AdminRegistrationsPage({ searchParams }: PageProps
   const hasActivityParam = typeof sp.has_activity === "string" ? sp.has_activity : ""
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Registreringer</h1>
-          <p className="mt-1 text-sm text-zinc-600">
+    <div className={adminStyles.page}>
+      <div className={adminStyles.pageHeader}>
+        <div className={adminStyles.pageHeaderInner}>
+          <h1 className={adminStyles.pageTitle}>Registreringer</h1>
+          <p className={adminStyles.pageLead}>
             Paginerte rader ({PAGE_SIZE} per side){totalPages > 1 ? `. Side ${page} av ${totalPages}.` : null}
           </p>
-          <div className="mt-3 flex flex-wrap items-center gap-2">
+          <div className={adminStyles.filterPillRow}>
             {pill(hrefAll, "Alle", listFilters.confirmed === null)}
             {pill(hrefConfirmed, "Bekreftet", listFilters.confirmed === true)}
             {pill(hrefUnconfirmed, "Ikke bekreftet", listFilters.confirmed === false)}
-            <Button type="button" variant="secondary" size="sm" className="h-8" asChild>
+            <Button type="button" variant="secondary" size="sm" asChild>
               <a href={exportHref}>Eksporter CSV</a>
             </Button>
           </div>
         </div>
-        <Link href="/admin" className="text-sm font-medium text-red-700 hover:underline">
+        <Link href="/admin" className={adminStyles.actionLink}>
           ← Oversikt
         </Link>
       </div>
 
-      <Card className="overflow-hidden">
-        <CardHeader className="border-b border-zinc-100 py-4">
-          <CardTitle className="text-base">Filtrér</CardTitle>
-          <p className="mt-1 text-xs text-zinc-500">
+      <Card className={adminStyles.sectionCard}>
+        <CardHeader className={adminStyles.sectionCardHeader}>
+          <CardTitle className={adminStyles.sectionCardTitle}>Filtrér</CardTitle>
+          <p className={adminStyles.sectionCardHint}>
             Kombiner med bekreftet-filter og paginering. «Eldre enn» bruker UTC‑midnatt ved starten av datoen («opprettet
             før», strengere enn datoen).
           </p>
-          <form method="get" className="mt-4 flex max-w-3xl flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-end">
+          <form method="get" className={styles.filterForm}>
             {listFilters.confirmed === true && <input type="hidden" name="confirmed" value="true" />}
             {listFilters.confirmed === false && <input type="hidden" name="confirmed" value="false" />}
-            <div className="space-y-1.5">
-              <Label htmlFor="filter-older_than" className="text-xs uppercase tracking-wide text-zinc-500">
+            <div className={styles.filterField}>
+              <Label htmlFor="filter-older_than" className={adminStyles.fieldLabelEyebrow}>
                 Opprettet før (UTC‑dato)
               </Label>
-              <Input id="filter-older_than" name="older_than" type="date" className="h-10 w-auto min-w-[10rem]" defaultValue={sp.older_than ?? ""} />
+              <Input
+                id="filter-older_than"
+                name="older_than"
+                type="date"
+                className={styles.filterDateInput}
+                defaultValue={sp.older_than ?? ""}
+              />
             </div>
-            <div className="space-y-1.5">
-              <Label htmlFor="filter-has_activity" className="text-xs uppercase tracking-wide text-zinc-500">
+            <div className={styles.filterField}>
+              <Label htmlFor="filter-has_activity" className={adminStyles.fieldLabelEyebrow}>
                 Aktivitetsvalg
               </Label>
               <select
                 id="filter-has_activity"
                 name="has_activity"
                 defaultValue={hasActivityParam}
-                className="flex h-10 min-w-[12rem] rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm outline-none focus:border-red-600 focus:ring-2 focus:ring-red-200"
+                className={adminStyles.selectInline}
               >
                 <option value="">Alle</option>
                 <option value="true">Har minst én aktivitet</option>
                 <option value="false">Ingen aktivitet valgt</option>
               </select>
             </div>
-            <div className="flex flex-wrap gap-2 pb-px">
+            <div className={adminStyles.formActions}>
               <Button type="submit">Bruk filter</Button>
-              <Button type="button" variant="secondary" size="sm" className="h-10 px-4" asChild>
+              <Button type="button" variant="secondary" asChild>
                 <Link href="/admin/registrations">Nullstill alle filter</Link>
               </Button>
             </div>
@@ -192,59 +192,58 @@ export default async function AdminRegistrationsPage({ searchParams }: PageProps
         </CardHeader>
       </Card>
 
-      <Card className="overflow-hidden">
-        <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-3 border-b border-zinc-100 py-4">
-          <CardTitle className="text-base">Tabell</CardTitle>
-          <p className="text-xs text-zinc-500">
+      <Card className={adminStyles.sectionCard}>
+        <CardHeader className={adminStyles.sectionCardHeaderRow}>
+          <CardTitle className={adminStyles.sectionCardTitle}>Tabell</CardTitle>
+          <p className={adminStyles.sectionCardHint}>
             Viser{" "}
-            <span className="tabular-nums">
+            <span className={adminStyles.numCell}>
               {showRangeStart}-{showRangeEnd}
             </span>{" "}
-            av{" "}
-            <span className="tabular-nums">{total}</span>
+            av <span className={adminStyles.numCell}>{total}</span>
           </p>
         </CardHeader>
-        <CardContent className="p-0">
-      {fetchErrorMsg ? (
-            <p className="px-6 py-8 text-sm text-red-700">{fetchErrorMsg}</p>
+        <CardContent className={adminStyles.sectionCardBodyFlush}>
+          {fetchErrorMsg ? (
+            <p className={adminStyles.tableError}>{fetchErrorMsg}</p>
           ) : rows.length === 0 ? (
-            <p className="px-6 py-8 text-sm text-zinc-500">Ingen rader matcher filteret eller databasen er tom.</p>
+            <p className={adminStyles.tableEmpty}>Ingen rader matcher filteret eller databasen er tom.</p>
           ) : (
             <RegistrationsBulkProvider key={registrationListPath(listFilters, page)} idsOnPage={idsOnPage}>
               <RegistrationsBulkDeleteBar />
-              <div className="overflow-x-auto">
-                <table className="w-full min-w-[800px] text-left text-sm">
-                  <thead className="bg-zinc-50 text-xs uppercase tracking-wide text-zinc-500">
+              <div className={adminStyles.tableScroll}>
+                <table className={`${adminStyles.table} ${styles.minWidthTable}`}>
+                  <thead className={adminStyles.tableHead}>
                     <tr>
-                      <th className="text-center px-4 py-3 font-medium">
+                      <th className={adminStyles.tableHeadCenter}>
                         <RegistrationsBulkSelectHeader />
                       </th>
-                      <th className="px-4 py-3 font-medium">ID</th>
-                      <th className="px-4 py-3 font-medium">Navn</th>
-                      <th className="px-4 py-3 font-medium">E-post</th>
-                      <th className="px-4 py-3 font-medium">Telefon</th>
-                      <th className="text-center px-4 py-3 font-medium">Bekr.</th>
-                      <th className="px-4 py-3 font-medium">Opprettet</th>
+                      <th>ID</th>
+                      <th>Navn</th>
+                      <th>E-post</th>
+                      <th>Telefon</th>
+                      <th className={adminStyles.tableHeadCenter}>Bekr.</th>
+                      <th>Opprettet</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-zinc-100">
+                  <tbody className={adminStyles.tableBody}>
                     {rows.map((r) => (
-                      <tr key={r.id} className="bg-white hover:bg-zinc-50/80">
-                        <td className="w-px px-2 py-2 text-center">
+                      <tr key={r.id}>
+                        <td className={adminStyles.tableCellCenter}>
                           <RegistrationRowSelectCheckbox id={Number(r.id)} />
                         </td>
-                        <td className="px-4 py-2.5 tabular-nums">
-                          <Link href={`/admin/registrations/${r.id}`} className="font-medium text-red-700 hover:underline">
+                        <td className={adminStyles.tableCellNum}>
+                          <Link href={`/admin/registrations/${r.id}`} className={styles.idLink}>
                             {r.id}
                           </Link>
                         </td>
-                        <td className="max-w-[180px] truncate px-4 py-2.5">{r.name}</td>
-                        <td className="max-w-[200px] truncate px-4 py-2.5">{r.email}</td>
-                        <td className="whitespace-nowrap px-4 py-2.5">{r.phone}</td>
-                        <td className="w-px px-2 py-2">
+                        <td className={`${adminStyles.tableCell} ${adminStyles.truncMid}`}>{r.name}</td>
+                        <td className={`${adminStyles.tableCell} ${adminStyles.truncWide}`}>{r.email}</td>
+                        <td className={adminStyles.tableCellNowrap}>{r.phone}</td>
+                        <td className={adminStyles.tableCellCenter}>
                           <RegistrationListConfirmedToggle registrationId={Number(r.id)} initialConfirmed={r.is_confirmed} />
                         </td>
-                        <td suppressHydrationWarning className="whitespace-nowrap px-4 py-2.5 text-zinc-700">
+                        <td suppressHydrationWarning className={adminStyles.tableCellNowrap}>
                           {typeof r.created_at === "string" ? new Date(r.created_at).toLocaleString("nb-NO") : "—"}
                         </td>
                       </tr>
@@ -258,29 +257,26 @@ export default async function AdminRegistrationsPage({ searchParams }: PageProps
       </Card>
 
       {fetchErrorMsg === null && totalPages > 1 ? (
-        <nav
-          aria-label="Sidevisning"
-          className="flex flex-wrap items-center justify-between gap-3 text-sm"
-        >
-          <div className="text-zinc-600">
+        <nav aria-label="Sidevisning" className={adminStyles.pagination}>
+          <div>
             {page > 1 ? (
-              <Link className="font-medium text-red-700 hover:underline" href={prevHref}>
+              <Link className={adminStyles.paginationLink} href={prevHref}>
                 ← Forrige
               </Link>
             ) : (
-              <span className="text-zinc-400">← Forrige</span>
+              <span className={adminStyles.paginationDisabled}>← Forrige</span>
             )}
           </div>
-          <span className="tabular-nums text-zinc-700">
+          <span className={adminStyles.paginationCount}>
             Side {page} / {totalPages}
           </span>
-          <div className="text-zinc-600">
+          <div>
             {page < totalPages ? (
-              <Link className="font-medium text-red-700 hover:underline" href={nextHref}>
+              <Link className={adminStyles.paginationLink} href={nextHref}>
                 Neste →
               </Link>
             ) : (
-              <span className="text-zinc-400">Neste →</span>
+              <span className={adminStyles.paginationDisabled}>Neste →</span>
             )}
           </div>
         </nav>

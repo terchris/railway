@@ -6,6 +6,8 @@ import { useTransition } from "react"
 import { deleteRegistrationById } from "@/app/admin/(dashboard)/registrations/actions"
 import { Button } from "@/components/ui/button"
 
+import styles from "./registrations.module.css"
+
 export function RegistrationDeleteButton({ registrationId }: Readonly<{ registrationId: number }>) {
   const [pending, start] = useTransition()
   const router = useRouter()
@@ -15,7 +17,7 @@ export function RegistrationDeleteButton({ registrationId }: Readonly<{ registra
       type="button"
       variant="outline"
       size="sm"
-      className="border-red-800 text-red-900 hover:bg-red-50"
+      className={styles.deleteButton}
       disabled={pending}
       onClick={() => {
         const msg =

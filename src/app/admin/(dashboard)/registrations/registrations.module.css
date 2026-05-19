@@ -1,0 +1,159 @@
+/* Per-feature styles for /admin/registrations and detail. */
+
+.bulkBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ds-size-3);
+  border-bottom: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+  background: var(--ds-color-surface-tinted);
+  padding: var(--ds-size-3) var(--ds-size-4);
+  font-size: var(--ds-body-sm-font-size);
+}
+
+.bulkButton {
+  height: var(--ds-size-9);
+  border-color: var(--ds-color-danger-border-strong);
+  color: var(--ds-color-danger-text-subtle);
+}
+
+.bulkButton:hover {
+  background: var(--ds-color-danger-surface-tinted);
+}
+
+.bulkHint {
+  font-size: var(--ds-body-xs-font-size);
+  color: var(--ds-color-text-subtle);
+}
+
+.confirmedToggleBlock {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-size-3);
+  border-radius: var(--ds-border-radius-lg);
+  border: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+  background: var(--ds-color-surface-tinted);
+  padding: var(--ds-size-3) var(--ds-size-4);
+}
+
+.confirmedToggleLabel {
+  font-size: var(--ds-body-sm-font-size);
+  font-weight: var(--ds-font-weight-medium);
+  line-height: 1;
+}
+
+.listConfirmedCell {
+  display: flex;
+  justify-content: center;
+  padding: var(--ds-size-1) 0;
+}
+
+.deleteButton {
+  border-color: var(--ds-color-danger-border-strong);
+  color: var(--ds-color-danger-text-subtle);
+}
+
+.deleteButton:hover {
+  background: var(--ds-color-danger-surface-tinted);
+}
+
+.filterForm {
+  margin-top: var(--ds-size-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-4);
+  max-width: 48rem;
+}
+
+@media (min-width: 640px) {
+  .filterForm {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-end;
+  }
+}
+
+.filterField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-1);
+}
+
+.filterDateInput {
+  height: var(--ds-size-10);
+  width: auto;
+  min-width: 10rem;
+}
+
+/* Detail page */
+
+.detailShell {
+  margin: 0 auto;
+  display: flex;
+  max-width: 42rem;
+  flex-direction: column;
+  gap: var(--ds-size-8);
+}
+
+.detailHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--ds-size-4);
+}
+
+.detailDl {
+  display: grid;
+  gap: var(--ds-size-4);
+}
+
+.detailDt {
+  margin: 0;
+  font-size: var(--ds-body-xs-font-size);
+  font-weight: var(--ds-font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: var(--ds-letter-spacing-9);
+  color: var(--ds-color-text-subtle);
+}
+
+.detailDd {
+  margin: var(--ds-size-1) 0 0 0;
+  color: var(--ds-color-text-default);
+}
+
+.detailDdBreak {
+  composes: detailDd;
+  word-break: break-all;
+}
+
+.detailDdSub {
+  margin: var(--ds-size-1) 0 0 0;
+  font-size: var(--ds-body-xs-font-size);
+  color: var(--ds-color-text-subtle);
+}
+
+.detailDdMultiline {
+  composes: detailDd;
+  white-space: pre-wrap;
+}
+
+.copySlot {
+  margin-top: var(--ds-size-2);
+}
+
+.idLink {
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-base-default);
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+}
+
+.idLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.minWidthTable {
+  min-width: 50rem;
+}

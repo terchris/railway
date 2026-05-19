@@ -8,6 +8,8 @@ import {
 import { StaffJwtMissing } from "@/components/admin/staff-jwt-missing"
 import { pgStaff } from "@/lib/admin-postgrest"
 
+import adminStyles from "@/app/admin/(dashboard)/admin.module.css"
+
 export const dynamic = "force-dynamic"
 
 export default async function AdminAdditionalActivitiesPage() {
@@ -42,44 +44,40 @@ export default async function AdminAdditionalActivitiesPage() {
     }))
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Tilleggsaktiviteter</h1>
-          <p className="mt-1 max-w-2xl text-sm text-zinc-600">
+    <div className={adminStyles.pageWide}>
+      <div className={adminStyles.pageHeader}>
+        <div className={adminStyles.pageHeaderInner}>
+          <h1 className={adminStyles.pageTitle}>Tilleggsaktiviteter</h1>
+          <p className={adminStyles.pageLead}>
             Kun aktiviteter i kategori­er merket «tillegg» i datamodellen — samme data som på hovedlista, bare
-            uten primær-blokker. Grensen for hvor mange aktiviteter deltaker kan velge står under{' '}
-            <Link href="/admin/activity-settings" className="text-red-700 hover:underline">
+            uten primær-blokker. Grensen for hvor mange aktiviteter deltaker kan velge står under{" "}
+            <Link href="/admin/activity-settings" className={adminStyles.actionLink}>
               innstillinger
             </Link>
             .
           </p>
         </div>
-        <div className="flex flex-wrap gap-3 text-sm font-medium">
-          <Link href="/admin/activities" className="text-red-700 hover:underline">
+        <div className={adminStyles.pageActions}>
+          <Link href="/admin/activities" className={adminStyles.actionLink}>
             Alle aktiviteter
           </Link>
-          <Link href="/admin/activities/new" className="text-red-700 hover:underline">
+          <Link href="/admin/activities/new" className={adminStyles.actionLink}>
             Ny aktivitet
           </Link>
-          <Link href="/admin/activity-categories" className="text-red-700 hover:underline">
+          <Link href="/admin/activity-categories" className={adminStyles.actionLink}>
             Kategorier
           </Link>
         </div>
       </div>
 
-      {(catErr || actErr) && (
-        <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">
-          {catErr ?? actErr}
-        </p>
-      )}
+      {(catErr || actErr) && <p className={adminStyles.errorBanner}>{catErr ?? actErr}</p>}
 
       {!catErr && !actErr ? (
         additionalCategories.length === 0 ? (
-          <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-            Ingen «tillegg»-kategorier ennå (alle kategori­er har{' '}
-            <span className="font-mono">is_additional=false</span>). Opprett eller merk en kategori under{' '}
-            <Link href="/admin/activity-categories" className="font-medium underline">
+          <p className={adminStyles.warningBanner}>
+            Ingen «tillegg»-kategorier ennå (alle kategori­er har{" "}
+            <span className={adminStyles.mono}>is_additional=false</span>). Opprett eller merk en kategori under{" "}
+            <Link href="/admin/activity-categories" className={adminStyles.actionLink}>
               Aktivitetskategorier
             </Link>
             .

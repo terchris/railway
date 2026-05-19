@@ -8,6 +8,8 @@ import {
 import { StaffJwtMissing } from "@/components/admin/staff-jwt-missing"
 import { pgStaff } from "@/lib/admin-postgrest"
 
+import adminStyles from "@/app/admin/(dashboard)/admin.module.css"
+
 export const dynamic = "force-dynamic"
 
 export default async function AdminActivitiesPage() {
@@ -36,39 +38,35 @@ export default async function AdminActivitiesPage() {
   }))
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Aktiviteter i skjemaet</h1>
-          <p className="mt-1 max-w-2xl text-sm text-zinc-600">
+    <div className={adminStyles.pageWide}>
+      <div className={adminStyles.pageHeader}>
+        <div className={adminStyles.pageHeaderInner}>
+          <h1 className={adminStyles.pageTitle}>Aktiviteter i skjemaet</h1>
+          <p className={adminStyles.pageLead}>
             Det som vises på steg «Velg aktiviteter» på forsiden. Slå aktiviteter av/på eller gå videre til
             kategorier og tekster.
           </p>
         </div>
-        <div className="flex flex-wrap gap-3 text-sm font-medium">
-          <Link href="/admin/additional-activities" className="text-red-700 hover:underline">
+        <div className={adminStyles.pageActions}>
+          <Link href="/admin/additional-activities" className={adminStyles.actionLink}>
             Tilleggsaktiviteter
           </Link>
-          <Link href="/admin/activities/new" className="text-red-700 hover:underline">
+          <Link href="/admin/activities/new" className={adminStyles.actionLink}>
             Ny aktivitet
           </Link>
-          <Link href="/admin/activity-categories" className="text-red-700 hover:underline">
+          <Link href="/admin/activity-categories" className={adminStyles.actionLink}>
             Kategorier
           </Link>
-          <Link href="/admin/activity-settings" className="text-red-700 hover:underline">
+          <Link href="/admin/activity-settings" className={adminStyles.actionLink}>
             Innstillinger
           </Link>
-          <Link href="/admin/activities-text" className="text-red-700 hover:underline">
+          <Link href="/admin/activities-text" className={adminStyles.actionLink}>
             Tekster
           </Link>
         </div>
       </div>
 
-      {(catErr || actErr) && (
-        <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">
-          {catErr ?? actErr}
-        </p>
-      )}
+      {(catErr || actErr) && <p className={adminStyles.errorBanner}>{catErr ?? actErr}</p>}
 
       {!catErr && !actErr ? <AdminActivitiesGroupedView categories={categories} activities={activities} /> : null}
     </div>

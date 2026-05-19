@@ -1,0 +1,43 @@
+.grid {
+  display: grid;
+  gap: var(--ds-size-4);
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.linkWrap {
+  display: block;
+  border-radius: var(--ds-border-radius-lg);
+  outline: none;
+  text-decoration: none;
+  color: inherit;
+}
+
+.linkWrap:focus-visible {
+  box-shadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-focus-outer);
+}
+
+.linkCard {
+  height: 100%;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.linkWrap:hover .linkCard {
+  background: var(--ds-color-surface-tinted);
+  border-color: var(--ds-color-border-default);
+}
+
+.linkTitle {
+  font-size: var(--ds-body-md-font-size);
+  color: var(--ds-color-base-default);
+}
+
+.linkBody {
+  font-size: var(--ds-body-sm-font-size);
+  color: var(--ds-color-text-subtle);
+  line-height: var(--ds-body-long-sm-line-height);
+}

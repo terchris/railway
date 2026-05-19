@@ -1,0 +1,215 @@
+.document {
+  max-width: 52rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-8);
+  color: var(--ds-color-text-default);
+}
+
+.header {
+  border-bottom: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+  padding-bottom: var(--ds-size-4);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--ds-heading-xs-font-size);
+  font-weight: var(--ds-heading-xs-font-weight);
+  line-height: var(--ds-heading-xs-line-height);
+}
+
+.intro {
+  margin: var(--ds-size-2) 0 0 0;
+  font-size: var(--ds-body-sm-font-size);
+  color: var(--ds-color-text-subtle);
+  line-height: var(--ds-body-long-sm-line-height);
+}
+
+.timestamp {
+  margin: var(--ds-size-1) 0 0 0;
+  font-size: var(--ds-body-xs-font-size);
+  color: var(--ds-color-text-subtle);
+}
+
+.section {
+  break-inside: avoid;
+}
+
+.sectionTitle {
+  margin: 0 0 var(--ds-size-3) 0;
+  border-bottom: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+  padding-bottom: var(--ds-size-1);
+  font-size: var(--ds-body-lg-font-size);
+  font-weight: var(--ds-font-weight-semibold);
+  color: var(--ds-color-text-default);
+}
+
+.sectionHint {
+  margin: 0 0 var(--ds-size-4) 0;
+  font-size: var(--ds-body-xs-font-size);
+  color: var(--ds-color-text-subtle);
+  line-height: var(--ds-body-long-xs-line-height);
+}
+
+.categoryGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-8);
+}
+
+.categoryHeading {
+  margin: 0 0 var(--ds-size-2) 0;
+  font-size: var(--ds-body-sm-font-size);
+  font-weight: var(--ds-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--ds-letter-spacing-9);
+  color: var(--ds-color-text-subtle);
+}
+
+.optionBox {
+  border: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+  padding: var(--ds-size-2) var(--ds-size-4);
+}
+
+@media print {
+  .optionBox {
+    border-color: #000;
+  }
+}
+
+.optionBoxEmpty {
+  padding: var(--ds-size-2) 0;
+  font-size: var(--ds-body-sm-font-size);
+  font-style: italic;
+  color: var(--ds-color-text-subtle);
+}
+
+.optionLabel {
+  display: flex;
+  cursor: default;
+  align-items: flex-start;
+  gap: var(--ds-size-3);
+  padding: 6px 0;
+  font-size: var(--ds-body-sm-font-size);
+  line-height: 1.4;
+}
+
+@media print {
+  .optionLabel {
+    padding: var(--ds-size-1) 0;
+  }
+}
+
+.boxCheckbox {
+  margin-top: 2px;
+  flex-shrink: 0;
+  display: inline-block;
+  height: var(--ds-size-4);
+  width: var(--ds-size-4);
+  border: var(--ds-border-width-default) solid var(--ds-color-text-default);
+  border-radius: var(--ds-border-radius-sm);
+}
+
+@media print {
+  .boxCheckbox {
+    border-color: #000;
+  }
+}
+
+.boxRadio {
+  margin-top: 4px;
+  flex-shrink: 0;
+  display: inline-block;
+  height: var(--ds-size-3);
+  width: var(--ds-size-3);
+  border: var(--ds-border-width-default) solid var(--ds-color-text-default);
+  border-radius: var(--ds-border-radius-full);
+}
+
+@media print {
+  .boxRadio {
+    border-color: #000;
+  }
+}
+
+.ruleField {
+  margin-bottom: var(--ds-size-4);
+}
+
+.ruleFieldLabel {
+  font-size: var(--ds-body-sm-font-size);
+  font-weight: var(--ds-font-weight-medium);
+}
+
+.ruleFieldLine {
+  margin-top: var(--ds-size-1);
+  border-bottom: var(--ds-border-width-default) solid var(--ds-color-border-default);
+  padding-bottom: var(--ds-size-1);
+}
+
+@media print {
+  .ruleFieldLine {
+    border-color: #000;
+  }
+}
+
+.commentBox {
+  margin-top: var(--ds-size-1);
+  min-height: 5rem;
+  border: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+  padding: var(--ds-size-2);
+  font-size: var(--ds-body-sm-font-size);
+}
+
+@media print {
+  .commentBox {
+    border-color: #000;
+  }
+}
+
+.langGrid {
+  columns: 2;
+  column-gap: var(--ds-size-6);
+  border: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+  padding: var(--ds-size-2) var(--ds-size-4);
+}
+
+@media (min-width: 640px) {
+  .langGrid {
+    columns: 3;
+  }
+}
+
+@media print {
+  .langGrid {
+    border-color: #000;
+  }
+}
+
+.footnoteBox {
+  break-inside: avoid;
+  border: 1px dashed var(--ds-color-border-subtle);
+  padding: var(--ds-size-4);
+  font-size: var(--ds-body-xs-font-size);
+  color: var(--ds-color-text-subtle);
+}
+
+@media print {
+  .footnoteBox {
+    border-color: #000;
+  }
+}
+
+.footnoteHeading {
+  margin: 0;
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-text-default);
+}
+
+.footnoteBody {
+  margin: var(--ds-size-1) 0 0 0;
+}
+
+.finalPad {
+  padding-bottom: var(--ds-size-12);
+}

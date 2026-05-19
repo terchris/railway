@@ -3,6 +3,7 @@
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
+import styles from "./admin-shared.module.css"
 
 type PrintToolbarProps = {
   backHref: string
@@ -19,7 +20,7 @@ export function PrintToolbar({
   siblingLabel,
 }: PrintToolbarProps) {
   return (
-    <div className="admin-screen-toolbar mb-8 flex flex-wrap items-center gap-3 print:hidden">
+    <div className={`admin-screen-toolbar ${styles.toolbar}`}>
       <Button type="button" variant="default" onClick={() => window.print()}>
         Skriv ut
       </Button>

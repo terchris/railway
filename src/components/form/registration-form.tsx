@@ -34,7 +34,8 @@ import {
   type PersistedFormFields,
   type RegistrationStep,
 } from "@/components/form/persist"
-import { cn } from "@/lib/utils"
+
+import styles from "./registration-form.module.css"
 
 type Props = { bundle: RegistrationBundle }
 
@@ -75,6 +76,12 @@ function preventAccidentalSubmit(e: React.KeyboardEvent<HTMLFormElement>) {
     if (target.type === "submit" || target.type === "button") return
     e.preventDefault()
   }
+}
+
+function stepPillClass(reached: boolean, current: boolean): string {
+  if (current) return styles.stepPillCurrent
+  if (reached) return styles.stepPillReached
+  return styles.stepPill
 }
 
 export function RegistrationForm({ bundle }: Props) {
@@ -259,24 +266,20 @@ export function RegistrationForm({ bundle }: Props) {
   })
 
   if (!hydrated) {
-    return (
-      <div className="py-24 text-center text-sm text-zinc-500">
-        Laster skjema…
-      </div>
-    )
+    return <div className={styles.loading}>Laster skjema…</div>
   }
 
   const t = bundle.text
 
   return (
     <form
-      className="mx-auto max-w-2xl px-6 py-12"
+      className={styles.form}
       onKeyDown={preventAccidentalSubmit}
       onSubmit={(e) => e.preventDefault()}
     >
       {/* Honeypot — stay empty for humans */}
-      <div className="absolute -left-[2000px] h-px w-px overflow-hidden opacity-0" aria-hidden>
-        <label htmlFor={honeypotField()} className="sr-only">
+      <div className={styles.honeypot} aria-hidden>
+        <label htmlFor={honeypotField()} className={styles.srOnly}>
           Company
         </label>
         <Input
@@ -290,16 +293,9 @@ export function RegistrationForm({ bundle }: Props) {
       </div>
 
       {/* Step pills */}
-      <ol className="mb-10 flex gap-2 text-xs font-medium text-zinc-500">
+      <ol className={styles.steps}>
         {registrationSteps.map((s, idx) => (
-          <li
-            key={s}
-            className={cn(
-              "rounded-full px-3 py-1 capitalize",
-              step === s ? "bg-red-700 text-white" : "bg-zinc-100",
-              idx <= stepIndex ? "opacity-100" : "opacity-45",
-            )}
-          >
+          <li key={s} className={stepPillClass(idx <= stepIndex, step === s)}>
             {idx + 1}. {s}
           </li>
         ))}
@@ -309,7 +305,7 @@ export function RegistrationForm({ bundle }: Props) {
         <Alert
           id="form-top-error"
           variant="destructive"
-          className="mb-6 whitespace-pre-wrap"
+          className={styles.topError}
           role="alert"
           tabIndex={-1}
         >
@@ -318,33 +314,36 @@ export function RegistrationForm({ bundle }: Props) {
       ) : null}
 
       {step === "intro" && (
-        <Card className="mb-10">
+        <Card className={styles.introCard}>
           <CardHeader>
-            <CardTitle className="font-heading text-xl">
+            <CardTitle className={styles.introTitle}>
               {t.content_intro_title ?? "Introduksjon"}
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4 prose prose-neutral max-w-none text-zinc-700">
+          <CardContent>
             {/* Editorial HTML comes from curated PostgREST `text_content` payload. */}
-            <div dangerouslySetInnerHTML={{ __html: t.content_intro_text ?? "<p>.</p>" }} />
+            <div
+              className={styles.editorial}
+              dangerouslySetInnerHTML={{ __html: t.content_intro_text ?? "<p>.</p>" }}
+            />
           </CardContent>
         </Card>
       )}
 
       {step === "activities" && (
-        <div className="space-y-8">
-          <header>
-            <h2 className="text-2xl font-semibold text-zinc-900">
+        <div className={styles.activitiesWrap}>
+          <header className={styles.activitiesHeader}>
+            <h2 className={styles.activitiesTitle}>
               {t.content_activities_title ?? "Velg aktiviteter"}
             </h2>
             {t.content_activities_text ? (
               <div
-                className="mt-2 max-w-prose text-zinc-600 prose prose-sm"
+                className={styles.editorialSmall}
                 dangerouslySetInnerHTML={{ __html: t.content_activities_text }}
               />
             ) : null}
             {bundle.activitySelectionLimit === 1 ? (
-              <p className="mt-3 rounded-md bg-amber-50 px-3 py-2 text-sm text-amber-900">
+              <p className={styles.limitNotice}>
                 Du kan velge <strong>én</strong> hovedaktivitet og øvrige aktiviteter i egne blokker der det finnes tilleggslister.
               </p>
             ) : null}
@@ -352,63 +351,69 @@ export function RegistrationForm({ bundle }: Props) {
 
           {bundle.primaryCategories.map(({ category, activities }) => (
             <Card key={`p-${category.id}`}>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-base">{category.name}</CardTitle>
+              <CardHeader className={styles.categoryCardHeader}>
+                <CardTitle className={styles.categoryCardTitle}>{category.name}</CardTitle>
               </CardHeader>
-              <CardContent className="flex flex-col gap-3">
-                {activities.map((a) => {
-                  const sel = vals.primary_activity_ids.includes(a.id)
-                  const disabled =
-                    limitPrimary &&
-                    !sel &&
-                    vals.primary_activity_ids.length >= selectionLimit
-                  return (
-                    <label key={a.id} className="flex items-start gap-3 text-sm">
-                      <Checkbox
-                        checked={sel}
-                        disabled={disabled}
-                        onCheckedChange={(c) => toggleId("primary_activity_ids", a.id, c === true)}
-                      />
-                      <span className="space-y-1">
-                        <span className="font-medium text-zinc-900">{a.name}</span>
-                        {a.info ? (
-                          <Collapsible>
-                            <CollapsibleTrigger type="button" className="text-xs text-red-700 underline">
-                              Mer informasjon
-                            </CollapsibleTrigger>
-                            <CollapsibleContent className="max-w-prose pt-2 text-xs text-zinc-600 prose prose-neutral">
-                              {a.info}
-                            </CollapsibleContent>
-                          </Collapsible>
-                        ) : null}
-                      </span>
-                    </label>
-                  )
-                })}
+              <CardContent>
+                <div className={styles.activityList}>
+                  {activities.map((a) => {
+                    const sel = vals.primary_activity_ids.includes(a.id)
+                    const disabled =
+                      limitPrimary &&
+                      !sel &&
+                      vals.primary_activity_ids.length >= selectionLimit
+                    return (
+                      <label key={a.id} className={styles.activityRow}>
+                        <Checkbox
+                          checked={sel}
+                          disabled={disabled}
+                          onCheckedChange={(c) => toggleId("primary_activity_ids", a.id, c === true)}
+                        />
+                        <span className={styles.activityRowText}>
+                          <span className={styles.activityName}>{a.name}</span>
+                          {a.info ? (
+                            <Collapsible>
+                              <CollapsibleTrigger type="button" className={styles.activityInfoTrigger}>
+                                Mer informasjon
+                              </CollapsibleTrigger>
+                              <CollapsibleContent className={styles.activityInfoContent}>
+                                {a.info}
+                              </CollapsibleContent>
+                            </Collapsible>
+                          ) : null}
+                        </span>
+                      </label>
+                    )
+                  })}
+                </div>
               </CardContent>
             </Card>
           ))}
 
           {bundle.additionalCategories.length > 0 && (
-            <div className="space-y-3">
-              <h3 className="text-lg font-semibold">{t.content_activity_categories_text ?? "Flere aktiviteter"}</h3>
+            <div className={styles.additionalGroup}>
+              <h3 className={styles.additionalGroupHeading}>
+                {t.content_activity_categories_text ?? "Flere aktiviteter"}
+              </h3>
               {bundle.additionalCategories.map(({ category, activities }) => (
                 <Card key={`add-${category.id}`}>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-base">{category.name}</CardTitle>
+                  <CardHeader className={styles.categoryCardHeader}>
+                    <CardTitle className={styles.categoryCardTitle}>{category.name}</CardTitle>
                   </CardHeader>
-                  <CardContent className="flex flex-col gap-3">
-                    {activities.map((a) => (
-                      <label key={a.id} className="flex items-start gap-3 text-sm">
-                        <Checkbox
-                          checked={vals.additional_activity_ids.includes(a.id)}
-                          onCheckedChange={(c) =>
-                            toggleId("additional_activity_ids", a.id, c === true)
-                          }
-                        />
-                        <span className="font-medium text-zinc-900">{a.name}</span>
-                      </label>
-                    ))}
+                  <CardContent>
+                    <div className={styles.activityList}>
+                      {activities.map((a) => (
+                        <label key={a.id} className={styles.activityRow}>
+                          <Checkbox
+                            checked={vals.additional_activity_ids.includes(a.id)}
+                            onCheckedChange={(c) =>
+                              toggleId("additional_activity_ids", a.id, c === true)
+                            }
+                          />
+                          <span className={styles.activityName}>{a.name}</span>
+                        </label>
+                      ))}
+                    </div>
                   </CardContent>
                 </Card>
               ))}
@@ -418,52 +423,52 @@ export function RegistrationForm({ bundle }: Props) {
           {acts === 0 ? (
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">{t.content_no_selected_activity_title}</CardTitle>
+                <CardTitle className={styles.noSelectedTitle}>{t.content_no_selected_activity_title}</CardTitle>
                 {t.content_no_selected_activity_text ? (
-                  <div className="prose prose-sm text-zinc-600">{t.content_no_selected_activity_text}</div>
+                  <p className={styles.noSelectedSubtext}>{t.content_no_selected_activity_text}</p>
                 ) : null}
               </CardHeader>
-              <CardContent className="space-y-3">
-                <RadioGroup
-                  value={vals.no_selected_activity_option_id?.toString() ?? "none"}
-                  onValueChange={(v) =>
-                    setValue(
-                      "no_selected_activity_option_id",
-                      v === "none" ? null : Number(v),
-                      { shouldDirty: true },
-                    )
-                  }
-                >
-                  <div className="flex items-center space-x-2">
-                    <RadioGroupItem id="nosel-none" value="none" />
-                    <Label htmlFor="nosel-none">(ikke aktuelt — jeg planlegger aktivitet senere)</Label>
-                  </div>
-                  {bundle.noSelectedActivityOptions.map((o) => (
-                    <div key={o.id} className="flex items-start gap-2">
-                      <RadioGroupItem id={`nosel-${o.id}`} value={String(o.id)} />
-                      <div className="space-y-1">
+              <CardContent>
+                <div className={styles.noSelectedContent}>
+                  <RadioGroup
+                    value={vals.no_selected_activity_option_id?.toString() ?? "none"}
+                    onValueChange={(v) =>
+                      setValue(
+                        "no_selected_activity_option_id",
+                        v === "none" ? null : Number(v),
+                        { shouldDirty: true },
+                      )
+                    }
+                  >
+                    <div className={styles.radioRow}>
+                      <RadioGroupItem id="nosel-none" value="none" />
+                      <Label htmlFor="nosel-none">(ikke aktuelt — jeg planlegger aktivitet senere)</Label>
+                    </div>
+                    {bundle.noSelectedActivityOptions.map((o) => (
+                      <div key={o.id} className={styles.radioRowStart}>
+                        <RadioGroupItem id={`nosel-${o.id}`} value={String(o.id)} />
                         <Label htmlFor={`nosel-${o.id}`}>{o.label}</Label>
                       </div>
-                    </div>
-                  ))}
-                </RadioGroup>
+                    ))}
+                  </RadioGroup>
 
-                {(() => {
-                  const nsId = vals.no_selected_activity_option_id
-                  const opt =
-                    nsId !== null
-                      ? bundle.noSelectedActivityOptions.find((o) => o.id === nsId)
-                      : undefined
-                  return opt?.has_input_field ? (
-                    <div className="space-y-2">
-                      <Label htmlFor="no-act-input">{opt.input_field_label}</Label>
-                      {opt.input_field_info ? (
-                        <p className="text-xs text-zinc-500">{opt.input_field_info}</p>
-                      ) : null}
-                      <Textarea id="no-act-input" {...methods.register("no_selected_activity_input")} />
-                    </div>
-                  ) : null
-                })()}
+                  {(() => {
+                    const nsId = vals.no_selected_activity_option_id
+                    const opt =
+                      nsId !== null
+                        ? bundle.noSelectedActivityOptions.find((o) => o.id === nsId)
+                        : undefined
+                    return opt?.has_input_field ? (
+                      <div className={styles.inputBlock}>
+                        <Label htmlFor="no-act-input">{opt.input_field_label}</Label>
+                        {opt.input_field_info ? (
+                          <p className={styles.inputHelp}>{opt.input_field_info}</p>
+                        ) : null}
+                        <Textarea id="no-act-input" {...methods.register("no_selected_activity_input")} />
+                      </div>
+                    ) : null
+                  })()}
+                </div>
               </CardContent>
             </Card>
           ) : null}
@@ -471,27 +476,27 @@ export function RegistrationForm({ bundle }: Props) {
       )}
 
       {step === "about" && (
-        <div className="flex flex-col gap-8">
-          <section className="space-y-4">
-            <h2 className="text-xl font-semibold">{t.content_contact_information_title}</h2>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="space-y-2 sm:col-span-2">
+        <div className={styles.aboutWrap}>
+          <section className={styles.aboutSection}>
+            <h2 className={styles.sectionHeading}>{t.content_contact_information_title}</h2>
+            <div className={styles.grid2}>
+              <div className={styles.fieldFull}>
                 <Label htmlFor="name">Navn</Label>
                 <Input id="name" {...methods.register("name")} />
               </div>
-              <div className="space-y-2">
+              <div className={styles.field}>
                 <Label htmlFor="email">E-post</Label>
                 <Input id="email" type="email" {...methods.register("email")} />
               </div>
-              <div className="space-y-2">
+              <div className={styles.field}>
                 <Label htmlFor="phone">Telefon</Label>
                 <Input id="phone" {...methods.register("phone")} />
               </div>
-              <div className="space-y-2 sm:col-span-2">
+              <div className={styles.fieldFull}>
                 <Label htmlFor="comment">{t.content_comment_title}</Label>
                 {t.content_comment_text ? (
                   <p
-                    className="text-xs text-zinc-500 prose prose-neutral"
+                    className={styles.inputHelp}
                     dangerouslySetInnerHTML={{ __html: t.content_comment_text }}
                   />
                 ) : null}
@@ -500,13 +505,13 @@ export function RegistrationForm({ bundle }: Props) {
             </div>
           </section>
 
-          <section>
-            <h2 className="mb-4 text-xl font-semibold">{t.content_language_title}</h2>
-            <div className="grid gap-2 sm:grid-cols-2">
+          <section className={styles.aboutSection}>
+            <h2 className={styles.sectionHeading}>{t.content_language_title}</h2>
+            <div className={styles.grid2}>
               {bundle.languages.map((l) => {
                 const sel = vals.language_ids.includes(l.id)
                 return (
-                  <label key={l.id} className="flex items-center gap-2 text-sm">
+                  <label key={l.id} className={styles.checkboxRow}>
                     <Checkbox
                       checked={sel}
                       onCheckedChange={(checked) => {
@@ -524,10 +529,13 @@ export function RegistrationForm({ bundle }: Props) {
             </div>
           </section>
 
-          <section>
-            <h2 className="mb-4 text-xl font-semibold">{t.content_membership_title}</h2>
+          <section className={styles.aboutSection}>
+            <h2 className={styles.sectionHeading}>{t.content_membership_title}</h2>
             {t.content_membership_text ? (
-              <div className="prose prose-sm mb-4 max-w-none" dangerouslySetInnerHTML={{ __html: t.content_membership_text }} />
+              <div
+                className={styles.editorialSmall}
+                dangerouslySetInnerHTML={{ __html: t.content_membership_text }}
+              />
             ) : null}
             <Controller
               name="membership_status_id"
@@ -536,10 +544,10 @@ export function RegistrationForm({ bundle }: Props) {
                 <RadioGroup
                   value={field.value === 0 ? "" : field.value.toString()}
                   onValueChange={(v) => field.onChange(Number(v))}
-                  className="flex flex-col gap-2"
+                  className={styles.radioStack}
                 >
                   {bundle.membershipStatuses.map((m) => (
-                    <div key={m.id} className="flex items-start gap-2">
+                    <div key={m.id} className={styles.radioRowStart}>
                       <RadioGroupItem id={`member-${m.id}`} value={String(m.id)} />
                       <Label htmlFor={`member-${m.id}`}>{m.label}</Label>
                     </div>
@@ -549,17 +557,20 @@ export function RegistrationForm({ bundle }: Props) {
             />
           </section>
 
-          <section className="space-y-6">
-            <h2 className="text-xl font-semibold">{t.content_evaluation_title}</h2>
+          <section className={styles.aboutSection}>
+            <h2 className={styles.sectionHeading}>{t.content_evaluation_title}</h2>
             {t.content_evaluation_text ? (
-              <div className="prose prose-sm" dangerouslySetInnerHTML={{ __html: t.content_evaluation_text }} />
+              <div
+                className={styles.editorialSmall}
+                dangerouslySetInnerHTML={{ __html: t.content_evaluation_text }}
+              />
             ) : null}
             {bundle.evaluationQuestions.map((q) =>
               q.question_type === "select" ? (
-                <div key={q.id} className="space-y-2">
+                <div key={q.id} className={styles.field}>
                   <Label>{q.label}</Label>
                   <select
-                    className="flex h-10 w-full rounded-md border border-zinc-300 bg-white px-3 text-sm"
+                    className={styles.select}
                     value={vals.evaluation[String(q.id)] ?? ""}
                     onChange={(e) =>
                       setValue(
@@ -578,10 +589,10 @@ export function RegistrationForm({ bundle }: Props) {
                   </select>
                 </div>
               ) : (
-                <div key={q.id} className="space-y-2">
+                <div key={q.id} className={styles.field}>
                   <Label htmlFor={`ev-${q.id}`}>
                     {q.label}
-                    <span className="ms-1 font-normal text-zinc-500">(valgfritt)</span>
+                    <span className={styles.optionalMarker}>(valgfritt)</span>
                   </Label>
                   <Textarea
                     id={`ev-${q.id}`}
@@ -602,12 +613,15 @@ export function RegistrationForm({ bundle }: Props) {
       )}
 
       {step === "confirmation" && (
-        <div className="space-y-6">
-          <h2 className="text-xl font-semibold">{t.content_confirmation_title}</h2>
+        <div className={styles.confirmWrap}>
+          <h2 className={styles.sectionHeading}>{t.content_confirmation_title}</h2>
           {t.content_confirmation_text ? (
-            <div className="prose prose-sm" dangerouslySetInnerHTML={{ __html: t.content_confirmation_text }} />
+            <div
+              className={styles.editorialSmall}
+              dangerouslySetInnerHTML={{ __html: t.content_confirmation_text }}
+            />
           ) : null}
-          <ul className="list-inside list-disc space-y-1 text-sm text-zinc-700">
+          <ul className={styles.summaryList}>
             <li>
               <strong>Navn:</strong> {vals.name || "–"}
             </li>
@@ -619,14 +633,14 @@ export function RegistrationForm({ bundle }: Props) {
             </li>
           </ul>
           <section>
-            <h3 className="font-semibold">Aktiviteter</h3>
+            <h3 className={styles.summarySectionHeading}>Aktiviteter</h3>
             {acts === 0 && vals.no_selected_activity_option_id !== null ? (
-              <p className="text-sm text-zinc-600">
+              <p className={styles.summaryEmpty}>
                 {bundle.noSelectedActivityOptions.find((o) => o.id === vals.no_selected_activity_option_id)
                   ?.label ?? "(ingen aktivitet)"}
               </p>
             ) : (
-              <ul className="mt-2 list-disc pl-6 text-sm text-zinc-700">
+              <ul className={styles.summaryItemList}>
                 {vals.primary_activity_ids.map((id) => (
                   <li key={`p-${id}`}>{activityLabel(bundle, id) ?? id}</li>
                 ))}
@@ -637,14 +651,17 @@ export function RegistrationForm({ bundle }: Props) {
             )}
           </section>
           <section>
-            <h3 className="font-semibold">Samtykke</h3>
-            {t.content_consent_title ? <p className="text-sm font-medium">{t.content_consent_title}</p> : null}
-            <div className="prose prose-sm max-w-none pb-4" dangerouslySetInnerHTML={{ __html: t.content_consent_text ?? "" }} />
+            <h3 className={styles.summarySectionHeading}>Samtykke</h3>
+            {t.content_consent_title ? <p className={styles.consentTitle}>{t.content_consent_title}</p> : null}
+            <div
+              className={styles.consentText}
+              dangerouslySetInnerHTML={{ __html: t.content_consent_text ?? "" }}
+            />
             <Controller
               name="consentAccepted"
               control={control}
               render={({ field }) => (
-                <label className="flex items-start gap-3 text-sm">
+                <label className={styles.checkboxRowStart}>
                   <Checkbox checked={field.value} onCheckedChange={(c) => field.onChange(c === true)} />
                   <span>Jeg godtar teksten over og vil sende inn registreringen.</span>
                 </label>
@@ -659,7 +676,7 @@ export function RegistrationForm({ bundle }: Props) {
         </div>
       )}
 
-      <footer className="mt-14 flex flex-wrap items-center gap-4">
+      <footer className={styles.footer}>
         <Button type="button" variant="secondary" onClick={goBack} disabled={step === "intro"}>
           Tilbake
         </Button>

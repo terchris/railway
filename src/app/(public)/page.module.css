@@ -1,0 +1,207 @@
+/* Load-failure (backend not reachable) screen */
+.failureMain {
+  margin: 0 auto;
+  display: flex;
+  width: 100%;
+  max-width: 42rem;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--ds-size-6);
+  padding: var(--ds-size-15) var(--ds-size-6);
+}
+
+.failureHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-2);
+}
+
+.eyebrow {
+  font-size: var(--ds-body-xs-font-size);
+  font-weight: var(--ds-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--ds-letter-spacing-9);
+  color: var(--ds-color-text-subtle);
+  margin: 0;
+}
+
+.eyebrowBrand {
+  composes: eyebrow;
+  color: var(--ds-color-base-default);
+}
+
+.failureTitle {
+  font-size: var(--ds-heading-sm-font-size);
+  font-weight: var(--ds-heading-sm-font-weight);
+  line-height: var(--ds-heading-sm-line-height);
+  letter-spacing: var(--ds-heading-sm-letter-spacing);
+  text-wrap: balance;
+  color: var(--ds-color-text-default);
+  margin: 0;
+}
+
+.failureLead {
+  max-width: 65ch;
+  font-size: var(--ds-body-md-font-size);
+  line-height: var(--ds-body-long-md-line-height);
+  color: var(--ds-color-text-default);
+  margin: 0;
+}
+
+.envPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-3);
+  border-radius: var(--ds-border-radius-lg);
+  border: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+  background: var(--ds-color-surface-tinted);
+  padding: var(--ds-size-4) var(--ds-size-5);
+  color: var(--ds-color-text-default);
+}
+
+.envPanelHeading {
+  font-size: var(--ds-body-xs-font-size);
+  font-weight: var(--ds-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--ds-letter-spacing-9);
+  color: var(--ds-color-text-subtle);
+  margin: 0;
+}
+
+.envList {
+  display: grid;
+  gap: var(--ds-size-4);
+  font-size: var(--ds-body-sm-font-size);
+  margin: 0;
+}
+
+.envTerm {
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-text-subtle);
+}
+
+.envValueBlock {
+  margin: var(--ds-size-1) 0 0 0;
+  display: block;
+  word-break: break-all;
+  border-radius: var(--ds-border-radius-sm);
+  border: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+  background: var(--ds-color-surface-default);
+  padding: var(--ds-size-2) var(--ds-size-3);
+  font-size: var(--ds-body-xs-font-size);
+  line-height: var(--ds-body-long-xs-line-height);
+  color: var(--ds-color-text-default);
+}
+
+.envValueInline {
+  composes: envValueBlock;
+  display: inline-block;
+  word-break: normal;
+  letter-spacing: var(--ds-letter-spacing-9);
+}
+
+.envNote {
+  margin: var(--ds-size-2) 0 0 0;
+  display: block;
+  font-size: var(--ds-body-xs-font-size);
+  color: var(--ds-color-text-subtle);
+}
+
+.hintsPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-3);
+  border-radius: var(--ds-border-radius-xl);
+  border: var(--ds-border-width-default) solid var(--ds-color-warning-border-subtle);
+  background: var(--ds-color-warning-surface-tinted);
+  padding: var(--ds-size-4) var(--ds-size-5);
+  color: var(--ds-color-warning-text-default);
+  box-shadow: var(--ds-shadow-xs);
+}
+
+.hintsHeading {
+  font-size: var(--ds-body-xs-font-size);
+  font-weight: var(--ds-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--ds-letter-spacing-9);
+  color: var(--ds-color-warning-text-subtle);
+  margin: 0;
+}
+
+.hintsList {
+  margin: 0;
+  padding-inline-start: var(--ds-size-5);
+  list-style-type: disc;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-2);
+  font-size: var(--ds-body-sm-font-size);
+  line-height: var(--ds-body-long-sm-line-height);
+}
+
+.hintsList::marker {
+  color: var(--ds-color-warning-text-subtle);
+}
+
+/* Hint inline elements (rendered by hintSegments) */
+.hintMono {
+  border-radius: var(--ds-border-radius-sm);
+  background: var(--ds-color-surface-hover);
+  padding: 0 var(--ds-size-1);
+  font-size: var(--ds-body-xs-font-size);
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-text-default);
+}
+
+.hintStrong {
+  font-weight: var(--ds-font-weight-semibold);
+}
+
+/* Parse-failure (bundle build error) screen */
+.parseMain {
+  padding: var(--ds-size-15) var(--ds-size-6);
+}
+
+.parseError {
+  border-radius: var(--ds-border-radius-md);
+  border: var(--ds-border-width-default) solid var(--ds-color-danger-border-subtle);
+  background: var(--ds-color-danger-surface-tinted);
+  padding: var(--ds-size-4);
+  font-size: var(--ds-body-sm-font-size);
+  color: var(--ds-color-danger-text-default);
+  margin: 0;
+}
+
+/* Form screen */
+.formMain {
+  padding-bottom: var(--ds-size-22);
+}
+
+.formHeader {
+  border-bottom: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+  background: var(--ds-color-surface-default);
+  padding: var(--ds-size-10) 0;
+}
+
+.formHeaderInner {
+  margin: 0 auto;
+  max-width: 42rem;
+  padding: 0 var(--ds-size-6);
+}
+
+.formHeaderTitle {
+  margin: var(--ds-size-3) 0 0 0;
+  font-size: var(--ds-heading-md-font-size);
+  font-weight: var(--ds-heading-md-font-weight);
+  line-height: var(--ds-heading-md-line-height);
+  letter-spacing: var(--ds-heading-md-letter-spacing);
+  text-wrap: balance;
+  color: var(--ds-color-text-default);
+}
+
+.formHeaderSubtitle {
+  margin: var(--ds-size-2) 0 0 0;
+  font-size: var(--ds-body-lg-font-size);
+  line-height: var(--ds-body-lg-line-height);
+  color: var(--ds-color-text-subtle);
+}

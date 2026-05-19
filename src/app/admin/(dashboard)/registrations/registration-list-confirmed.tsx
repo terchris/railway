@@ -5,6 +5,8 @@ import { useTransition } from "react"
 import { setRegistrationConfirmed } from "@/app/admin/(dashboard)/registrations/actions"
 import { Checkbox } from "@/components/ui/checkbox"
 
+import styles from "./registrations.module.css"
+
 /** Kompakt celle-variant; server oppdaterer listen via `revalidatePath`. */
 export function RegistrationListConfirmedToggle({
   registrationId,
@@ -16,7 +18,7 @@ export function RegistrationListConfirmedToggle({
   const [pending, start] = useTransition()
 
   return (
-    <div className="flex justify-center py-1">
+    <div className={styles.listConfirmedCell}>
       <Checkbox
         checked={initialConfirmed}
         disabled={pending}

@@ -1,0 +1,66 @@
+/* Small admin sub-components that need a tiny bit of styling. */
+
+.shrink {
+  flex-shrink: 0;
+}
+
+.copyRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ds-size-2);
+}
+
+.copyHint {
+  font-size: var(--ds-body-xs-font-size);
+  color: var(--ds-color-text-subtle);
+}
+
+.compactButton {
+  height: var(--ds-size-8);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ds-size-3);
+  margin-bottom: var(--ds-size-8);
+}
+
+@media print {
+  .toolbar {
+    display: none;
+  }
+}
+
+.orderRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ds-size-1);
+}
+
+.orderButton {
+  height: var(--ds-size-8);
+  padding: 0 var(--ds-size-2);
+  font-size: var(--ds-body-xs-font-size);
+}
+
+.toggleAmber {
+  color: var(--ds-color-warning-text-subtle);
+}
+
+.staffJwtMissing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-4);
+}
+
+.staffJwtMissingTitle {
+  margin: 0;
+  font-size: var(--ds-heading-xs-font-size);
+  font-weight: var(--ds-heading-xs-font-weight);
+  line-height: var(--ds-heading-xs-line-height);
+  color: var(--ds-color-text-default);
+}

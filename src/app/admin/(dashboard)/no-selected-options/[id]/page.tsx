@@ -8,15 +8,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { cn } from "@/lib/utils"
 import { pgStaff } from "@/lib/admin-postgrest"
 
-export const dynamic = "force-dynamic"
+import adminStyles from "@/app/admin/(dashboard)/admin.module.css"
 
-const selectClass = cn(
-  "flex h-10 w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm outline-none",
-  "focus:border-red-600 focus:ring-2 focus:ring-red-200 disabled:opacity-60",
-)
+export const dynamic = "force-dynamic"
 
 type Row = {
   id: number
@@ -40,53 +36,51 @@ export default async function AdminNoSelectedOptionEditPage({ params }: { params
     .maybeSingle()
 
   if (error) {
-    return (
-      <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">{error.message}</p>
-    )
+    return <p className={adminStyles.errorBanner}>{error.message}</p>
   }
   if (!data) notFound()
   const row = data as Row
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Valg uten aktivitet</h1>
-          <p className="mt-1 text-sm text-zinc-600">ID {row.id}</p>
+    <div className={adminStyles.page}>
+      <div className={adminStyles.pageHeader}>
+        <div className={adminStyles.pageHeaderInner}>
+          <h1 className={adminStyles.pageTitle}>Valg uten aktivitet</h1>
+          <p className={adminStyles.pageLead}>ID {row.id}</p>
         </div>
-        <Link href="/admin/no-selected-options" className="text-sm font-medium text-red-700 hover:underline">
+        <Link href="/admin/no-selected-options" className={adminStyles.actionLink}>
           ← Lista
         </Link>
       </div>
 
       <Card>
-        <CardHeader className="border-b border-zinc-100">
-          <CardTitle className="text-base">Felter</CardTitle>
+        <CardHeader className={adminStyles.sectionCardHeader}>
+          <CardTitle className={adminStyles.sectionCardTitle}>Felter</CardTitle>
         </CardHeader>
-        <CardContent className="pt-6">
-          <form action={updateNoSelectedOptionFromForm} className="max-w-xl space-y-6">
+        <CardContent>
+          <form action={updateNoSelectedOptionFromForm} className={adminStyles.editForm}>
             <input type="hidden" name="id" value={row.id} />
-            <div className="space-y-2">
+            <div className={adminStyles.field}>
               <Label htmlFor="label">Etikett</Label>
               <Input id="label" name="label" defaultValue={row.label} required />
             </div>
-            <div className="space-y-2">
+            <div className={adminStyles.field}>
               <Label htmlFor="has_input_field">Vil ha utfyllingsfelt?</Label>
               <select
                 id="has_input_field"
                 name="has_input_field"
-                className={selectClass}
+                className={adminStyles.select}
                 defaultValue={row.has_input_field ? "true" : "false"}
               >
                 <option value="false">Nei</option>
                 <option value="true">Ja</option>
               </select>
             </div>
-            <div className="space-y-2">
+            <div className={adminStyles.field}>
               <Label htmlFor="input_field_label">Feltetikett</Label>
               <Input id="input_field_label" name="input_field_label" defaultValue={row.input_field_label} />
             </div>
-            <div className="space-y-2">
+            <div className={adminStyles.field}>
               <Label htmlFor="input_field_info">Felthjelp</Label>
               <Textarea id="input_field_info" name="input_field_info" rows={3} defaultValue={row.input_field_info} />
             </div>

@@ -3,17 +3,18 @@
 import { useState } from "react"
 
 import { Button } from "@/components/ui/button"
+import styles from "./admin-shared.module.css"
 
 /** Copies `value`; shows brief feedback (no toast dep). */
 export function CopyFieldButton({ label, value }: { label: string; value: string }) {
   const [hint, setHint] = useState<string | null>(null)
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className={styles.copyRow}>
       <Button
         type="button"
         size="sm"
         variant="outline"
-        className="h-8"
+        className={styles.compactButton}
         onClick={async () => {
           try {
             await navigator.clipboard.writeText(value)
@@ -27,7 +28,7 @@ export function CopyFieldButton({ label, value }: { label: string; value: string
       >
         Kopier {label}
       </Button>
-      {hint ? <span className="text-xs text-zinc-500">{hint}</span> : null}
+      {hint ? <span className={styles.copyHint}>{hint}</span> : null}
     </div>
   )
 }

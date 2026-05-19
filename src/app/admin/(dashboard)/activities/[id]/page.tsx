@@ -5,6 +5,8 @@ import { ActivityEditorForm } from "@/app/admin/(dashboard)/activities/activity-
 import { StaffJwtMissing } from "@/components/admin/staff-jwt-missing"
 import { pgStaff } from "@/lib/admin-postgrest"
 
+import adminStyles from "@/app/admin/(dashboard)/admin.module.css"
+
 export const dynamic = "force-dynamic"
 
 type PageProps = { params: Promise<{ id: string }> }
@@ -48,21 +50,21 @@ export default async function AdminEditActivityPage({ params }: PageProps) {
   const title = initial.name.trim() || `Aktivitet #${activityId}`
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
-          <p className="mt-1 max-w-2xl text-sm text-zinc-600">Endre tekst, rekkefølge, tilleggstagger og synlighet.</p>
+    <div className={adminStyles.page}>
+      <div className={adminStyles.pageHeader}>
+        <div className={adminStyles.pageHeaderInner}>
+          <h1 className={adminStyles.pageTitle}>{title}</h1>
+          <p className={adminStyles.pageLead}>Endre tekst, rekkefølge, tilleggstagger og synlighet.</p>
         </div>
-        <Link href="/admin/activities" className="text-sm font-medium text-red-700 hover:underline">
+        <Link href="/admin/activities" className={adminStyles.actionLink}>
           ← Aktivitetstabell
         </Link>
       </div>
 
       {catErr ? (
-        <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">{catErr}</p>
+        <p className={adminStyles.errorBanner}>{catErr}</p>
       ) : categories.length === 0 ? (
-        <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+        <p className={adminStyles.warningBanner}>
           Mangler kategori i databasen — kan ikke lagre endringer før kategorier finnes.
         </p>
       ) : (

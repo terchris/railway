@@ -1,0 +1,67 @@
+.main {
+  margin: 0 auto;
+  display: flex;
+  max-width: 42rem;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--ds-size-10);
+  padding: var(--ds-size-15) var(--ds-size-6);
+}
+
+.title {
+  font-size: var(--ds-heading-xs-font-size);
+}
+
+.editorial {
+  color: var(--ds-color-text-default);
+  font-size: var(--ds-body-md-font-size);
+  line-height: var(--ds-body-long-md-line-height);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-4);
+}
+
+.editorial :global(p) {
+  margin: 0;
+}
+
+.editorial :global(a) {
+  color: var(--ds-color-base-default);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.editorial :global(ul),
+.editorial :global(ol) {
+  margin: 0;
+  padding-inline-start: var(--ds-size-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-1);
+}
+
+/* Membership card scoped to the success palette via data-color */
+.memberCard {
+  border-color: var(--ds-color-success-border-subtle);
+  background: var(--ds-color-success-surface-tinted);
+}
+
+.memberTitle {
+  font-size: var(--ds-body-lg-font-size);
+  color: var(--ds-color-success-text-default);
+}
+
+.memberBody {
+  composes: editorial;
+  color: var(--ds-color-success-text-default);
+}
+
+.memberFootnote {
+  margin: var(--ds-size-4) 0 0 0;
+  font-size: var(--ds-body-sm-font-size);
+  color: var(--ds-color-success-text-subtle);
+}
+
+.backLink {
+  width: fit-content;
+}

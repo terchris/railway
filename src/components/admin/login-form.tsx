@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Alert } from "@/components/ui/alert"
 
+import styles from "./login-form.module.css"
+
 export function AdminLoginForm({
   allowJwt,
   allowPassword,
@@ -66,22 +68,22 @@ export function AdminLoginForm({
   }
 
   return (
-    <Card className="mx-auto w-full max-w-md border-zinc-200 shadow-md">
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-xl">Admin</CardTitle>
-        <p className="text-sm text-zinc-500">
+    <Card className={styles.card}>
+      <CardHeader className={styles.header}>
+        <CardTitle className={styles.title}>Admin</CardTitle>
+        <p className={styles.intro}>
           Innlogging med gyldig staff‑JWT {allowPassword ? "eller valgfritt bootstrap‑passord for utvikling." : "."}
         </p>
       </CardHeader>
       <CardContent>
-        <form className="space-y-4" onSubmit={(e) => void onSubmit(e)}>
+        <form className={styles.form} onSubmit={(e) => void onSubmit(e)}>
           {error ? (
-            <Alert variant="destructive" className="text-sm">
+            <Alert variant="destructive" className={styles.errorAlert}>
               {error}
             </Alert>
           ) : null}
           {allowJwt ? (
-            <div className="space-y-2">
+            <div className={styles.field}>
               <Label htmlFor="admin-jwt">Staff‑JWT</Label>
               <textarea
                 id="admin-jwt"
@@ -89,20 +91,20 @@ export function AdminLoginForm({
                 rows={4}
                 spellCheck={false}
                 autoComplete="off"
-                className="border-input bg-background ring-offset-background placeholder:text-muted-foreground focus-visible:ring-ring flex min-h-[96px] w-full rounded-md border px-3 py-2 font-mono text-xs focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                className={styles.jwtInput}
                 placeholder="Lim inn bearer‑JWT fra UIS eller mint‑script …"
                 value={staffJwt}
                 onChange={(e) => setStaffJwt(e.target.value)}
                 disabled={loading}
               />
-              <p className="text-[11px] text-zinc-500">
-                Samme Hemmelighet som PostgREST (<span className="font-mono">JWT_SECRET</span>) — ikke lim inn tokens i
+              <p className={styles.fieldHelp}>
+                Samme Hemmelighet som PostgREST (<span className={styles.mono}>JWT_SECRET</span>) — ikke lim inn tokens i
                 usikre kanaler.
               </p>
             </div>
           ) : null}
           {allowPassword ? (
-            <div className="space-y-2">
+            <div className={styles.field}>
               <Label htmlFor="admin-pw">Bootstrap‑passord</Label>
               <Input
                 id="admin-pw"
@@ -113,12 +115,12 @@ export function AdminLoginForm({
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={loading}
               />
-              <p className="text-[11px] text-zinc-500">
-                Mint bred staff‑JWT lokalt via <span className="font-mono">ADMIN_PASSWORD</span> — ikke for produksjon.
+              <p className={styles.fieldHelp}>
+                Mint bred staff‑JWT lokalt via <span className={styles.mono}>ADMIN_PASSWORD</span> — ikke for produksjon.
               </p>
             </div>
           ) : null}
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" className={styles.submitButton} disabled={loading}>
             {loading ? "Logger inn…" : "Logg inn"}
           </Button>
         </form>

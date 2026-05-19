@@ -6,6 +6,8 @@ import { setRegistrationConfirmed } from "@/app/admin/(dashboard)/registrations/
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 
+import styles from "./registrations.module.css"
+
 /** Server passes fresh `initialConfirmed` after `revalidatePath`; disabled while PATCH is in flight. */
 export function RegistrationConfirmedCheckbox({
   registrationId,
@@ -17,7 +19,7 @@ export function RegistrationConfirmedCheckbox({
   const [pending, start] = useTransition()
 
   return (
-    <div className="flex items-center gap-3 rounded-lg border border-zinc-200 bg-zinc-50/80 px-4 py-3">
+    <div className={styles.confirmedToggleBlock}>
       <Checkbox
         id="reg-confirmed"
         checked={initialConfirmed}
@@ -29,7 +31,7 @@ export function RegistrationConfirmedCheckbox({
           })
         }}
       />
-      <Label htmlFor="reg-confirmed" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed">
+      <Label htmlFor="reg-confirmed" className={styles.confirmedToggleLabel}>
         Bekreftet frivillig (liste, CSV-eksport)
       </Label>
     </div>

@@ -8,12 +8,15 @@ import {
 } from "@/lib/admin-print-data"
 import { pgStaff } from "@/lib/admin-postgrest"
 
+import adminStyles from "@/app/admin/(dashboard)/admin.module.css"
+import styles from "./page.module.css"
+
 export const dynamic = "force-dynamic"
 
 function CheckboxLine({ label }: { label: string }) {
   return (
-    <label className="flex cursor-default items-start gap-3 py-1.5 text-sm leading-snug print:py-1">
-      <span className="mt-0.5 inline-block size-4 shrink-0 rounded-sm border border-zinc-900 print:border-black" aria-hidden />
+    <label className={styles.optionLabel}>
+      <span className={styles.boxCheckbox} aria-hidden />
       <span>{label}</span>
     </label>
   )
@@ -21,11 +24,8 @@ function CheckboxLine({ label }: { label: string }) {
 
 function RadioLine({ label }: { label: string }) {
   return (
-    <label className="flex cursor-default items-start gap-3 py-1.5 text-sm leading-snug print:py-1">
-      <span
-        className="mt-1 inline-block size-3.5 shrink-0 rounded-full border border-zinc-900 print:border-black"
-        aria-hidden
-      />
+    <label className={styles.optionLabel}>
+      <span className={styles.boxRadio} aria-hidden />
       <span>{label}</span>
     </label>
   )
@@ -33,9 +33,9 @@ function RadioLine({ label }: { label: string }) {
 
 function RuleField({ label }: { label: string }) {
   return (
-    <div className="mb-4">
-      <span className="text-sm font-medium">{label}</span>
-      <div className="mt-1 border-b border-zinc-400 pb-1 print:border-black">&nbsp;</div>
+    <div className={styles.ruleField}>
+      <span className={styles.ruleFieldLabel}>{label}</span>
+      <div className={styles.ruleFieldLine}>&nbsp;</div>
     </div>
   )
 }
@@ -55,7 +55,7 @@ export default async function AdminPrintPaperFormPage() {
   const errs = [actErr, mem.error, langs.error, noSel.error].filter(Boolean) as string[]
 
   return (
-    <div className="print-document max-w-[52rem] space-y-8 text-zinc-900">
+    <div className={`print-document ${styles.document}`}>
       <PrintToolbar
         backHref="/admin/registrations"
         backLabel="Til registreringer"
@@ -63,41 +63,35 @@ export default async function AdminPrintPaperFormPage() {
         siblingLabel="Manuskript"
       />
 
-      <header className="border-b border-zinc-300 pb-4">
-        <h1 className="text-2xl font-semibold tracking-tight">Papirskjema · frivilligregistrering</h1>
-        <p className="mt-2 text-sm text-zinc-600">
+      <header className={styles.header}>
+        <h1 className={styles.title}>Papirskjema · frivilligregistrering</h1>
+        <p className={styles.intro}>
           Utkast til utfylling ved kurs eller uten nett. Samsvarer omtrent med nettskjemaets steg («Velg
           aktivitet», «Om deg», bekreftelse fylles på møte).
         </p>
-        <p className="mt-1 text-xs text-zinc-500">
+        <p className={styles.timestamp}>
           Generert {new Date().toLocaleString("nb-NO", { dateStyle: "long", timeStyle: "short" })}
         </p>
       </header>
 
       {errs.length > 0 ? (
-        <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">
-          {errs.join(" · ")}
-        </p>
+        <p className={adminStyles.errorBanner}>{errs.join(" · ")}</p>
       ) : null}
 
       {!actErr ? (
         <>
-          <section className="break-inside-avoid">
-            <h2 className="mb-3 text-lg font-semibold border-b border-zinc-200 pb-1">
-              Velg aktivitet
-            </h2>
-            <p className="mb-4 text-xs text-zinc-600">
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>Velg aktivitet</h2>
+            <p className={styles.sectionHint}>
               Kryss av ønskede aktiviteter. Kun aktiviteter som er aktive i skjemaet er listet.
             </p>
-            <div className="space-y-8">
+            <div className={styles.categoryGroup}>
               {grouped.map(({ cat, rows }) => (
                 <div key={cat.id}>
-                  <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-zinc-700">
-                    {cat.name}
-                  </h3>
-                  <div className="space-y-0 border border-zinc-200 px-4 py-2 print:border-black">
+                  <h3 className={styles.categoryHeading}>{cat.name}</h3>
+                  <div className={styles.optionBox}>
                     {rows.length === 0 ? (
-                      <p className="py-2 text-sm italic text-zinc-500">—</p>
+                      <p className={styles.optionBoxEmpty}>—</p>
                     ) : (
                       rows.map((a) => <CheckboxLine key={a.id} label={a.name} />)
                     )}
@@ -108,12 +102,10 @@ export default async function AdminPrintPaperFormPage() {
           </section>
 
           {noSel.rows.length > 0 ? (
-            <section className="break-inside-avoid">
-              <h2 className="mb-3 text-lg font-semibold border-b border-zinc-200 pb-1">
-                Ingen aktivitet valgt
-              </h2>
-              <p className="mb-4 text-xs text-zinc-600">Kryss ett alternativ ved behov.</p>
-              <div className="space-y-0 border border-zinc-200 px-4 py-2 print:border-black">
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>Ingen aktivitet valgt</h2>
+              <p className={styles.sectionHint}>Kryss ett alternativ ved behov.</p>
+              <div className={styles.optionBox}>
                 {noSel.rows.map((o) => (
                   <RadioLine key={o.id} label={o.label} />
                 ))}
@@ -121,17 +113,17 @@ export default async function AdminPrintPaperFormPage() {
             </section>
           ) : null}
 
-          <section className="break-inside-avoid">
-            <h2 className="mb-3 text-lg font-semibold border-b border-zinc-200 pb-1">Medlemskap</h2>
-            <div className="space-y-0 border border-zinc-200 px-4 py-2 print:border-black">
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>Medlemskap</h2>
+            <div className={styles.optionBox}>
               {mem.rows.map((m) => (
                 <RadioLine key={m.id} label={m.label} />
               ))}
             </div>
           </section>
 
-          <section className="break-inside-avoid">
-            <h2 className="mb-3 text-lg font-semibold border-b border-zinc-200 pb-1">Kontakt</h2>
+          <section className={styles.section}>
+            <h2 className={styles.sectionTitle}>Kontakt</h2>
             <RuleField label="Navn" />
             <RuleField label="E-post" />
             <RuleField label="Telefon" />
@@ -139,10 +131,10 @@ export default async function AdminPrintPaperFormPage() {
           </section>
 
           {langs.rows.length > 0 ? (
-            <section className="break-inside-avoid">
-              <h2 className="mb-3 text-lg font-semibold border-b border-zinc-200 pb-1">Språk</h2>
-              <p className="mb-2 text-xs text-zinc-600">Kryss språk deltakeren behersker.</p>
-              <div className="columns-2 gap-x-6 border border-zinc-200 px-4 py-2 print:border-black sm:columns-3">
+            <section className={styles.section}>
+              <h2 className={styles.sectionTitle}>Språk</h2>
+              <p className={styles.sectionHint}>Kryss språk deltakeren behersker.</p>
+              <div className={styles.langGrid}>
                 {langs.rows.map((l) => (
                   <CheckboxLine key={l.id} label={l.name} />
                 ))}
@@ -150,26 +142,22 @@ export default async function AdminPrintPaperFormPage() {
             </section>
           ) : null}
 
-          <section className="break-inside-avoid pb-12">
-            <h2 className="mb-3 text-lg font-semibold border-b border-zinc-200 pb-1">
-              Evaluering av fysisk startkurs
-            </h2>
-            <p className="mb-4 text-xs text-zinc-600">
-              Kryss/skriv som på nettskjemaet (skala og fri tekst).
-            </p>
+          <section className={`${styles.section} ${styles.finalPad}`}>
+            <h2 className={styles.sectionTitle}>Evaluering av fysisk startkurs</h2>
+            <p className={styles.sectionHint}>Kryss/skriv som på nettskjemaet (skala og fri tekst).</p>
             <RuleField label="Hvor fornøyd er du med kurset totalt sett?" />
             <RuleField label="Hvor fornøyd er du med kursholderne og formidlingen av kurset?" />
-            <div className="mb-4">
-              <span className="text-sm font-medium">
+            <div className={styles.ruleField}>
+              <span className={styles.ruleFieldLabel}>
                 Kommentarer eller forslag til forbedringer i kurset
               </span>
-              <div className="mt-1 min-h-[5rem] border border-zinc-300 p-2 text-sm print:border-black" />
+              <div className={styles.commentBox} />
             </div>
           </section>
 
-          <section className="break-inside-avoid border border-dashed border-zinc-300 p-4 text-xs text-zinc-600 print:border-black">
-            <p className="font-medium text-zinc-800">Etter registrering på papir</p>
-            <p className="mt-1">
+          <section className={styles.footnoteBox}>
+            <p className={styles.footnoteHeading}>Etter registrering på papir</p>
+            <p className={styles.footnoteBody}>
               Før inn data manuellt i registreringstabellen eller be deltager om å bruke nettskjema når mulig.
             </p>
           </section>

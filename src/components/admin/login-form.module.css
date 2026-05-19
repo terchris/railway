@@ -1,0 +1,84 @@
+.card {
+  margin: 0 auto;
+  width: 100%;
+  max-width: 28rem;
+  box-shadow: var(--ds-shadow-md);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-1);
+}
+
+.title {
+  font-size: var(--ds-heading-2xs-font-size);
+}
+
+.intro {
+  margin: 0;
+  font-size: var(--ds-body-sm-font-size);
+  color: var(--ds-color-text-subtle);
+  line-height: var(--ds-body-long-sm-line-height);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-2);
+}
+
+.jwtInput {
+  display: flex;
+  width: 100%;
+  min-height: var(--ds-size-26);
+  border-radius: var(--ds-border-radius-md);
+  border: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+  background: var(--ds-color-surface-default);
+  padding: var(--ds-size-2) var(--ds-size-3);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--ds-body-xs-font-size);
+  color: var(--ds-color-text-default);
+  outline: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+  resize: vertical;
+}
+
+.jwtInput::placeholder {
+  color: var(--ds-color-text-subtle);
+}
+
+.jwtInput:focus-visible {
+  border-color: var(--ds-color-border-default);
+  box-shadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-surface-tinted);
+}
+
+.jwtInput:disabled {
+  opacity: var(--ds-opacity-disabled);
+  cursor: not-allowed;
+}
+
+.fieldHelp {
+  margin: 0;
+  font-size: var(--ds-body-xs-font-size);
+  color: var(--ds-color-text-subtle);
+  line-height: var(--ds-body-long-xs-line-height);
+}
+
+.errorAlert {
+  font-size: var(--ds-body-sm-font-size);
+}
+
+.submitButton {
+  width: 100%;
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}

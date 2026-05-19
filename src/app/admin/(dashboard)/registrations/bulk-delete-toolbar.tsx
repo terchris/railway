@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import type { CheckedState } from "@radix-ui/react-checkbox"
 
+import styles from "./registrations.module.css"
+
 type CtxValue = {
   idsOnPage: number[]
   selected: Set<number>
@@ -95,12 +97,12 @@ export function RegistrationsBulkDeleteBar() {
   const label = ids.length === 0 ? "Slett valgte" : `Slett valgte (${ids.length})`
 
   return (
-    <div className="flex flex-wrap items-center gap-3 border-b border-zinc-100 bg-zinc-50/70 px-4 py-3 text-sm">
+    <div className={styles.bulkBar}>
       <Button
         type="button"
         variant="outline"
         size="sm"
-        className="h-9 border-red-800 text-red-900 hover:bg-red-50"
+        className={styles.bulkButton}
         disabled={pending || ids.length === 0}
         onClick={() => {
           if (ids.length === 0) return
@@ -114,7 +116,7 @@ export function RegistrationsBulkDeleteBar() {
       >
         {pending ? "…" : label}
       </Button>
-      <span className="text-xs text-zinc-600">Bare rader krysset av på gjeldende side slettes.</span>
+      <span className={styles.bulkHint}>Bare rader krysset av på gjeldende side slettes.</span>
     </div>
   )
 }

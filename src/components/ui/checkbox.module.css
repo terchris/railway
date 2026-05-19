@@ -1,0 +1,39 @@
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  height: var(--ds-size-4);
+  width: var(--ds-size-4);
+  border-radius: var(--ds-border-radius-sm);
+  border: var(--ds-border-width-default) solid var(--ds-color-border-default);
+  background: var(--ds-color-surface-default);
+  outline: none;
+  transition: background-color 150ms ease, border-color 150ms ease;
+  cursor: pointer;
+}
+
+.checkbox:focus-visible {
+  box-shadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-focus-outer);
+}
+
+.checkbox:disabled {
+  opacity: var(--ds-opacity-disabled);
+  cursor: not-allowed;
+}
+
+.checkbox[data-state="checked"] {
+  border-color: var(--ds-color-base-default);
+  background: var(--ds-color-base-default);
+  color: var(--ds-color-base-contrast-default);
+}
+
+.indicator {
+  color: currentColor;
+  display: inline-flex;
+}
+
+.indicator :global(svg) {
+  height: var(--ds-size-3);
+  width: var(--ds-size-3);
+}

@@ -3,6 +3,7 @@
 import { useTransition } from "react"
 
 import { Button } from "@/components/ui/button"
+import styles from "./admin-shared.module.css"
 
 export function AdminToggleEnableButton({
   id,
@@ -25,7 +26,7 @@ export function AdminToggleEnableButton({
       size="sm"
       variant="outline"
       disabled={pending}
-      className={enabled ? "text-amber-900" : ""}
+      className={enabled ? styles.toggleAmber : undefined}
       onClick={() =>
         start(async () => {
           await setEnabled(id, next)

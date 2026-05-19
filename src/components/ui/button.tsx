@@ -1,42 +1,42 @@
 import { Slot } from "@radix-ui/react-slot"
-import { cva, type VariantProps } from "class-variance-authority"
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+import styles from "./button.module.css"
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
-  {
-    variants: {
-      variant: {
-        default: "bg-red-700 text-white shadow hover:bg-red-800",
-        secondary: "border border-zinc-300 bg-white text-zinc-900 shadow-sm hover:bg-zinc-50",
-        outline: "border border-zinc-300 bg-transparent hover:bg-zinc-100",
-      },
-      size: {
-        default: "h-10 px-4 py-2",
-        lg: "h-12 px-8",
-        sm: "h-8 rounded-md px-3 text-xs",
-      },
-    },
-    defaultVariants: { variant: "default", size: "default" },
-  },
-)
+type Variant = "default" | "secondary" | "outline"
+type Size = "default" | "lg" | "sm"
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+const VARIANT_CLASS: Record<Variant, string> = {
+  default: styles.variantDefault,
+  secondary: styles.variantSecondary,
+  outline: styles.variantOutline,
+}
+
+const SIZE_CLASS: Record<Size, string> = {
+  default: styles.sizeDefault,
+  lg: styles.sizeLg,
+  sm: styles.sizeSm,
+}
+
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: Variant
+  size?: Size
   asChild?: boolean
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant = "default", size = "default", asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"
     return (
-      <Comp ref={ref} className={cn(buttonVariants({ variant, size }), className)} {...props} />
+      <Comp
+        ref={ref}
+        className={cn(styles.button, VARIANT_CLASS[variant], SIZE_CLASS[size], className)}
+        {...props}
+      />
     )
   },
 )
 Button.displayName = "Button"
 
-export { Button, buttonVariants }
+export { Button }

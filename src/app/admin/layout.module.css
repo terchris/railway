@@ -1,0 +1,36 @@
+.shell {
+  min-height: 100%;
+  background: var(--ds-color-background-default);
+  color: var(--ds-color-text-default);
+}
+
+.banner {
+  border-bottom: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+  background: var(--ds-color-surface-default);
+}
+
+.bannerInner {
+  margin: 0 auto;
+  display: flex;
+  max-width: 64rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-size-4);
+  padding: var(--ds-size-2) var(--ds-size-4);
+  font-size: var(--ds-body-xs-font-size);
+}
+
+.bannerLabel {
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-text-subtle);
+}
+
+.bannerLink {
+  color: var(--ds-color-base-default);
+  text-decoration: none;
+}
+
+.bannerLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

@@ -1,5 +1,7 @@
 import Link from "next/link"
 
+import styles from "./admin-sidebar-nav.module.css"
+
 type NavItem = { href: string; label: string; cap?: string }
 
 const GROUPS: { title: string | null; items: NavItem[] }[] = [
@@ -51,23 +53,18 @@ export function AdminSidebarNav({
   effectiveCaps: ReadonlySet<string>
 }) {
   return (
-    <nav className="flex flex-row flex-wrap gap-x-4 gap-y-6 md:flex-col md:gap-6">
+    <nav className={styles.nav}>
       {GROUPS.map((group, gi) => {
         const visibleItems = group.items.filter((it) => itemVisible(it, hasStaffJwt, effectiveCaps))
         if (visibleItems.length === 0) return null
 
         return (
-          <div key={gi} className="min-w-[10rem] flex-1 md:flex-none md:min-w-0">
-            {group.title ? (
-              <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-zinc-500">{group.title}</p>
-            ) : null}
-            <ul className="space-y-1">
+          <div key={gi} className={styles.group}>
+            {group.title ? <p className={styles.groupTitle}>{group.title}</p> : null}
+            <ul className={styles.list}>
               {visibleItems.map((it) => (
                 <li key={it.href}>
-                  <Link
-                    href={it.href}
-                    className="block rounded-md px-2 py-1.5 text-sm font-medium text-zinc-700 hover:bg-zinc-100 hover:text-red-800"
-                  >
+                  <Link href={it.href} className={styles.link}>
                     {it.label}
                   </Link>
                 </li>
@@ -77,10 +74,10 @@ export function AdminSidebarNav({
         )
       })}
       {!hasStaffJwt ? (
-        <p className="w-full text-xs text-amber-800 md:border-t md:border-zinc-100 md:pt-4">
+        <p className={styles.fallbackNotice}>
           Logg inn med staff‑JWT eller sett{" "}
-          <span className="font-mono">POSTGREST_ADMIN_JWT</span> /{" "}
-          <span className="font-mono">POSTGREST_STAFF_JWT_UIS</span> som fallback på server.
+          <span className={styles.mono}>POSTGREST_ADMIN_JWT</span> /{" "}
+          <span className={styles.mono}>POSTGREST_STAFF_JWT_UIS</span> som fallback på server.
         </p>
       ) : null}
     </nav>

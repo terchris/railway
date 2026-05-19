@@ -7,6 +7,8 @@ import { StaffJwtMissing } from "@/components/admin/staff-jwt-missing"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { pgStaff } from "@/lib/admin-postgrest"
 
+import adminStyles from "@/app/admin/(dashboard)/admin.module.css"
+
 export const dynamic = "force-dynamic"
 
 type Row = {
@@ -37,58 +39,58 @@ export default async function AdminMembershipOptionsPage() {
   }))
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Medlemsalternativer</h1>
-          <p className="mt-1 max-w-2xl text-sm text-zinc-600">
-            Lenker og tekster som kan vises etter medlemskapsvalg når tilhørende status har{' '}
-            <strong>Vis valg</strong> aktivt ({' '}
-            <Link href="/admin/membership-statuses" className="text-red-700 hover:underline">
+    <div className={adminStyles.page}>
+      <div className={adminStyles.pageHeader}>
+        <div className={adminStyles.pageHeaderInner}>
+          <h1 className={adminStyles.pageTitle}>Medlemsalternativer</h1>
+          <p className={adminStyles.pageLead}>
+            Lenker og tekster som kan vises etter medlemskapsvalg når tilhørende status har{" "}
+            <strong>Vis valg</strong> aktivt ({" "}
+            <Link href="/admin/membership-statuses" className={adminStyles.actionLink}>
               medlemsstatus
             </Link>
             ).
           </p>
         </div>
-        <Link href="/admin/skemadata" className="text-sm font-medium text-red-700 hover:underline">
+        <Link href="/admin/skemadata" className={adminStyles.actionLink}>
           ← Alle skjemadata
         </Link>
       </div>
 
       {error ? (
-        <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">{error.message}</p>
+        <p className={adminStyles.errorBanner}>{error.message}</p>
       ) : (
-        <Card className="overflow-hidden">
-          <CardHeader className="border-b border-zinc-100 py-4">
-            <CardTitle className="text-base">membership_options</CardTitle>
+        <Card className={adminStyles.sectionCard}>
+          <CardHeader className={adminStyles.sectionCardHeader}>
+            <CardTitle className={adminStyles.sectionCardTitle}>membership_options</CardTitle>
           </CardHeader>
-          <CardContent className="p-0">
+          <CardContent className={adminStyles.sectionCardBodyFlush}>
             {rows.length === 0 ? (
-              <p className="px-6 py-8 text-sm text-zinc-500">Ingen rader.</p>
+              <p className={adminStyles.tableEmpty}>Ingen rader.</p>
             ) : (
-              <table className="w-full table-fixed text-left text-sm">
-                <thead className="bg-zinc-50 text-xs uppercase tracking-wide text-zinc-500">
+              <table className={`${adminStyles.table} ${adminStyles.tableFixed}`}>
+                <thead className={adminStyles.tableHead}>
                   <tr>
-                    <th className="px-4 py-3 font-medium">Navn</th>
-                    <th className="px-4 py-3 font-medium">Lenke</th>
-                    <th className="px-4 py-3 font-medium">Vipps</th>
-                    <th className="px-4 py-3 font-medium">Aktiv</th>
-                    <th className="px-4 py-3 font-medium">Sortering</th>
-                    <th className="px-4 py-3 font-medium">Flytt</th>
-                    <th className="px-4 py-3 font-medium" />
+                    <th>Navn</th>
+                    <th>Lenke</th>
+                    <th>Vipps</th>
+                    <th>Aktiv</th>
+                    <th>Sortering</th>
+                    <th>Flytt</th>
+                    <th />
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-zinc-100">
+                <tbody className={adminStyles.tableBody}>
                   {rows.map((r, i) => (
-                    <tr key={r.id} className="bg-white hover:bg-zinc-50/80">
-                      <td className="px-4 py-2.5 font-medium">{r.name}</td>
-                      <td className="max-w-[10rem] truncate px-4 py-2.5 font-mono text-xs text-zinc-600">{r.link}</td>
-                      <td className="px-4 py-2.5">{r.is_vipps_link ? "Ja" : "—"}</td>
-                      <td className="px-4 py-2.5">
+                    <tr key={r.id}>
+                      <td className={adminStyles.tableCell}>{r.name}</td>
+                      <td className={adminStyles.tableCellMonoTrunc}>{r.link}</td>
+                      <td className={adminStyles.tableCell}>{r.is_vipps_link ? "Ja" : "—"}</td>
+                      <td className={adminStyles.tableCell}>
                         <MembershipOptionToggleButton id={r.id} enabled={r.is_enabled} />
                       </td>
-                      <td className="px-4 py-2.5 tabular-nums">{r.sort_order}</td>
-                      <td className="px-4 py-2.5">
+                      <td className={adminStyles.tableCellNum}>{r.sort_order}</td>
+                      <td className={adminStyles.tableCell}>
                         <AdminOrderRowButtons
                           rowId={r.id}
                           canMoveUp={i > 0}
@@ -96,8 +98,8 @@ export default async function AdminMembershipOptionsPage() {
                           moveRow={nudgeMembershipOptionOrder}
                         />
                       </td>
-                      <td className="px-4 py-2.5">
-                        <Link href={`/admin/membership-options/${r.id}`} className="text-xs font-medium text-red-700 hover:underline">
+                      <td className={adminStyles.tableCell}>
+                        <Link href={`/admin/membership-options/${r.id}`} className={adminStyles.tableLinkSm}>
                           Rediger
                         </Link>
                       </td>

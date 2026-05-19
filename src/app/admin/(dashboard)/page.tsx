@@ -3,6 +3,8 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { isStaffPostgrestJwtConfigured, pgStaff } from "@/lib/admin-postgrest"
 
+import styles from "./page.module.css"
+
 export const dynamic = "force-dynamic"
 
 export default async function AdminDashboardPage() {
@@ -28,73 +30,68 @@ export default async function AdminDashboardPage() {
   const jwtConfigured = await isStaffPostgrestJwtConfigured()
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Oversikt</h1>
-        <p className="mt-2 max-w-2xl text-sm text-zinc-600">
+    <div className={styles.page}>
+      <div className={styles.intro}>
+        <h1 className={styles.title}>Oversikt</h1>
+        <p className={styles.lead}>
           Førsteutkast til adminflate. Liste over registreringer krever en PostgREST-JWT som har
-          kapabiliteten <code className="rounded bg-zinc-100 px-1">registrations:read</code>
+          kapabiliteten <code className={styles.code}>registrations:read</code>
           — vanligvis fra innlogging (økt‑cookie). Miljø‑JWT er valgfritt fallback for drift.
         </p>
       </div>
 
       {!jwtConfigured ? (
-        <p className="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
+        <p className={styles.warningBanner}>
           Ingen gyldig staff‑bearer tilgjengelig. Logg inn med staff‑JWT på{" "}
-          <code className="rounded bg-white px-1 text-xs">/admin/login</code>, eller sett{" "}
-          <code className="rounded bg-white px-1 text-xs">POSTGREST_ADMIN_JWT</code> /{" "}
-          <code className="rounded bg-white px-1 text-xs">POSTGREST_STAFF_JWT_UIS</code> som server‑fallback (
-          <code className="rounded bg-white px-1 text-xs">08-auth.md</code>).
+          <code className={styles.codeOnLight}>/admin/login</code>, eller sett{" "}
+          <code className={styles.codeOnLight}>POSTGREST_ADMIN_JWT</code> /{" "}
+          <code className={styles.codeOnLight}>POSTGREST_STAFF_JWT_UIS</code> som server‑fallback (
+          <code className={styles.codeOnLight}>08-auth.md</code>).
         </p>
       ) : null}
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className={styles.grid}>
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base">Antall registreringer</CardTitle>
+          <CardHeader className={styles.cardHeaderTight}>
+            <CardTitle className={styles.cardTitle}>Antall registreringer</CardTitle>
           </CardHeader>
           <CardContent>
             {!jwtConfigured ? (
-              <p className="text-sm text-zinc-500">Krever staff-JWT.</p>
+              <p className={styles.muted}>Krever staff-JWT.</p>
             ) : countError ? (
-              <p className="text-sm text-red-700">{countError}</p>
+              <p className={styles.errorText}>{countError}</p>
             ) : (
-              <p className="text-3xl font-semibold tabular-nums">{registrationCount ?? "—"}</p>
+              <p className={styles.statNumber}>{registrationCount ?? "—"}</p>
             )}
-            <Link
-              href="/admin/registrations"
-              className="mt-4 inline-block text-sm font-medium text-red-700 hover:underline"
-            >
+            <Link href="/admin/registrations" className={styles.cardLink}>
               Åpne tabellen →
             </Link>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base">App‑log · åpne varsler</CardTitle>
+          <CardHeader className={styles.cardHeaderTight}>
+            <CardTitle className={styles.cardTitle}>App‑log · åpne varsler</CardTitle>
           </CardHeader>
           <CardContent>
             {!jwtConfigured ? (
-              <p className="text-sm text-zinc-500">Krever staff-JWT.</p>
+              <p className={styles.muted}>Krever staff-JWT.</p>
             ) : alertErr ? (
-              <p className="text-sm text-red-700">{alertErr}</p>
+              <p className={styles.errorText}>{alertErr}</p>
             ) : alertCount !== null ? (
-              <p className={`text-3xl font-semibold tabular-nums ${alertCount > 0 ? "text-red-700" : "text-zinc-900"}`}>
-                {alertCount}
-              </p>
+              <p className={alertCount > 0 ? styles.statNumberAlert : styles.statNumber}>{alertCount}</p>
             ) : (
-              <p className="text-sm text-zinc-500">—</p>
+              <p className={styles.muted}>—</p>
             )}
-            <p className="mt-3 text-xs text-zinc-500">
-              Rader i <code className="rounded bg-zinc-100 px-1">railway.app_log</code> med{" "}
-              <code className="rounded bg-zinc-100 px-1">alert = true</code>. Bruk helse‑endepunktet:
+            <p className={styles.cardCaption}>
+              Rader i <code className={styles.code}>railway.app_log</code> med{" "}
+              <code className={styles.code}>alert = true</code>. Bruk helse‑endepunktet:
             </p>
-            <div className="mt-3 flex flex-col gap-2 text-sm font-medium">
-              <Link href="/admin/app-log" className="text-red-700 hover:underline">
+            <div className={styles.linkCol}>
+              <Link href="/admin/app-log" className={styles.cardLinkInline}>
                 Åpne app‑logg →
               </Link>
-              <Link href="/api/health" className="text-red-700 hover:underline">
+              <Link href="/api/health" className={styles.cardLinkInline}>
                 GET /api/health →
               </Link>
             </div>
@@ -102,45 +99,47 @@ export default async function AdminDashboardPage() {
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base">Skjemainnhold · aktiviteter</CardTitle>
+          <CardHeader className={styles.cardHeaderTight}>
+            <CardTitle className={styles.cardTitle}>Skjemainnhold · aktiviteter</CardTitle>
           </CardHeader>
-          <CardContent className="text-sm text-zinc-600">
-            <p>Velkomstteksten og aktivitetslista kommer fra PostgREST. Her slår du av/på rader eller justerer
-              grenser og tekster på aktivitetsteget.</p>
-            <ul className="mt-4 list-disc space-y-1 pl-4">
+          <CardContent className={styles.cardBody}>
+            <p>
+              Velkomstteksten og aktivitetslista kommer fra PostgREST. Her slår du av/på rader eller justerer
+              grenser og tekster på aktivitetsteget.
+            </p>
+            <ul className={styles.bulletList}>
               <li>
-                <Link href="/admin/activities" className="font-medium text-red-700 hover:underline">
+                <Link href="/admin/activities" className={styles.cardLinkInline}>
                   Aktivitetstabell
                 </Link>
               </li>
               <li>
-                <Link href="/admin/activity-categories" className="font-medium text-red-700 hover:underline">
+                <Link href="/admin/activity-categories" className={styles.cardLinkInline}>
                   Kategorier
                 </Link>
               </li>
               <li>
-                <Link href="/admin/activity-settings" className="font-medium text-red-700 hover:underline">
+                <Link href="/admin/activity-settings" className={styles.cardLinkInline}>
                   Valg‑grenser
                 </Link>
               </li>
               <li>
-                <Link href="/admin/activities-text" className="font-medium text-red-700 hover:underline">
+                <Link href="/admin/activities-text" className={styles.cardLinkInline}>
                   Tekster på aktivitetsteget
                 </Link>
               </li>
             </ul>
-            <Link href="/" className="mt-6 inline-block font-medium text-red-700 hover:underline">
+            <Link href="/" className={styles.cardLink}>
               Åpne frivilligskjema →
             </Link>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base">Videre innhold i skjema</CardTitle>
+          <CardHeader className={styles.cardHeaderTight}>
+            <CardTitle className={styles.cardTitle}>Videre innhold i skjema</CardTitle>
           </CardHeader>
-          <CardContent className="text-sm text-zinc-600">
+          <CardContent className={styles.cardBody}>
             <p>
               Språkliste, medlemskapsspørsmål, alternativ for «ingen aktivitet», og evalueringsspørsmål ligger ved
               siden av aktivitetene i Postgres. Egne adminsider kan bygges når dere vil ha dem.

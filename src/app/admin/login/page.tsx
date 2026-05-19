@@ -5,6 +5,8 @@ import { DummyLoginPicker } from "@/components/admin/dummy-login-picker"
 import { verifyAdminSessionCookieValue } from "@/lib/admin-session"
 import { envStaffPostgrestJwt } from "@/lib/admin-postgrest"
 
+import styles from "./page.module.css"
+
 type PageProps = { searchParams?: Promise<Record<string, string | undefined>> }
 
 export default async function AdminLoginPage({ searchParams }: PageProps) {
@@ -28,54 +30,50 @@ export default async function AdminLoginPage({ searchParams }: PageProps) {
   const showManual = sp.manual === "1"
 
   return (
-    <main className="flex flex-1 flex-col items-center justify-center gap-8 px-4 py-16">
+    <main className={styles.main}>
       {!jwtSecret ? (
-        <p className="max-w-md rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-          Sett <code className="rounded bg-white px-1">JWT_SECRET</code> i{" "}
-          <code className="rounded bg-white px-1">.env</code> (samme verdi som PostgREST bruker). Da kan dummy‑login og
+        <p className={styles.notice}>
+          Sett <code className={styles.codeOnLight}>JWT_SECRET</code> i{" "}
+          <code className={styles.codeOnLight}>.env</code> (samme verdi som PostgREST bruker). Da kan dummy‑login og
           manuell innlogging minte/verifisere staff‑JWT.
           {process.env.ADMIN_PASSWORD?.trim() ? (
             <>
               {" "}
-              Du har <code className="rounded bg-white px-1">ADMIN_PASSWORD</code>, men bootstrap‑passord krever også{" "}
-              <code className="rounded bg-white px-1">JWT_SECRET</code> for å minte økt‑JWT lokalt.
+              Du har <code className={styles.codeOnLight}>ADMIN_PASSWORD</code>, men bootstrap‑passord krever også{" "}
+              <code className={styles.codeOnLight}>JWT_SECRET</code> for å minte økt‑JWT lokalt.
             </>
           ) : null}
         </p>
       ) : null}
       {bootstrapMissing ? (
-        <p className="max-w-md rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-950">
-          Fant ingen gyldig staff‑JWT i miljø (<code className="rounded bg-white px-1 text-xs">POSTGREST_ADMIN_JWT</code>{" "}
-          / <code className="rounded bg-white px-1 text-xs">POSTGREST_STAFF_JWT_UIS</code>) som matcher{" "}
-          <code className="rounded bg-white px-1 text-xs">JWT_SECRET</code>. Velg dummy‑rolle eller bruk manuell
-          innlogging.
+        <p className={styles.notice}>
+          Fant ingen gyldig staff‑JWT i miljø (<code className={styles.codeOnLight}>POSTGREST_ADMIN_JWT</code>{" "}
+          / <code className={styles.codeOnLight}>POSTGREST_STAFF_JWT_UIS</code>) som matcher{" "}
+          <code className={styles.codeOnLight}>JWT_SECRET</code>. Velg dummy‑rolle eller bruk manuell innlogging.
         </p>
       ) : null}
       {jwtSecret ? (
         <>
           <DummyLoginPicker />
-          <div className="flex flex-col items-center gap-3">
+          <div className={styles.manualBlock}>
             {showManual ? (
               <AdminLoginForm allowJwt allowPassword={allowPassword} />
             ) : (
-              <a
-                href="/admin/login?manual=1"
-                className="text-sm font-medium text-red-700 underline-offset-2 hover:underline"
-              >
+              <a href="/admin/login?manual=1" className={styles.manualLink}>
                 Manuell innlogging (lim inn staff‑JWT)
               </a>
             )}
           </div>
-          <p className="max-w-2xl text-center text-xs text-zinc-500">
+          <p className={styles.footnote}>
             Økta lagrer PostgREST‑kompatibel HS256‑JWT i HttpOnly‑cookie (
-            <code className="rounded bg-zinc-100 px-1 text-[11px]">JWT_SECRET</code>
+            <code className={styles.code}>JWT_SECRET</code>
             ). Dummy‑login og bootstrap‑passord er utviklingsstillas — erstatt med OIDC/UIS‑flyt etter behov (
-            <span className="font-mono text-[11px]">08-auth</span>).
+            <span className={styles.mono}>08-auth</span>).
             {bootstrapAllowed && envJwtValid ? (
               <>
                 {" "}
                 Gyldig miljø‑JWT finnes — bruk{" "}
-                <a href="/admin/login?auto=1" className="font-medium text-red-700 hover:underline">
+                <a href="/admin/login?auto=1" className={styles.footnoteLink}>
                   automatisk innlogging fra miljø
                 </a>{" "}
                 hvis du ikke vil velge rolle.

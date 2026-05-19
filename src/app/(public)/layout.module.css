@@ -1,0 +1,7 @@
+.shell {
+  display: flex;
+  min-height: 100%;
+  flex: 1;
+  flex-direction: column;
+  background: var(--ds-color-background-default);
+}

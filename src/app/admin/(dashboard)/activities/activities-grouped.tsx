@@ -2,7 +2,8 @@ import Link from "next/link"
 
 import { ToggleActivityEnableButton } from "./toggle-enable-button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
+
+import adminStyles from "@/app/admin/(dashboard)/admin.module.css"
 
 export type CatRow = { id: number; name: string; is_additional: boolean }
 export type ActRow = {
@@ -40,53 +41,45 @@ export function AdminActivitiesGroupedView({
   const grouped = groupByCategories(categories, activities)
 
   return (
-    <div className="space-y-6">
+    <div className={adminStyles.page}>
       {grouped.map(({ cat, rows }) => (
-        <Card key={cat.id} className="overflow-hidden">
-          <CardHeader className="border-b border-zinc-100 bg-zinc-50/80 py-3">
-            <CardTitle className="text-base">
+        <Card key={cat.id} className={adminStyles.sectionCard}>
+          <CardHeader className={adminStyles.sectionCardHeaderTinted}>
+            <CardTitle className={adminStyles.sectionCardTitle}>
               {cat.name}
-              <span className="ml-2 text-xs font-normal text-zinc-500">
+              <span className={adminStyles.subHint}>
                 {cat.is_additional ? "«tillegg» liste" : "hovedliste"}
               </span>
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-0">
+          <CardContent className={adminStyles.sectionCardBodyFlush}>
             {rows.length === 0 ? (
-              <p className="px-4 py-6 text-sm text-zinc-500">Ingen aktiviteter under denne kategorien.</p>
+              <p className={adminStyles.tableEmpty}>Ingen aktiviteter under denne kategorien.</p>
             ) : (
-              <table className="w-full text-left text-sm">
-                <thead className="bg-white text-xs uppercase tracking-wide text-zinc-500">
+              <table className={adminStyles.table}>
+                <thead className={adminStyles.tableHead}>
                   <tr>
-                    <th className="px-4 py-2 font-medium">Navn</th>
-                    <th className="px-4 py-2 font-medium">Rekkefølge</th>
-                    <th className="px-4 py-2 font-medium">Trenger folk</th>
-                    <th className="px-4 py-2 font-medium">Status</th>
-                    <th className="px-4 py-2 font-medium">Handling</th>
+                    <th>Navn</th>
+                    <th>Rekkefølge</th>
+                    <th>Trenger folk</th>
+                    <th>Status</th>
+                    <th>Handling</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-zinc-100">
+                <tbody className={adminStyles.tableBody}>
                   {rows.map((a) => (
-                    <tr key={a.id} className="bg-white">
-                      <td className="px-4 py-2.5 font-medium text-zinc-900">{a.name}</td>
-                      <td className="px-4 py-2.5 tabular-nums text-zinc-700">{a.sort_order}</td>
-                      <td className="px-4 py-2.5 text-zinc-700">{a.needs_volunteers ? "Ja" : "Nei"}</td>
-                      <td className="px-4 py-2.5">
-                        <span
-                          className={cn(
-                            "inline-flex rounded-full px-2 py-0.5 text-xs font-medium",
-                            a.is_enabled ? "bg-emerald-100 text-emerald-900" : "bg-zinc-100 text-zinc-600",
-                          )}
-                        >
+                    <tr key={a.id}>
+                      <td className={adminStyles.tableCell}>{a.name}</td>
+                      <td className={adminStyles.tableCellNum}>{a.sort_order}</td>
+                      <td className={adminStyles.tableCell}>{a.needs_volunteers ? "Ja" : "Nei"}</td>
+                      <td className={adminStyles.tableCell}>
+                        <span className={a.is_enabled ? adminStyles.statusPillPositive : adminStyles.statusPill}>
                           {a.is_enabled ? "I bruk" : "Skjult"}
                         </span>
                       </td>
-                      <td className="px-4 py-2.5">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <Link
-                            href={`/admin/activities/${a.id}`}
-                            className="rounded-md border border-zinc-300 px-2.5 py-1 text-xs font-medium text-red-700 hover:bg-zinc-50"
-                          >
+                      <td className={adminStyles.tableCell}>
+                        <div className={adminStyles.rowActions}>
+                          <Link href={`/admin/activities/${a.id}`} className={adminStyles.editRowLink}>
                             Rediger
                           </Link>
                           <ToggleActivityEnableButton id={a.id} enabled={a.is_enabled} />

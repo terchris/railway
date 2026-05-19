@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 import { Button } from "@/components/ui/button"
+import styles from "./admin-shared.module.css"
 
 export function AdminLogoutButton() {
   const router = useRouter()
@@ -15,7 +16,7 @@ export function AdminLogoutButton() {
       variant="secondary"
       size="sm"
       disabled={busy}
-      className="shrink-0"
+      className={styles.shrink}
       onClick={() => {
         setBusy(true)
         void fetch("/api/admin/logout", { method: "POST" })

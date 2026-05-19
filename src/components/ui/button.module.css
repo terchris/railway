@@ -1,0 +1,86 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-size-2);
+  white-space: nowrap;
+  border-radius: var(--ds-border-radius-md);
+  font-weight: var(--ds-font-weight-medium);
+  cursor: pointer;
+  border: var(--ds-border-width-default) solid transparent;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+}
+
+.button:focus-visible {
+  outline: var(--ds-border-width-focus) solid var(--ds-color-focus-outer);
+  outline-offset: 2px;
+}
+
+.button:disabled {
+  pointer-events: none;
+  opacity: var(--ds-opacity-disabled);
+}
+
+.button :global(svg) {
+  pointer-events: none;
+  flex-shrink: 0;
+  width: var(--ds-size-4);
+  height: var(--ds-size-4);
+}
+
+/* Variants */
+.variantDefault {
+  background: var(--ds-color-base-default);
+  color: var(--ds-color-base-contrast-default);
+  box-shadow: var(--ds-shadow-xs);
+}
+.variantDefault:hover {
+  background: var(--ds-color-base-hover);
+}
+.variantDefault:active {
+  background: var(--ds-color-base-active);
+}
+
+.variantSecondary {
+  background: var(--ds-color-surface-default);
+  color: var(--ds-color-text-default);
+  border-color: var(--ds-color-border-subtle);
+  box-shadow: var(--ds-shadow-xs);
+}
+.variantSecondary:hover {
+  background: var(--ds-color-surface-tinted);
+}
+.variantSecondary:active {
+  background: var(--ds-color-surface-hover);
+}
+
+.variantOutline {
+  background: transparent;
+  color: var(--ds-color-text-default);
+  border-color: var(--ds-color-border-subtle);
+}
+.variantOutline:hover {
+  background: var(--ds-color-surface-tinted);
+}
+.variantOutline:active {
+  background: var(--ds-color-surface-hover);
+}
+
+/* Sizes */
+.sizeDefault {
+  height: var(--ds-size-10);
+  padding: 0 var(--ds-size-4);
+  font-size: var(--ds-body-sm-font-size);
+}
+
+.sizeLg {
+  height: var(--ds-size-12);
+  padding: 0 var(--ds-size-8);
+  font-size: var(--ds-body-md-font-size);
+}
+
+.sizeSm {
+  height: var(--ds-size-8);
+  padding: 0 var(--ds-size-3);
+  font-size: var(--ds-body-xs-font-size);
+}

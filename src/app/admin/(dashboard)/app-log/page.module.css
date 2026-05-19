@@ -1,0 +1,101 @@
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ds-size-2);
+  font-size: var(--ds-body-sm-font-size);
+}
+
+.filterRowLabel {
+  margin-right: var(--ds-size-2);
+  color: var(--ds-color-text-subtle);
+}
+
+.minWidthTable {
+  min-width: 48rem;
+}
+
+.cellTime {
+  white-space: nowrap;
+  padding: var(--ds-size-2) var(--ds-size-4);
+  font-size: var(--ds-body-xs-font-size);
+  font-variant-numeric: tabular-nums;
+  color: var(--ds-color-text-subtle);
+}
+
+.cellMessage {
+  max-width: 36rem;
+  padding: var(--ds-size-2) var(--ds-size-4);
+  font-size: var(--ds-body-xs-font-size);
+  color: var(--ds-color-text-default);
+  vertical-align: top;
+}
+
+.messageBox {
+  max-height: 8rem;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.rowAlert {
+  background: var(--ds-color-danger-surface-tinted);
+}
+
+.typeBadge {
+  display: inline-flex;
+  border-radius: var(--ds-border-radius-full);
+  padding: 0 var(--ds-size-2);
+  font-size: var(--ds-body-xs-font-size);
+  font-weight: var(--ds-font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--ds-letter-spacing-9);
+}
+
+.typeBadgeError {
+  composes: typeBadge;
+  background: var(--ds-color-danger-surface-tinted);
+  color: var(--ds-color-danger-text-default);
+}
+
+.typeBadgeWarning {
+  composes: typeBadge;
+  background: var(--ds-color-warning-surface-tinted);
+  color: var(--ds-color-warning-text-default);
+}
+
+.typeBadgeInfo {
+  composes: typeBadge;
+  background: var(--ds-color-info-surface-tinted);
+  color: var(--ds-color-info-text-default);
+}
+
+.typeBadgeNeutral {
+  composes: typeBadge;
+  background: var(--ds-color-surface-tinted);
+  color: var(--ds-color-text-default);
+}
+
+.clearButtonWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--ds-size-1);
+}
+
+.clearButton {
+  height: var(--ds-size-8);
+  font-size: var(--ds-body-xs-font-size);
+}
+
+.clearError {
+  max-width: 12rem;
+  text-align: right;
+  font-size: var(--ds-body-xs-font-size);
+  color: var(--ds-color-danger-text-subtle);
+}
+
+.dashCell {
+  font-size: var(--ds-body-xs-font-size);
+  color: var(--ds-color-text-subtle);
+}

@@ -3,6 +3,7 @@
 import { useTransition } from "react"
 
 import { Button } from "@/components/ui/button"
+import styles from "./admin-shared.module.css"
 
 export function AdminOrderRowButtons({
   rowId,
@@ -18,12 +19,12 @@ export function AdminOrderRowButtons({
   const [pending, start] = useTransition()
 
   return (
-    <div className="flex flex-wrap items-center gap-1">
+    <div className={styles.orderRow}>
       <Button
         type="button"
         size="sm"
         variant="outline"
-        className="h-8 px-2 text-xs"
+        className={styles.orderButton}
         disabled={pending || !canMoveUp}
         title="Flytt opp"
         onClick={() =>
@@ -38,7 +39,7 @@ export function AdminOrderRowButtons({
         type="button"
         size="sm"
         variant="outline"
-        className="h-8 px-2 text-xs"
+        className={styles.orderButton}
         disabled={pending || !canMoveDown}
         title="Flytt ned"
         onClick={() =>

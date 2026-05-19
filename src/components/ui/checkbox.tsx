@@ -3,21 +3,15 @@ import { Check } from "lucide-react"
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+import styles from "./checkbox.module.css"
 
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
 >(({ className, ...props }, ref) => (
-  <CheckboxPrimitive.Root
-    ref={ref}
-    className={cn(
-      "peer flex h-4 w-4 shrink-0 items-center justify-center rounded border border-zinc-400 bg-white outline-none disabled:opacity-60 data-[state=checked]:border-red-700 data-[state=checked]:bg-red-700 data-[state=checked]:text-white",
-      className,
-    )}
-    {...props}
-  >
-    <CheckboxPrimitive.Indicator className="text-current">
-      <Check className="h-3 w-3" />
+  <CheckboxPrimitive.Root ref={ref} className={cn(styles.checkbox, className)} {...props}>
+    <CheckboxPrimitive.Indicator className={styles.indicator}>
+      <Check />
     </CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>
 ))

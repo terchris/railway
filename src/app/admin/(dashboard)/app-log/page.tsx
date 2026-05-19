@@ -5,7 +5,9 @@ import { StaffJwtMissing } from "@/components/admin/staff-jwt-missing"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { pgStaff } from "@/lib/admin-postgrest"
-import { cn } from "@/lib/utils"
+
+import adminStyles from "@/app/admin/(dashboard)/admin.module.css"
+import styles from "./page.module.css"
 
 export const dynamic = "force-dynamic"
 
@@ -47,16 +49,16 @@ function buildQuery(s: Omit<Search, "page"> & { page?: number }) {
   return str ? `/admin/app-log?${str}` : "/admin/app-log"
 }
 
-function typeBadgeClasses(t: string) {
+function typeBadgeClass(t: string): string {
   switch (t) {
     case "ERROR":
-      return "bg-red-100 text-red-900"
+      return styles.typeBadgeError
     case "WARNING":
-      return "bg-amber-100 text-amber-950"
+      return styles.typeBadgeWarning
     case "REGISTRATION":
-      return "bg-sky-100 text-sky-900"
+      return styles.typeBadgeInfo
     default:
-      return "bg-zinc-100 text-zinc-800"
+      return styles.typeBadgeNeutral
   }
 }
 
@@ -98,15 +100,15 @@ export default async function AdminAppLogPage({ searchParams }: PageProps) {
   const filterBase = { alertOnly, typeFilter }
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold tracking-tight">App‑logg</h1>
-          <p className="mt-1 max-w-2xl text-sm text-zinc-600">
-            Drifts- og registreringsmeldinger i <span className="font-mono">railway.app_log</span>. Krever{' '}
-            <span className="font-mono">app_log:read</span>
-            {' · '}«Kvitt varsel» setter <span className="font-mono">alert=false</span> og krever{' '}
-            <span className="font-mono">app_log:write</span>.
+    <div className={adminStyles.page}>
+      <div className={adminStyles.pageHeader}>
+        <div className={adminStyles.pageHeaderInner}>
+          <h1 className={adminStyles.pageTitle}>App‑logg</h1>
+          <p className={adminStyles.pageLead}>
+            Drifts- og registreringsmeldinger i <span className={adminStyles.mono}>railway.app_log</span>. Krever{" "}
+            <span className={adminStyles.mono}>app_log:read</span>
+            {" · "}«Kvitt varsel» setter <span className={adminStyles.mono}>alert=false</span> og krever{" "}
+            <span className={adminStyles.mono}>app_log:write</span>.
           </p>
         </div>
         <Button variant="outline" size="sm" asChild>
@@ -114,8 +116,8 @@ export default async function AdminAppLogPage({ searchParams }: PageProps) {
         </Button>
       </div>
 
-      <div className="flex flex-wrap items-center gap-2 text-sm">
-        <span className="mr-2 text-zinc-500">Filter:</span>
+      <div className={styles.filterRow}>
+        <span className={styles.filterRowLabel}>Filter:</span>
         <Button variant={alertOnly ? "default" : "outline"} size="sm" asChild>
           <Link href={buildQuery({ ...filterBase, alertOnly: !alertOnly, page: 1 })}>
             {alertOnly ? "Kun åpne varsler (på)" : "Kun åpne varsler"}
@@ -132,40 +134,40 @@ export default async function AdminAppLogPage({ searchParams }: PageProps) {
       </div>
 
       {errMsg ? (
-        <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-900">{errMsg}</p>
+        <p className={adminStyles.errorBanner}>{errMsg}</p>
       ) : (
-        <Card className="overflow-hidden">
-          <CardHeader className="flex flex-row flex-wrap items-end justify-between gap-2 border-b border-zinc-100 py-4">
-            <CardTitle className="text-base">Loggposter</CardTitle>
-            <p className="text-xs text-zinc-500 tabular-nums">
+        <Card className={adminStyles.sectionCard}>
+          <CardHeader className={adminStyles.sectionCardHeaderRow}>
+            <CardTitle className={adminStyles.sectionCardTitle}>Loggposter</CardTitle>
+            <p className={adminStyles.sectionCardHint}>
               Totalt <strong>{total}</strong>
               {totalPages > 1 ? (
                 <>
-                  {' · '}side <strong>{page}</strong> av <strong>{totalPages}</strong>
+                  {" · "}side <strong>{page}</strong> av <strong>{totalPages}</strong>
                 </>
               ) : null}
             </p>
           </CardHeader>
-          <CardContent className="p-0">
+          <CardContent className={adminStyles.sectionCardBodyFlush}>
             {rows.length === 0 ? (
-              <p className="px-6 py-8 text-sm text-zinc-500">Ingen rader matcher filteret (eller tom logg).</p>
+              <p className={adminStyles.tableEmpty}>Ingen rader matcher filteret (eller tom logg).</p>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full min-w-[760px] text-left text-sm">
-                  <thead className="border-b border-zinc-100 bg-zinc-50 text-xs uppercase tracking-wide text-zinc-500">
+              <div className={adminStyles.tableScroll}>
+                <table className={`${adminStyles.table} ${styles.minWidthTable}`}>
+                  <thead className={adminStyles.tableHead}>
                     <tr>
-                      <th className="whitespace-nowrap px-4 py-3 font-medium">Tid</th>
-                      <th className="whitespace-nowrap px-4 py-3 font-medium">Type</th>
-                      <th className="px-4 py-3 font-medium">Kategori</th>
-                      <th className="whitespace-nowrap px-4 py-3 font-medium">Varsel</th>
-                      <th className="min-w-[200px] px-4 py-3 font-medium">Melding</th>
-                      <th className="whitespace-nowrap px-4 py-3 font-medium">Handling</th>
+                      <th>Tid</th>
+                      <th>Type</th>
+                      <th>Kategori</th>
+                      <th>Varsel</th>
+                      <th>Melding</th>
+                      <th>Handling</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-zinc-100">
+                  <tbody className={adminStyles.tableBody}>
                     {rows.map((r) => (
-                      <tr key={r.id} className={cn("align-top", r.alert ? "bg-red-50/40" : "bg-white")}>
-                        <td className="whitespace-nowrap px-4 py-2.5 text-xs tabular-nums text-zinc-700">
+                      <tr key={r.id} className={r.alert ? styles.rowAlert : undefined}>
+                        <td className={styles.cellTime}>
                           {(() => {
                             const d = new Date(r.created_at)
                             return Number.isNaN(d.getTime())
@@ -176,25 +178,18 @@ export default async function AdminAppLogPage({ searchParams }: PageProps) {
                                 })
                           })()}
                         </td>
-                        <td className="whitespace-nowrap px-4 py-2.5">
-                          <span
-                            className={cn(
-                              "inline-flex rounded-full px-2 py-0.5 text-xs font-semibold uppercase",
-                              typeBadgeClasses(r.type),
-                            )}
-                          >
-                            {r.type}
-                          </span>
+                        <td className={adminStyles.tableCellNowrap}>
+                          <span className={typeBadgeClass(r.type)}>{r.type}</span>
                         </td>
-                        <td className="px-4 py-2.5 text-zinc-800">{r.category}</td>
-                        <td className="whitespace-nowrap px-4 py-2.5">{r.alert ? "Ja" : "Nei"}</td>
-                        <td className="max-w-xl px-4 py-2.5 text-xs text-zinc-800">
-                          <div className="max-h-32 overflow-auto whitespace-pre-wrap break-words" title={r.message}>
+                        <td className={adminStyles.tableCell}>{r.category}</td>
+                        <td className={adminStyles.tableCellNowrap}>{r.alert ? "Ja" : "Nei"}</td>
+                        <td className={styles.cellMessage}>
+                          <div className={styles.messageBox} title={r.message}>
                             {r.message}
                           </div>
                         </td>
-                        <td className="whitespace-nowrap px-4 py-2.5">
-                          {r.alert ? <ClearAppLogAlertButton logId={r.id} /> : <span className="text-xs text-zinc-400">—</span>}
+                        <td className={adminStyles.tableCellNowrap}>
+                          {r.alert ? <ClearAppLogAlertButton logId={r.id} /> : <span className={styles.dashCell}>—</span>}
                         </td>
                       </tr>
                     ))}
@@ -207,7 +202,7 @@ export default async function AdminAppLogPage({ searchParams }: PageProps) {
       )}
 
       {totalPages > 1 && !errMsg ? (
-        <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
+        <div className={adminStyles.pagination}>
           {page > 1 ? (
             <Button variant="outline" size="sm" asChild>
               <Link href={buildQuery({ ...filterBase, page: page - 1 })}>Forrige side</Link>
@@ -217,7 +212,7 @@ export default async function AdminAppLogPage({ searchParams }: PageProps) {
               Forrige side
             </Button>
           )}
-          <span className="tabular-nums text-zinc-600">
+          <span className={adminStyles.paginationCount}>
             Side {page} av {totalPages}
           </span>
           {page < totalPages ? (

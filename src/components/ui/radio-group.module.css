@@ -1,0 +1,46 @@
+.group {
+  display: grid;
+  gap: var(--ds-size-3);
+}
+
+.item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  height: var(--ds-size-4);
+  width: var(--ds-size-4);
+  border-radius: var(--ds-border-radius-full);
+  border: var(--ds-border-width-default) solid var(--ds-color-border-default);
+  background: var(--ds-color-surface-default);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 150ms ease;
+}
+
+.item:focus-visible {
+  box-shadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-focus-outer);
+}
+
+.item:disabled {
+  opacity: var(--ds-opacity-disabled);
+  cursor: not-allowed;
+}
+
+.item[data-state="checked"] {
+  border-color: var(--ds-color-base-default);
+}
+
+.indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dot {
+  display: block;
+  height: var(--ds-size-2);
+  width: var(--ds-size-2);
+  border-radius: var(--ds-border-radius-full);
+  background: var(--ds-color-base-default);
+}

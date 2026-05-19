@@ -4,6 +4,7 @@ import { useTransition } from "react"
 
 import { toggleActivityEnabled } from "./actions"
 import { Button } from "@/components/ui/button"
+import styles from "@/components/admin/admin-shared.module.css"
 
 export function ToggleActivityEnableButton({ id, enabled }: { id: number; enabled: boolean }) {
   const [pending, start] = useTransition()
@@ -14,7 +15,7 @@ export function ToggleActivityEnableButton({ id, enabled }: { id: number; enable
       size="sm"
       variant="outline"
       disabled={pending}
-      className={enabled ? "text-amber-900" : ""}
+      className={enabled ? styles.toggleAmber : undefined}
       onClick={() =>
         start(async () => {
           await toggleActivityEnabled(id, next)

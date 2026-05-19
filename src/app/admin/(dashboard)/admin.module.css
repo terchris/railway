@@ -1,0 +1,569 @@
+/*
+ * Shared admin-dashboard utilities. Imported by individual admin page modules
+ * via `composes`. Token-driven; no hardcoded values.
+ *
+ * Convention: classes prefixed with `_` (underscore) are export-only stubs that
+ * exist purely so per-page modules can `composes ... from` them. CSS modules
+ * needs at least one rule body to publish a class — leaving them empty is fine.
+ */
+
+/* ------------------------------------------------------------------ Page shell */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-6);
+}
+
+.pageWide {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-8);
+}
+
+.pageHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--ds-size-4);
+}
+
+.pageHeaderInner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-1);
+}
+
+.pageTitle {
+  margin: 0;
+  font-size: var(--ds-heading-xs-font-size);
+  font-weight: var(--ds-heading-xs-font-weight);
+  line-height: var(--ds-heading-xs-line-height);
+  letter-spacing: var(--ds-heading-xs-letter-spacing);
+  color: var(--ds-color-text-default);
+}
+
+.pageLead {
+  margin: 0;
+  max-width: 42rem;
+  font-size: var(--ds-body-sm-font-size);
+  line-height: var(--ds-body-long-sm-line-height);
+  color: var(--ds-color-text-subtle);
+}
+
+.pageActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-size-3);
+  font-size: var(--ds-body-sm-font-size);
+  font-weight: var(--ds-font-weight-medium);
+}
+
+/* ------------------------------------------------------------------ Links */
+
+.actionLink {
+  color: var(--ds-color-base-default);
+  text-decoration: none;
+}
+
+.actionLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.actionLinkMuted {
+  color: var(--ds-color-text-subtle);
+  text-decoration: none;
+}
+
+.actionLinkMuted:hover {
+  color: var(--ds-color-text-default);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* ------------------------------------------------------------------ Banners */
+
+.errorBanner {
+  margin: 0;
+  border-radius: var(--ds-border-radius-lg);
+  border: var(--ds-border-width-default) solid var(--ds-color-danger-border-subtle);
+  background: var(--ds-color-danger-surface-tinted);
+  color: var(--ds-color-danger-text-default);
+  padding: var(--ds-size-3) var(--ds-size-4);
+  font-size: var(--ds-body-sm-font-size);
+  line-height: var(--ds-body-long-sm-line-height);
+}
+
+.warningBanner {
+  margin: 0;
+  border-radius: var(--ds-border-radius-lg);
+  border: var(--ds-border-width-default) solid var(--ds-color-warning-border-subtle);
+  background: var(--ds-color-warning-surface-tinted);
+  color: var(--ds-color-warning-text-default);
+  padding: var(--ds-size-3) var(--ds-size-4);
+  font-size: var(--ds-body-sm-font-size);
+  line-height: var(--ds-body-long-sm-line-height);
+  max-width: 36rem;
+}
+
+.infoBanner {
+  margin: 0;
+  border-radius: var(--ds-border-radius-lg);
+  border: var(--ds-border-width-default) solid var(--ds-color-info-border-subtle);
+  background: var(--ds-color-info-surface-tinted);
+  color: var(--ds-color-info-text-default);
+  padding: var(--ds-size-3) var(--ds-size-4);
+  font-size: var(--ds-body-sm-font-size);
+  line-height: var(--ds-body-long-sm-line-height);
+}
+
+/* ------------------------------------------------------------------ Filter pills */
+
+.filterPillRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ds-size-2);
+  margin-top: var(--ds-size-3);
+}
+
+.filterPill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--ds-border-radius-full);
+  border: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+  background: var(--ds-color-surface-default);
+  color: var(--ds-color-text-default);
+  padding: var(--ds-size-1) var(--ds-size-3);
+  font-size: var(--ds-body-xs-font-size);
+  font-weight: var(--ds-font-weight-medium);
+  text-decoration: none;
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+
+.filterPill:hover {
+  border-color: var(--ds-color-border-default);
+}
+
+.filterPillActive {
+  composes: filterPill;
+  border-color: var(--ds-color-base-default);
+  background: var(--ds-color-surface-tinted);
+  color: var(--ds-color-text-default);
+}
+
+/* ------------------------------------------------------------------ Form bits */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-2);
+}
+
+.fieldLabelEyebrow {
+  font-size: var(--ds-body-xs-font-size);
+  text-transform: uppercase;
+  letter-spacing: var(--ds-letter-spacing-9);
+  color: var(--ds-color-text-subtle);
+}
+
+.formActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ds-size-3);
+}
+
+.formGrid2 {
+  display: grid;
+  gap: var(--ds-size-6);
+}
+
+@media (min-width: 640px) {
+  .formGrid2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.select {
+  display: flex;
+  height: var(--ds-size-10);
+  width: 100%;
+  border-radius: var(--ds-border-radius-md);
+  border: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+  background: var(--ds-color-surface-default);
+  padding: 0 var(--ds-size-3);
+  font-size: var(--ds-body-sm-font-size);
+  font-family: inherit;
+  color: var(--ds-color-text-default);
+  outline: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.select:focus-visible {
+  border-color: var(--ds-color-border-default);
+  box-shadow: 0 0 0 var(--ds-border-width-focus) var(--ds-color-surface-tinted);
+}
+
+.selectInline {
+  composes: select;
+  width: auto;
+  min-width: 12rem;
+}
+
+/* ------------------------------------------------------------------ Section cards */
+
+.sectionCard {
+  overflow: hidden;
+}
+
+.sectionCardHeader {
+  border-bottom: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+  padding: var(--ds-size-4) var(--ds-size-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-2);
+}
+
+.sectionCardHeaderRow {
+  composes: sectionCardHeader;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-size-3);
+}
+
+.sectionCardTitle {
+  font-size: var(--ds-body-md-font-size);
+}
+
+.sectionCardHint {
+  margin: 0;
+  font-size: var(--ds-body-xs-font-size);
+  color: var(--ds-color-text-subtle);
+  line-height: var(--ds-body-long-xs-line-height);
+}
+
+.sectionCardBodyFlush {
+  padding: 0;
+}
+
+/* ------------------------------------------------------------------ Tables */
+
+.tableScroll {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  text-align: left;
+  font-size: var(--ds-body-sm-font-size);
+  border-collapse: collapse;
+}
+
+.tableHead {
+  background: var(--ds-color-surface-tinted);
+  font-size: var(--ds-body-xs-font-size);
+  text-transform: uppercase;
+  letter-spacing: var(--ds-letter-spacing-9);
+  color: var(--ds-color-text-subtle);
+}
+
+.tableHead th {
+  padding: var(--ds-size-3) var(--ds-size-4);
+  font-weight: var(--ds-font-weight-medium);
+}
+
+.tableHeadCenter {
+  text-align: center;
+}
+
+.tableBody tr {
+  background: var(--ds-color-surface-default);
+  border-top: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+}
+
+.tableBody tr:first-child {
+  border-top: 0;
+}
+
+.tableBody tr:hover {
+  background: var(--ds-color-surface-tinted);
+}
+
+.tableCell {
+  padding: var(--ds-size-2) var(--ds-size-4);
+  vertical-align: top;
+}
+
+.tableCellNum {
+  composes: tableCell;
+  font-variant-numeric: tabular-nums;
+}
+
+.tableCellCenter {
+  composes: tableCell;
+  text-align: center;
+  width: 1px;
+}
+
+.tableCellNowrap {
+  composes: tableCell;
+  white-space: nowrap;
+}
+
+.tableEmpty {
+  margin: 0;
+  padding: var(--ds-size-8) var(--ds-size-6);
+  font-size: var(--ds-body-sm-font-size);
+  color: var(--ds-color-text-subtle);
+}
+
+.tableError {
+  margin: 0;
+  padding: var(--ds-size-8) var(--ds-size-6);
+  font-size: var(--ds-body-sm-font-size);
+  color: var(--ds-color-danger-text-subtle);
+}
+
+/* ------------------------------------------------------------------ Pagination */
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ds-size-3);
+  font-size: var(--ds-body-sm-font-size);
+}
+
+.paginationLink {
+  color: var(--ds-color-base-default);
+  font-weight: var(--ds-font-weight-medium);
+  text-decoration: none;
+}
+
+.paginationLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.paginationDisabled {
+  color: var(--ds-color-text-subtle);
+  opacity: 0.6;
+}
+
+.paginationCount {
+  font-variant-numeric: tabular-nums;
+  color: var(--ds-color-text-default);
+}
+
+/* ------------------------------------------------------------------ Inline tokens */
+
+.fineprint {
+  margin: 0;
+  font-size: var(--ds-body-xs-font-size);
+  line-height: var(--ds-body-long-xs-line-height);
+  color: var(--ds-color-text-subtle);
+}
+
+.smallMuted {
+  margin: 0;
+  font-size: var(--ds-body-sm-font-size);
+  color: var(--ds-color-text-subtle);
+}
+
+.code {
+  border-radius: var(--ds-border-radius-sm);
+  background: var(--ds-color-surface-hover);
+  padding: 0 var(--ds-size-1);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.875em;
+  color: var(--ds-color-text-default);
+}
+
+.codeOnLight {
+  composes: code;
+  background: var(--ds-color-surface-default);
+  border: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+}
+
+.mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* ------------------------------------------------------------------ Sticky widths */
+
+.maxXl {
+  max-width: 36rem;
+}
+
+.maxXs {
+  max-width: 20rem;
+}
+
+.numCell {
+  font-variant-numeric: tabular-nums;
+}
+
+.truncMid {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.truncWide {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ Status pills (table cell) */
+
+.statusPill {
+  display: inline-flex;
+  border-radius: var(--ds-border-radius-full);
+  padding: 0 var(--ds-size-2);
+  font-size: var(--ds-body-xs-font-size);
+  font-weight: var(--ds-font-weight-medium);
+  background: var(--ds-color-surface-tinted);
+  color: var(--ds-color-text-default);
+}
+
+.statusPillPositive {
+  composes: statusPill;
+  background: var(--ds-color-success-surface-tinted);
+  color: var(--ds-color-success-text-default);
+}
+
+/* ------------------------------------------------------------------ Inline "edit" row link */
+
+.editRowLink {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--ds-border-radius-md);
+  border: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+  background: var(--ds-color-surface-default);
+  padding: var(--ds-size-1) var(--ds-size-2);
+  font-size: var(--ds-body-xs-font-size);
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-base-default);
+  text-decoration: none;
+  transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.editRowLink:hover {
+  background: var(--ds-color-surface-tinted);
+}
+
+.rowActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ds-size-2);
+}
+
+/* ------------------------------------------------------------------ Mono textarea (for HTML editing) */
+
+.monoTextarea {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--ds-body-xs-font-size);
+}
+
+@media (min-width: 768px) {
+  .monoTextarea {
+    font-size: var(--ds-body-sm-font-size);
+  }
+}
+
+/* ------------------------------------------------------------------ Form-card body padding */
+
+.formCardBody {
+  padding: var(--ds-size-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-6);
+}
+
+.formCardBodyTight {
+  padding: var(--ds-size-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-4);
+}
+
+/* ------------------------------------------------------------------ Card variants */
+
+.sectionCardHeaderTinted {
+  composes: sectionCardHeader;
+  background: var(--ds-color-surface-tinted);
+}
+
+.subHint {
+  font-size: var(--ds-body-xs-font-size);
+  font-weight: var(--ds-font-weight-regular);
+  color: var(--ds-color-text-subtle);
+  margin-inline-start: var(--ds-size-2);
+}
+
+/* ------------------------------------------------------------------ Small table-cell link */
+
+.tableLinkSm {
+  font-size: var(--ds-body-xs-font-size);
+  font-weight: var(--ds-font-weight-medium);
+  color: var(--ds-color-base-default);
+  text-decoration: none;
+}
+
+.tableLinkSm:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.tableFixed {
+  table-layout: fixed;
+}
+
+.tableCellMono {
+  composes: tableCell;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: var(--ds-body-xs-font-size);
+  color: var(--ds-color-text-subtle);
+}
+
+.tableCellMonoTrunc {
+  composes: tableCellMono;
+  max-width: 12rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tableCellCapitalize {
+  composes: tableCell;
+  text-transform: capitalize;
+}
+
+/* ------------------------------------------------------------------ Generic edit-form layout (detail pages) */
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-6);
+  max-width: 36rem;
+}
+
+.editFormCompact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-size-4);
+  max-width: 36rem;
+}
+
+.inputXl {
+  max-width: 36rem;
+}

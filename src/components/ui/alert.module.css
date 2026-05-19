@@ -1,0 +1,24 @@
+.alert {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  gap: var(--ds-size-3);
+  border-radius: var(--ds-border-radius-lg);
+  border: var(--ds-border-width-default) solid var(--ds-color-border-subtle);
+  background: var(--ds-color-surface-tinted);
+  color: var(--ds-color-text-default);
+  padding: var(--ds-size-3) var(--ds-size-4);
+  font-size: var(--ds-body-sm-font-size);
+  line-height: var(--ds-body-sm-line-height);
+}
+
+.alert :global(p) {
+  line-height: var(--ds-body-long-sm-line-height);
+}
+
+.alert :global(svg) {
+  width: var(--ds-size-4);
+  height: var(--ds-size-4);
+  flex-shrink: 0;
+}
